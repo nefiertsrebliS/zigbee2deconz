@@ -1,0 +1,15 @@
+{
+	"id": "{309E76BB-9027-24A8-FACE-FC45D198C1CD}",
+	"name": "Z2DLightSwitch",
+	"type": 3,
+	"vendor": "ZigBee DeCONZ",
+	"aliases": 
+	[
+		"ZigBee Light",
+		"ZigBee Switch"
+	],
+	"parentRequirements": ["{875B91AC-45F1-9757-30F6-BF71445B2BDB}"],
+	"childRequirements": [],
+	"implemented": ["{018EF6B5-AB94-40C6-AA53-46943E824ACF}","{DE2DA2C0-7A28-4D23-A9AA-6D1C7609C7EC}"],
+	"prefix": "Z2D"
+}

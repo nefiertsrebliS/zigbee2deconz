@@ -1,0 +1,28 @@
+{
+  "translations": {
+    "de": {
+      "State": "Status",
+      "Temperature": "Temperatur",
+      "Linkquality": "Verbindungsqualität",
+      "Humidity": "Feuchtigkeit",
+      "Pressure": "Druck",
+      "Battery": "Batterie",
+      "Voltage": "Stromspannung",
+      "Action": "Aktion",
+      "Click": "Click",
+      "Brightness": "Helligkeit",
+      "Color-Temperature": "Farbe-Temperatur",
+      "Water Leak": "Wasserleck",
+      "Contact": "Kontakt",
+      "Illuminance": "Beleuchtungsstärke",
+      "Smoke": "Rauch",
+      "Battery Low": "Batterie schwach",
+      "Sensitivity": "Empfindlichkeit",
+      "Medium": "Mittel",
+      "Low": "Niedrig",
+      "High": "Hoch",
+      "Duration": "Dauer",
+      "Counter": "Zähler"
+    }
+  }
+}

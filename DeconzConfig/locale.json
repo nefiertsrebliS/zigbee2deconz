@@ -1,0 +1,11 @@
+{
+	"translations": {
+		"de": { 
+			"DeviceID": "Geräte-ID",
+			"Status": "Status",
+			"closed": "geschlossen",
+			"open": "geöffnet",
+			"tilted": "gekippt"
+		}
+	}
+}

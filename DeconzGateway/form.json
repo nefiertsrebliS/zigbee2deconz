@@ -1,0 +1,47 @@
+{
+    "elements":
+            [
+				{ "type": "Label", "caption": "Configuration to RECEIVE data" },
+				{ "type": "Label", "caption": "" },
+                { "name": "Open","type": "CheckBox","caption": "Open"},
+                { "name": "URL","type": "ValidationTextBox","caption": "WebSocket-URL"},
+				{ "type": "Label", "caption": "" },
+				{ "type": "Label", "caption": "--------------------------------------------------------------------------" },
+				{ "type": "Label", "caption": "Configuration to SEND data" },
+                { "name": "ApiKey","type": "PasswordTextBox","caption": "API-Key"},
+				{ "name": "SendPort", "type": "NumberSpinner", "caption": "Port" }
+            ],
+    "status":
+            [
+                {
+                    "code": 102,
+                    "icon": "active",
+                    "caption": "Connected"
+                },
+                {
+                    "code": 104,
+                    "icon": "inactive",
+                    "caption": "Interface closed"
+                },
+                {
+                    "code": 201,
+                    "icon": "error",
+                    "caption": "Connection lost"
+                },
+                {
+                    "code": 202,
+                    "icon": "error",
+                    "caption": "URL invalid"
+                },
+                {
+                    "code": 203,
+                    "icon": "error",
+                    "caption": "Handshake error"
+                },
+                {
+                    "code": 204,
+                    "icon": "error",
+                    "caption": "Ping interval to small"
+                }
+            ]
+}
