@@ -325,7 +325,7 @@ trait Zigbee2DeCONZHelper
 				if (!IPS_VariableProfileExists('Colormode.Z2D')) {
 			        IPS_CreateVariableProfile('Colormode.Z2D', 1);
 					IPS_SetVariableProfileIcon('Colormode.Z2D', 'TurnLeft');
-					IPS_SetVariableProfileAssociation('Colormode.Z2D', 1, $this->Translate('Colortemperature'), '',-1);
+					IPS_SetVariableProfileAssociation('Colormode.Z2D', 1, $this->Translate('Color-Temperature'), '',-1);
 					IPS_SetVariableProfileAssociation('Colormode.Z2D', 2, $this->Translate('Multicolor'), '',-1);
 					IPS_SetVariableProfileValues('Colormode.Z2D', 1, 2, 1);
 				}
@@ -355,7 +355,7 @@ trait Zigbee2DeCONZHelper
             $this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
             $this->EnableAction('Z2D_State');
             SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->on);
-            if(!$Payload->on)SetValue($this->GetIDForIdent('Z2D_Brightness'), 0);
+            if(!$Payload->on)$this->SetValue('Z2D_Brightness', 0);
         }
         if (property_exists($Payload, 'xy')) {
             $this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);

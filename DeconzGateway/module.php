@@ -24,9 +24,11 @@ class DeconzGateway extends IPSModule
         parent::Create();
         $this->RequireParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
         $this->RegisterPropertyBoolean("Open", false);
-        $this->RegisterPropertyString("URL", "ws://my-DeCONZ-Server:443");
+        $this->RegisterPropertyString("URL", "http://my-DeCONZ-Server");
+        $this->RegisterAttributeString('wsURL', "");
         $this->RegisterPropertyString("ApiKey", "");
         $this->RegisterPropertyInteger("SendPort", 80);
+        $this->RegisterPropertyInteger("wsPort", 0);
 
 #	Die folgenden Properties sind aktuell nicht modifizierbar oder werden nicht genutzt
         $this->RegisterPropertyInteger("Version", 13);
@@ -44,7 +46,7 @@ class DeconzGateway extends IPSModule
         $this->WaitForPong = false;
         $this->TLSBuffers = array();
         $this->UseTLS = false;
-        $this->RegisterTimer('KeepAlive', 0, 'WSC_Keepalive($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('KeepAlive', 0, 'Z2D_Keepalive($_IPS[\'TARGET\']);');
     }
 
     /**
@@ -110,8 +112,8 @@ class DeconzGateway extends IPSModule
      */
     public function GetConfigurationForParent()
     {
-        $Config['Host'] = (string) parse_url($this->ReadPropertyString('URL'), PHP_URL_HOST);
-        switch ((string) parse_url($this->ReadPropertyString('URL'), PHP_URL_SCHEME)) {
+        $Config['Host'] = (string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_HOST);
+        switch ((string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_SCHEME)) {
             case 'https':
             case 'wss':
                 $Port = 443;
@@ -119,7 +121,7 @@ class DeconzGateway extends IPSModule
             default:
                 $Port = 80;
         }
-        $OtherPort = (int) parse_url($this->ReadPropertyString('URL'), PHP_URL_PORT);
+        $OtherPort = (int) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_PORT);
         if ($OtherPort != 0) {
             $Port = $OtherPort;
         }
@@ -142,6 +144,26 @@ class DeconzGateway extends IPSModule
      */
     public function ApplyChanges()
     {
+		
+		$this->CheckURL();
+		$host	= parse_url($this->ReadPropertyString("URL"), PHP_URL_HOST);
+		$port	= $this->ReadPropertyInteger("wsPort");
+		$InstanceID = $this->InstanceID;
+		$this->SendDebug("ApplyChanges",$host."-".$this->ReadPropertyInteger("SendPort")."-".$this->GetStatus(), 0);
+		if($host <>"" && $port <> 0 && $this->GetStatus() <> 202 && $this->GetStatus() <> 206){
+			$this->WriteAttributeString('wsURL','ws://'.$host.':'.$port);
+		}else{
+			$this->WriteAttributeString('wsURL','');
+			if($this->ReadPropertyBoolean("Open")){
+				IPS_SetConfiguration($InstanceID,'{"Open":false}');
+				IPS_ApplyChanges($InstanceID);
+			}
+			return;
+		}
+
+		IPS_SetConfiguration($InstanceID,'{"Open":true}');
+        parent::ApplyChanges();
+
         if ((float) IPS_GetKernelVersion() < 4.2) {
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         } else {
@@ -181,15 +203,15 @@ class DeconzGateway extends IPSModule
         $this->State = WebSocketState::init;
 
         $Open = $this->ReadPropertyBoolean('Open');
+
         $NewState = IS_ACTIVE;
 
         if (!$Open) {
             $NewState = IS_INACTIVE;
         } else {
-            if (!in_array((string) parse_url($this->ReadPropertyString('URL'), PHP_URL_SCHEME), array('http', 'https', 'ws', 'wss'))) {
+            if (!in_array((string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_SCHEME), array('http', 'https', 'ws', 'wss'))) {
                 $NewState = IS_EBASE + 2;
                 $Open = false;
-                trigger_error('Invalid URL', E_USER_NOTICE);
             } else {
                 if (($this->ReadPropertyInteger('PingInterval') != 0) and ($this->ReadPropertyInteger('PingInterval') < 5)) {
                     $NewState = IS_EBASE + 4;
@@ -202,10 +224,10 @@ class DeconzGateway extends IPSModule
 
         // Zwangskonfiguration des ClientSocket
         if ($ParentID > 0) {
-            if (IPS_GetProperty($ParentID, 'Host') <> (string) parse_url($this->ReadPropertyString('URL'), PHP_URL_HOST)) {
-                IPS_SetProperty($ParentID, 'Host', (string) parse_url($this->ReadPropertyString('URL'), PHP_URL_HOST));
+            if (IPS_GetProperty($ParentID, 'Host') <> (string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_HOST)) {
+                IPS_SetProperty($ParentID, 'Host', (string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_HOST));
             }
-            switch ((string) parse_url($this->ReadPropertyString('URL'), PHP_URL_SCHEME)) {
+            switch ((string) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_SCHEME)) {
                 case 'https':
                 case 'wss':
                     $Port = 443;
@@ -215,7 +237,7 @@ class DeconzGateway extends IPSModule
                     $Port = 80;
                     $this->UseTLS = false;
             }
-            $OtherPort = (int) parse_url($this->ReadPropertyString('URL'), PHP_URL_PORT);
+            $OtherPort = (int) parse_url($this->ReadAttributeString('wsURL'), PHP_URL_PORT);
             if ($OtherPort != 0) {
                 $Port = $OtherPort;
             }
@@ -251,7 +273,6 @@ class DeconzGateway extends IPSModule
                 }
             } else {
                 $NewState = IS_EBASE + 1;
-                trigger_error('Could not connect.', E_USER_NOTICE);
             }
         }
 
@@ -345,7 +366,7 @@ class DeconzGateway extends IPSModule
      */
     private function InitHandshake()
     {
-        $URL = parse_url($this->ReadPropertyString('URL'));
+        $URL = parse_url($this->ReadAttributeString('wsURL'));
         if (!isset($URL['path'])) {
             $URL['path'] = "/";
         }
@@ -585,7 +606,7 @@ class DeconzGateway extends IPSModule
         }
         if ($Data->DataID == "{875B91AC-45F1-9757-30F6-BF71445B2BDB}") { // HTTP send
             $this->SendDebug('Receive Data', $Data->Buffer, 0);
-            return($this->SendToDeconz($Data->Buffer));
+            $this->SendToDeconz($Data->Buffer);
         }
         return true;
     }
@@ -818,6 +839,118 @@ class DeconzGateway extends IPSModule
         }
     }
 
+    public function GetDeconzApiKey()
+    {
+		$host	= parse_url($this->ReadPropertyString("URL"), PHP_URL_HOST);
+		$port	= $this->ReadPropertyInteger("SendPort");
+		$method = "POST";
+		$data	= '{"devicetype":"ips"}';
+
+		$url	= "http://".$host.":".$port."/api/";
+
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_URL => $url,
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		    CURLOPT_CUSTOMREQUEST => $method,
+		    CURLOPT_POSTFIELDS => $data,
+		));
+
+		$response = curl_exec($curl);
+		$this->SendDebug("API-Key Response", $response, 0);
+		curl_close($curl);
+		if(!$response){
+			$this->SetStatus(202);
+			return;
+		}
+		
+		foreach(json_decode($response) as $item){
+			if(isset($item->error)){
+				if(isset($item->error->description)){
+					$this->SetStatus(205);
+				}
+			}
+			if(isset($item->success)){
+				if(isset($item->success->username)){
+					$InstanceID = $this->InstanceID;
+					$API_Key	= $item->success->username;
+
+					IPS_SetConfiguration($InstanceID,'{"Open":false}');
+					IPS_ApplyChanges($InstanceID);
+					IPS_SetConfiguration($InstanceID,'{"ApiKey":"'.$API_Key.'"}');
+					IPS_ApplyChanges($InstanceID);
+					$this->SendDebug("API-Key", "set successfully", 0);
+					IPS_SetConfiguration($InstanceID,'{"Open":true}');
+					IPS_ApplyChanges($InstanceID);
+					$this->GetDeconzConfiguration();
+				}
+			}
+		}
+    }
+
+    protected function GetDeconzConfiguration()
+    {
+		$host	= parse_url($this->ReadPropertyString("URL"), PHP_URL_HOST);
+		$port	= $this->ReadPropertyInteger("SendPort");
+		$method = "GET";
+		$data	= '';
+		$key	= $this->ReadPropertyString("ApiKey");
+
+		$url	= "http://".$host.":".$port."/api/".$key;
+
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_URL => $url,
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		    CURLOPT_CUSTOMREQUEST => $method,
+		    CURLOPT_POSTFIELDS => $data,
+		));
+
+		$response = curl_exec($curl);
+		$this->SendDebug("GetDeconzConfiguration", $response, 0);
+		curl_close($curl);
+
+		$config = json_decode($response);
+        if (property_exists($config, 'config')) {
+		    if (property_exists($config->config, 'websocketport')) {
+				$InstanceID = $this->InstanceID;
+				$wsPort		= $config->config->websocketport;
+
+				IPS_SetConfiguration($InstanceID,'{"Open":false}');
+				IPS_ApplyChanges($InstanceID);
+				IPS_SetConfiguration($InstanceID,'{"wsPort":"'.$wsPort.'"}');
+				IPS_ApplyChanges($InstanceID);
+				$this->SendDebug("WebSocket", "set Port successfully", 0);
+				IPS_SetConfiguration($InstanceID,'{"Open":true}');
+				IPS_ApplyChanges($InstanceID);
+		    }
+
+		    if (property_exists($config->config, 'whitelist')) {
+				$whitelist = $config->config->whitelist;
+				$key	= $this->ReadPropertyString("ApiKey");
+				foreach($whitelist as $ApiKey => $item){
+					if($item->name == "ips" && $ApiKey <> $key){
+						$Buffer['command'] = 'config/whitelist/'.$ApiKey;
+						$Buffer['method'] = 'DELETE';
+						$Buffer['data'] = '';
+						$this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
+					}
+				}
+		    }
+        }
+		
+    }
+
+    private function CheckURL()
+    {
+		$Buffer['command'] = '';
+		$Buffer['method'] = 'GET';
+		$Buffer['data'] = '';
+		$this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
+    }
+
     private function SendToDeconz($json)
     {
 		$payload= json_decode($json);
@@ -827,6 +960,10 @@ class DeconzGateway extends IPSModule
 
 		$host	= parse_url($this->ReadPropertyString("URL"), PHP_URL_HOST);
 		$port	= $this->ReadPropertyInteger("SendPort");
+		if ($port == 0) {
+			$this->SetStatus(202);
+			return;
+		}
 		$key	= $this->ReadPropertyString("ApiKey");
 
 		$url	= "http://".$host.":".$port."/api/".$key."/".$command;
@@ -843,17 +980,25 @@ class DeconzGateway extends IPSModule
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
 		curl_close($curl);
+		$this->SendDebug("SendToDeconz", $err, 0);
+		$this->SendDebug("SendToDeconz", $response, 0);
 
         $JSON['DataID'] = '{018EF6B5-AB94-40C6-AA53-46943E824ACF}';
 
 		if ($err) {
 	        $JSON['Buffer'] = utf8_encode($err);
+			$this->SetStatus(202);
 		} else {
 	        $JSON['Buffer'] = utf8_encode($response);
+			if(strpos($response,'unauthorized user')===false){
+				$this->SetStatus(102);
+			}else{
+				$this->SetStatus(206);
+			}
 		}
 
         $Data = json_encode($JSON);
-		$this->SendDebug("...",$Data,0);
+		$this->SendDebug("SendToDeconz",$Data,0);
         $this->SendDataToChildren($Data);
     }
 

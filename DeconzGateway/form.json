@@ -1,15 +1,24 @@
 {
     "elements":
             [
-				{ "type": "Label", "caption": "Configuration to RECEIVE data" },
-				{ "type": "Label", "caption": "" },
-                { "name": "Open","type": "CheckBox","caption": "Open"},
-                { "name": "URL","type": "ValidationTextBox","caption": "WebSocket-URL"},
+				{ "type": "Label", "caption": "Configuration to SEND data" },
+                { "name": "URL","type": "ValidationTextBox","caption": "DeCONZ-URL"},
+				{ "name": "SendPort", "type": "NumberSpinner", "caption": "Port" },
+                { "name": "ApiKey","type": "PasswordTextBox","caption": "API-Key"},
 				{ "type": "Label", "caption": "" },
 				{ "type": "Label", "caption": "--------------------------------------------------------------------------" },
-				{ "type": "Label", "caption": "Configuration to SEND data" },
-                { "name": "ApiKey","type": "PasswordTextBox","caption": "API-Key"},
-				{ "name": "SendPort", "type": "NumberSpinner", "caption": "Port" }
+				{ "type": "Label", "caption": "Configuration to RECEIVE data" },
+				{ "type": "Label", "caption": "" },
+				{ "name": "wsPort", "type": "NumberSpinner", "caption": "Port" },
+                { "name": "Open","type": "CheckBox","caption": "Open"}
+			],
+    "actions":
+			[
+				{ "type": "Label", "caption": "1. Open the Phoscon App" },
+				{ "type": "Label", "caption": "2. Go to Settings - Gateway - Advanced" },
+				{ "type": "Label", "caption": "3. Press AUTHENTICATE APP" },
+				{ "type": "Label", "caption": "4. Press GET API-KEY in Symcon" },
+				{ "type": "Button", "label": "get API-Key", "onClick": "Z2D_GetDeconzApiKey($id);" }
             ],
     "status":
             [
@@ -42,6 +51,16 @@
                     "code": 204,
                     "icon": "error",
                     "caption": "Ping interval to small"
+                },
+                {
+                    "code": 205,
+                    "icon": "error",
+                    "caption": "DeCONZ: link button not pressed"
+                },
+                {
+                    "code": 206,
+                    "icon": "error",
+                    "caption": "unauthorized user"
                 }
             ]
 }

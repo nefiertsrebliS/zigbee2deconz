@@ -64,19 +64,6 @@ class Z2DLightSwitch extends IPSModule
 		        $this->send2Variable($data->state);
 		    }
 		}
-#        $this->SendDebug('Error', count($data), 0);
-#        $this->SendDebug('Error', $Buffer, 0);
-/*        $this->SendDebug('Error', json_encode($data[0]->success), 0);
-
-
-        if (property_exists($data[0], 'error')) {
-	        $this->SendDebug('Error', json_encode($data[0]), 0);
-        }
-        if (property_exists($data[0], 'success')) {
-	        $this->SendDebug('Success', $data[0]->success, 0);
-        }
-        if($data->uniqueid <> $this->ReadPropertyString("DeviceID"))return;
-*/
 
     }
 }
