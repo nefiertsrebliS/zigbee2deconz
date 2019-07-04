@@ -17,7 +17,6 @@
 		<li>Nach erfolgreicher Generierung eines gültigen API-Keys wird automatisch der Nachrichten-Port eingetragen die Kommunikation geöffnet.</li>
 	</ol>
 	Das Gateway sollte jetzt funktionieren und den Status "Verbunden" anzeigen.<br><br>
-
 	Weiter geht es mit dem Konfigurator.
   </body>
 </html>
