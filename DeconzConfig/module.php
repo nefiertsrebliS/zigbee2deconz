@@ -118,7 +118,7 @@
 		}
 	 
 		public function GetConfigurationForm() {
-			$this->getConfigDeconz();
+			$this->GetConfigDeconz();
 #			$this->SendDebug("State",$this->State,0);
 			IPS_Sleep(500);
 			$Values = $this->ReadAttributeString("Elements");		

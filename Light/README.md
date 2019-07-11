@@ -10,7 +10,7 @@
 	<h2>Installation</h2>
 	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.
 	<h2>Konfiguration</h2>
-	Eine Konfiguration ist nicht erforderlich.    
+	Eine Konfiguration ist nicht erforderlich.
 	<h2>Funktion</h2>
 	Der Funktionsumfang hängt vom Gerät ab.  Die Bedienung erfolgt im WebFront.<br>
 	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Geräte per Skript.

@@ -23,6 +23,11 @@
 		<td>Neu: erweiterter Funktionsumfang<br>
 			Neu: deutlich vereinfachte Konfiguration des Gateways</td>
 	  </tr>
+	  <tr>
+		<td>V1.02</td>
+		<td>Fix: Fehler bei der Konfiguration des Gateways<br>
+			Neu: Emulation des Status</td>
+	  </tr>
 	</table>
   </body>
 </html>

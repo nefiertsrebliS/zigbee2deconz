@@ -164,7 +164,7 @@ class Z2DSensor extends IPSModule
 					if($Payload->reachable){
 						$this->SetStatus(102);
 					}else{
-						$this->SetStatus(104);
+						$this->SetStatus(215);
 					}
 				}
 				if (property_exists($Payload, 'temperature')) {

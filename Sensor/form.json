@@ -5,6 +5,6 @@
     ],
     "status":
     [
-	    { "code": 205,"icon": "error","caption": "Device unreachable"}
+	    { "code": 215,"icon": "error","caption": "Device unreachable"}
 	]
 }

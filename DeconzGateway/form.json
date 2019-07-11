@@ -35,7 +35,7 @@
                 {
                     "code": 201,
                     "icon": "error",
-                    "caption": "Connection lost"
+                    "caption": "Connection lost. Please check Client Socket"
                 },
                 {
                     "code": 202,

@@ -21,10 +21,12 @@
             "Password": "Passwort",
             "Connected": "Verbunden",
             "Interface closed": "Verbindung geschlossen",
-            "Connection lost": "Verbindung verloren",
+            "Connection lost. Please check Client Socket": "Verbindung verloren. Bitte Client Socket prüfen",
             "URL invalid": "URL ungültig",
             "Handshake error": "Fehler im Handshake",
-            "Ping interval to small": "Ping Intervall zu klein"
+            "Ping interval to small": "Ping Intervall zu klein",
+			"DeCONZ: link button not pressed":"DeCONZ: \"App verbinden\" drücken",
+			"unauthorized user":"Nutzer nicht autorisiert"
         }
     }
 }

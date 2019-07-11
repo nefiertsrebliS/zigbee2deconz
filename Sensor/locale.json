@@ -41,7 +41,8 @@
       "Consumption": "Verbrauch",
       "Power": "Leistung",
       "Current": "Stromstärke",
-      "Heat Setpoint": "Temperatur Sollwert"
+      "Heat Setpoint": "Temperatur Sollwert",
+	  "Device unreachable": "Gerät nicht erreichbar"
     }
   }
 }
