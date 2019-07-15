@@ -30,7 +30,8 @@
 	  </tr>
 	  <tr>
 		<td>V1.03</td>
-		<td>Fix: Optimierung des Gateways</td>
+		<td>Fix: Optimierung des Gateways<br>
+			Fix: Übersetzung vervollständigt</td>
 	  </tr>
 	</table>
   </body>
