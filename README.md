@@ -28,6 +28,10 @@
 		<td>Fix: Fehler bei der Konfiguration des Gateways<br>
 			Neu: Emulation des Status</td>
 	  </tr>
+	  <tr>
+		<td>V1.03</td>
+		<td>Fix: Optimierung des Gateways</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -14,8 +14,8 @@
 	<ol>
 		<li>Bitte zunächst die Adresse und den Port von DeCONZ eintragen und die Änderungen speichern.</li>
 		<li>Danach kann ein API-Key durch Betätigung der Taste "Get API-Key" erzeugt werden.</li>
-		<li>Nach erfolgreicher Generierung eines gültigen API-Keys wird automatisch der Nachrichten-Port eingetragen die Kommunikation geöffnet.</li>
-		<li>Gegenenfalls müssen Änderungen am Client-Socket bestätigt werden.</li>
+		<li>Nach erfolgreicher Generierung eines gültigen API-Keys wird der Nachrichten-Port im Client-Socket eingetragen.</li>
+		<li>Im Client-Socket die Kommunikation öffnen und Änderungen bestätigen.</li>
 	</ol>
 	Das Gateway sollte jetzt funktionieren und den Status "Verbunden" anzeigen.<br><br>
 	Weiter geht es mit dem Konfigurator.

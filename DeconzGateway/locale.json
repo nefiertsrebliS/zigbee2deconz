@@ -26,7 +26,14 @@
             "Handshake error": "Fehler im Handshake",
             "Ping interval to small": "Ping Intervall zu klein",
 			"DeCONZ: link button not pressed":"DeCONZ: \"App verbinden\" drücken",
-			"unauthorized user":"Nutzer nicht autorisiert"
+			"unauthorized user":"Nutzer nicht autorisiert",
+			"get API-Key":"API-Key anfordern",
+			"1. Base-Configuration for the Phoscon App": "1. Basis-Konfiguration für die Phoscon App",
+			"2. Open the Phoscon App": "2. Öffne die Phoscon App",
+			"3. Go to Settings - Gateway - Advanced": "3. Gehe zu Einstellungen - Gateway - Erweitert",
+			"4. Press AUTHENTICATE APP": "4. Drücke APP VERBINDEN",
+			"5. Press GET API-KEY in Symcon": "5. Drücke API-KEY ANFORDERN in Symcon",
+			"6. Configure interface in Symcon": "6. Konfiguriere die Schnittstelle in Symcon"
         }
     }
 }
