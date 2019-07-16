@@ -141,6 +141,8 @@ class DeconzGateway extends IPSModule
      */
     public function ApplyChanges()
     {
+        parent::ApplyChanges();
+
         if ((float) IPS_GetKernelVersion() < 4.2) {
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         } else {
@@ -559,7 +561,6 @@ class DeconzGateway extends IPSModule
     public function ForwardData($JSONString)
     {
         if ($this->State <> WebSocketState::Connected) {
-            trigger_error("Not connected", E_USER_NOTICE);
             return false;
         }
         $Data = json_decode($JSONString);
@@ -831,7 +832,15 @@ class DeconzGateway extends IPSModule
 					$API_Key	= $item->success->username;
 
 					$this->WriteAttributeString("ApiKey", $API_Key);
-					$this->ApplyChanges();
+					if ($this->HasActiveParent()) {
+						$this->SetStatus(102); 
+					}else{
+						if($this->ParentID >0){
+							$this->SetStatus(104); 
+						}else{
+							$this->SetStatus(200); 
+						}
+					}
 					$this->SendDebug("API-Key", "set successfully", 0);
 					$this->GetDeconzConfiguration();
 				}
@@ -917,7 +926,6 @@ class DeconzGateway extends IPSModule
 #
 #	Sendet alle Aufträge und Anfrage an den Server.
 #	und prüft die korrekte Konfiguration.
-#	Bei erkannten Fehlern wird die Verbindung geschlossen.
 ######################################################################################
 
     private function SendToDeconz($json)

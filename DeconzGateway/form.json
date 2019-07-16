@@ -27,6 +27,11 @@
                     "caption": "Interface closed"
                 },
                 {
+                    "code": 200,
+                    "icon": "error",
+                    "caption": "user authorized"
+                },
+                {
                     "code": 201,
                     "icon": "error",
                     "caption": "Connection lost. Please check Client Socket"

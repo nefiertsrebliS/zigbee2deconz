@@ -33,6 +33,10 @@
 		<td>Fix: Optimierung des Gateways<br>
 			Fix: Übersetzung vervollständigt</td>
 	  </tr>
+	  <tr>
+		<td>V1.04</td>
+		<td>Fix: Gatewayfehler bei Erstellung Konfigurator ohne Gateway</td>
+	  </tr>
 	</table>
   </body>
 </html>
