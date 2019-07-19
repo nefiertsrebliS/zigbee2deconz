@@ -37,6 +37,12 @@
 		<td>V1.04</td>
 		<td>Fix: Gatewayfehler bei Erstellung Konfigurator ohne Gateway</td>
 	  </tr>
+	  <tr>
+		<td>V1.05</td>
+		<td>Fix: Umlaute werden falsch dargestellt<br>
+			Fix: Offline-Status wird minütlich angezeigt<br>
+			Fix: Falsche Werte Temperatur und Feuchtigkeit</td>
+	  </tr>
 	</table>
   </body>
 </html>

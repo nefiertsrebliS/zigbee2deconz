@@ -197,7 +197,7 @@ trait Zigbee2DeCONZHelper
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
 		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_heatsetpoint',$value);
-		$data['heatsetpoint'] = $value;
+		$data['heatsetpoint'] = $value * 100;
         $this->SetStateDeconz(json_encode($data));
     }
 

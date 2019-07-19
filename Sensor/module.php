@@ -34,14 +34,12 @@ class Z2DSensor extends IPSModule
 		if(strpos($Buffer, $this->ReadPropertyString("DeviceID")) ===false)return;
         $this->SendDebug('Received', $Buffer, 0);
 
-        $data = json_decode($Buffer);
+        $data = json_decode(utf8_decode($Buffer));
 		if(is_array($data)){
 		    $this->SendDebug('Received', $Buffer, 0);
 			foreach($data as $item){
 				if (property_exists($item, 'error')) {
 					echo "Device unreachable.";
-					return;
-				    $this->SetStatus(205);
 					break;
 				}else{
 				    $this->SetStatus(102);
@@ -118,7 +116,7 @@ class Z2DSensor extends IPSModule
 				}
 				if (property_exists($Payload, 'humidity')) {
 				    $this->RegisterVariableFloat('Z2D_humidity', $this->Translate('Humidity'), '~Humidity.F');
-				    SetValue($this->GetIDForIdent('Z2D_humidity'), $Payload->humidity);
+				    SetValue($this->GetIDForIdent('Z2D_humidity'), $Payload->humidity / 100.0);
 				}
 				if (property_exists($Payload, 'lux')) {
 				    $this->RegisterVariableFloat('Z2D_lux', $this->Translate('Illumination'), '~Illumination.F');
@@ -134,7 +132,7 @@ class Z2DSensor extends IPSModule
 				}
 				if (property_exists($Payload, 'temperature')) {
 				    $this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature');
-				    SetValue($this->GetIDForIdent('Z2D_temperature'), $Payload->temperature);
+				    SetValue($this->GetIDForIdent('Z2D_temperature'), $Payload->temperature / 100.0);
 				}
 				if (property_exists($Payload, 'consumption')) {
 				    $this->RegisterVariableFloat('Z2D_consumption', $this->Translate('Consumption'), '~Electricity.HM');
@@ -162,19 +160,19 @@ class Z2DSensor extends IPSModule
 				}
 				if (property_exists($Payload, 'reachable')) {
 					if($Payload->reachable){
-						$this->SetStatus(102);
+						if($this->GetStatus()<>102)$this->SetStatus(102);
 					}else{
-						$this->SetStatus(215);
+						if($this->GetStatus()<>215)$this->SetStatus(215);
 					}
 				}
 				if (property_exists($Payload, 'temperature')) {
 				    $this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature');
-				    SetValue($this->GetIDForIdent('Z2D_temperature'), $Payload->temperature);
+				    SetValue($this->GetIDForIdent('Z2D_temperature'), $Payload->temperature / 100.0);
 				}
 				if (property_exists($Payload, 'heatsetpoint')) {
 				    $this->RegisterVariableFloat('Z2D_heatsetpoint', $this->Translate('Heat Setpoint'), '~Temperature');
 		            $this->EnableAction('Z2D_heatsetpoint');
-				    SetValue($this->GetIDForIdent('Z2D_heatsetpoint'), $Payload->heatsetpoint);
+				    SetValue($this->GetIDForIdent('Z2D_heatsetpoint'), $Payload->heatsetpoint / 100.0);
 				}
 		    }
 		}

@@ -10,10 +10,9 @@
 			//Never delete this line!
 			parent::Create();
 			$this->RegisterAttributeString('Elements', "");
-			$this->RegisterAttributeString('Parent', "{9013F138-F270-C396-09D6-43368E390C5F}");
 
 			//Connect to available deconz gateway
-			$this->ConnectParent($this->ReadAttributeString('Parent'));
+			$this->ConnectParent("{9013F138-F270-C396-09D6-43368E390C5F}");
 		}
 
 		public function Destroy(){
@@ -32,7 +31,7 @@
 		{
 			$this->SendDebug("Receive from Device", $JSONString, 0);
 			$payload = json_decode($JSONString);
-			$data = json_decode($payload->Buffer);
+			$data = json_decode(utf8_decode($payload->Buffer));
 
 			if(is_array($data))return;
 		    if (!property_exists($data, 'config'))return;
@@ -41,7 +40,8 @@
 #	Search for created Devices
 #----------------------------------------------------------------
 
-			$Parent = $this->ReadAttributeString('Parent');
+			$ParentID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+			$Parent = IPS_GetInstance($ParentID)['ModuleInfo']['ModuleID'];
 			$Devices = IPS_GetInstanceListByModuleType(3); 			// all Devices
 
 			$Created = array();

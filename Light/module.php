@@ -36,15 +36,12 @@ class Z2DLightSwitch extends IPSModule
 		if(strpos($Buffer, $this->ReadPropertyString("DeviceID")) ===false)return;
         $this->SendDebug('Received', $Buffer, 0);
 
-        $data = json_decode($Buffer);
+        $data = json_decode(utf8_decode($Buffer));
 		if(is_array($data)){
 		    $this->SendDebug('Received', $Buffer, 0);
 			foreach($data as $item){
 				if (property_exists($item, 'error')) {
 					echo "Device unreachable.";
-					return;
-				    $this->SetStatus(215);
-	                trigger_error('Device unreachable.', E_USER_WARNING);
 					break;
 				}else{
 				    $this->SetStatus(102);
@@ -129,9 +126,9 @@ class Z2DLightSwitch extends IPSModule
 				}
 				if (property_exists($Payload, 'reachable')) {
 					if($Payload->reachable){
-						$this->SetStatus(102);
+						if($this->GetStatus()<>102)$this->SetStatus(102);
 					}else{
-						$this->SetStatus(215);
+						if($this->GetStatus()<>215)$this->SetStatus(215);
 					}
 				}
 		    }
