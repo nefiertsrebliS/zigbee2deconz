@@ -1,15 +1,11 @@
 <?
-	require_once __DIR__ . '/../libs/Zigbee2DeCONZHelper.php';
-
 	class DeconzConfig extends IPSModule
 	{
-	    use Zigbee2DeCONZHelper;
 
 		public function Create() 
 		{
 			//Never delete this line!
 			parent::Create();
-			$this->RegisterAttributeString('Elements', "");
 
 			//Connect to available deconz gateway
 			$this->ConnectParent("{9013F138-F270-C396-09D6-43368E390C5F}");
@@ -27,13 +23,20 @@
 			parent::ApplyChanges();
 		}
 		
-		public function ReceiveData($JSONString)
+		private function GetElements()
 		{
-			$this->SendDebug("Receive from Device", $JSONString, 0);
-			$payload = json_decode($JSONString);
-			$data = json_decode(utf8_decode($payload->Buffer));
+			$Buffer['command'] 	= '';
+			$Buffer['method'] 	= 'GET';
+			$Buffer['data'] 	= '';
 
-			if(is_array($data))return;
+			$Data['DataID'] 	= '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
+			$Data['Buffer'] 	= json_encode($Buffer, JSON_UNESCAPED_SLASHES);
+
+			$result				= $this->SendDataToParent(json_encode($Data, JSON_UNESCAPED_SLASHES));
+			$this->SendDebug("Received Configuration", $result, 0);
+
+		    if ($result=="")return;
+			$data = json_decode(utf8_decode($result));
 		    if (!property_exists($data, 'config'))return;
 
 #----------------------------------------------------------------
@@ -108,21 +111,11 @@
 				}
 			}
 
-		    if (count($Values) == 0)return;
-
-			$json = json_encode($Values);
-#			$this->SendDebug("Values", $json, 0);
-			$this->WriteAttributeString("Elements", $json);
-
-#			$this->SendDebug("Devices", print_r(json_decode($this->ReadPropertyString("Devices")),true), 0);
+			return json_encode($Values);
 		}
 	 
 		public function GetConfigurationForm() {
-			$this->GetConfigDeconz();
-#			$this->SendDebug("State",$this->State,0);
-			IPS_Sleep(500);
-			$Values = $this->ReadAttributeString("Elements");		
-			$Values = json_decode($Values);	
+			$Values = json_decode($this->GetElements());	
 			$this->SendDebug("Elements", json_encode($Values), 0);
 	        $form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
 	        $form['actions'][0]['values'] = $Values;

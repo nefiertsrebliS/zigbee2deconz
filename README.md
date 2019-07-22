@@ -43,6 +43,10 @@
 			Fix: Offline-Status wird minütlich angezeigt<br>
 			Fix: Falsche Werte Temperatur und Feuchtigkeit</td>
 	  </tr>
+	  <tr>
+		<td>V1.06</td>
+		<td>Fix: Abstürze im Zusammenhang mit Alexa</td>
+	  </tr>
 	</table>
   </body>
 </html>

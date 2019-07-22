@@ -2,8 +2,6 @@
     "translations": {
         "de": {
             "Open": "Verbinden",
-            "Use ws:// or wss:// and :port when using none HTTP-default Ports.": "Verwenden Sie ws: // oder wss: // und: port, wenn Sie keine HTTP-Default Ports verwenden.",
-            "Example: wss://my.host.org:9091/websocket/": "Beispiel: wss://my.host.org:9091/websocket/",
             "URL": "URL",
             "Advanced settings:": "Erweiterte Einstellungen:",
             "Used protocol": "Verwendetes Protokoll",

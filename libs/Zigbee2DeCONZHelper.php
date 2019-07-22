@@ -227,23 +227,10 @@ trait Zigbee2DeCONZHelper
 
 	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
 	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
-
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
-        $this->SendDebug('Sended', $DataJSON, 0);
-	    $this->SendDataToParent($DataJSON);
-    }
 
-	protected function GetConfigDeconz()
-	{
-	    $Buffer['command'] = '';
-	    $Buffer['method'] = 'GET';
-	    $Buffer['data'] = "";
-
-	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
-	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
-
-	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
-	    $this->SendDataToParent($DataJSON);
+	    $result['Buffer'] = $this->SendDataToParent($DataJSON);
+		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
     }
 
     protected function HexToRGB($value)

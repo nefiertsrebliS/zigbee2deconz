@@ -28,17 +28,18 @@ class Z2DLightSwitch extends IPSModule
         parent::ApplyChanges();
 
 		@$this->GetStateDeconz();
+			
+#		Filter setzen
+		$this->SetReceiveDataFilter('.*'.$this->ReadPropertyString("DeviceID").'.*');
     }
 
     public function ReceiveData($JSONString)
     {
         $Buffer = json_decode($JSONString)->Buffer;
-		if(strpos($Buffer, $this->ReadPropertyString("DeviceID")) ===false)return;
         $this->SendDebug('Received', $Buffer, 0);
 
         $data = json_decode(utf8_decode($Buffer));
 		if(is_array($data)){
-		    $this->SendDebug('Received', $Buffer, 0);
 			foreach($data as $item){
 				if (property_exists($item, 'error')) {
 					echo "Device unreachable.";
