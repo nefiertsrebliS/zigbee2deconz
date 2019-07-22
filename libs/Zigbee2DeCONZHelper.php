@@ -230,6 +230,7 @@ trait Zigbee2DeCONZHelper
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
 
 	    $result['Buffer'] = $this->SendDataToParent($DataJSON);
+		if(!$result['Buffer'])return;
 		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
     }
 

@@ -47,6 +47,10 @@
 		<td>V1.06</td>
 		<td>Fix: Abstürze im Zusammenhang mit Alexa</td>
 	  </tr>
+	  <tr>
+		<td>V1.07</td>
+		<td>Fix: Problem bei Symcon-Neustart</td>
+	  </tr>
 	</table>
   </body>
 </html>
