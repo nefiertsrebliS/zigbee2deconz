@@ -51,6 +51,11 @@
 		<td>V1.07</td>
 		<td>Fix: Problem bei Symcon-Neustart</td>
 	  </tr>
+	  <tr>
+		<td>V1.08</td>
+		<td>Neu: Gruppen und Scenen</td>
+		<td>Neu: zusätzliche Detailinformationen im Konfigurator</td>
+	  </tr>
 	</table>
   </body>
 </html>

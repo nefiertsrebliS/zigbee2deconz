@@ -1,0 +1,11 @@
+{
+  "translations": {
+    "de": {
+      "all": "alle",
+      "any on": "einige an",
+      "Scene": "Szene",
+	  "Device unreachable": "Gerät nicht erreichbar",
+	  "emulate Status": "Status emulieren"
+    }
+  }
+}

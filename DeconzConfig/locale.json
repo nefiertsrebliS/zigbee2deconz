@@ -2,10 +2,11 @@
 	"translations": {
 		"de": { 
 			"DeviceID": "Geräte-ID",
-			"Status": "Status",
-			"closed": "geschlossen",
-			"open": "geöffnet",
-			"tilted": "gekippt"
+			"Name": "Name",
+			"Manufacturer": "Hersteller",
+			"Model": "Modell",
+			"Type": "Typ",
+			"Class": "Klasse"
 		}
 	}
 }

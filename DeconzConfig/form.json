@@ -5,20 +5,31 @@
         {
             "type": "Configurator",
             "name": "Configuration",
-            "rowCount": 10,
             "delete": true,
             "columns": [{
                     "caption": "DeviceID",
                     "name": "DeviceID",
-                    "width": "25vw"
+                    "width": "15vw"
                 },{
                     "caption": "Name",
                     "name": "name",
                     "width": "auto"
                 },{
-                    "caption": "DeviceType",
+                    "caption": "Manufacturer",
+                    "name": "Manufacturer",
+                    "width": "15vw"
+                },{
+                    "caption": "Model",
+                    "name": "modelID",
+                    "width": "15vw"
+                },{
+                    "caption": "Type",
+                    "name": "DetailType",
+                    "width": "13vw"
+                },{
+                    "caption": "Class",
                     "name": "DeviceType",
-                    "width": "10vw"
+                    "width": "7vw"
                 }
             ],
             "values": []

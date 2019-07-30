@@ -32,6 +32,9 @@ trait Zigbee2DeCONZHelper
             case 'Update':
                 eval ('$this->'.$Value.";");
                 break;
+            case 'Z2D_Scene':
+                $this->SwitchScene($Value);
+                break;
             default:
                 $this->SendDebug('Request Action', 'No Action defined: ' . $Ident, 0);
                 break;
@@ -181,6 +184,24 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz($Payload);
     }
 
+    public function SwitchScene(int $value)
+    {
+		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',$value);
+
+	    $type = $this->ReadPropertyString('DeviceType');
+	    $id = $this->ReadPropertyString("DeviceID");
+	    $Buffer['command'] = $type.'/'.$id.'/scenes/'.$value.'/recall';
+	    $Buffer['method'] = 'PUT';
+	    $Buffer['data'] = '';
+
+	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
+	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
+
+	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
+        $this->SendDebug('Sended', $DataJSON, 0);
+	    $this->SendDataToParent($DataJSON);
+    }
+
     public function SetColor(int $color)
     {
 		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Color',$value);
@@ -205,7 +226,14 @@ trait Zigbee2DeCONZHelper
 	{
 	    $type = $this->ReadPropertyString('DeviceType');
 	    $id = $this->ReadPropertyString("DeviceID");
-	    $Buffer['command'] = $type.'/'.$id.'/state';
+		switch ($type){
+			case "groups":
+			    $Buffer['command'] = $type.'/'.$id.'/action';
+				break;
+			default:
+			    $Buffer['command'] = $type.'/'.$id.'/state';
+				break;
+		}
 	    $Buffer['method'] = 'PUT';
 	    $Buffer['data'] = $Payload;
 

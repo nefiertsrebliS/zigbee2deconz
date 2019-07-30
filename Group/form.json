@@ -1,0 +1,11 @@
+{
+    "elements":
+    [
+		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" },
+		{ "name": "Status", "type": "CheckBox", "caption": "emulate Status" }
+	],
+    "status":
+    [
+	    { "code": 215,"icon": "error","caption": "Device unreachable"}
+	]
+}

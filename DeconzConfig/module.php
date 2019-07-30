@@ -75,6 +75,9 @@
 						'instanceID' => $ID,
 						'name'       => $item->name,
 						'DeviceID'   => $item->uniqueid,
+						'Manufacturer'   => $item->manufacturername,
+						'modelID'   => $item->modelid,
+						'DetailType'   => $item->type,
 						'DeviceType' => $type,
 						'create'	 => 
 						[
@@ -98,12 +101,41 @@
 						'instanceID' => $ID,
 						'name'       => $item->name,
 						'DeviceID'   => $item->uniqueid,
+						'Manufacturer'   => $item->manufacturername,
+						'modelID'   => $item->modelid,
+						'DetailType'   => $item->type,
 						'DeviceType' => $type,
 						'create'	 => 
 						[
 							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
 							"configuration" => [
 								"DeviceID" => $item->uniqueid,
+								"DeviceType" => $type
+							]
+						]
+					];
+				}
+			}
+
+		    $type = 'groups';
+		    if (property_exists($data, $type)) {
+				$items = $data->$type;
+				foreach($items as $item){
+					$ID	= 0;
+					if(isset($Created[$item->id])) $ID = $Created[$item->id];
+					$Values[] = [
+						'instanceID' => $ID,
+						'name'       => $item->name,
+						'DeviceID'   => $item->id,
+						'Manufacturer'   => "",
+						'modelID'   => "",
+						'DetailType'   => $item->type,
+						'DeviceType' => $type,
+						'create'	 => 
+						[
+							"moduleID" => "{D5D510EA-0158-B850-A700-AA824AF59DC3}",
+							"configuration" => [
+								"DeviceID" => $item->id,
 								"DeviceType" => $type
 							]
 						]
