@@ -53,8 +53,8 @@
 	  </tr>
 	  <tr>
 		<td>V1.08</td>
-		<td>Neu: Gruppen und Scenen</td>
-		<td>Neu: zusätzliche Detailinformationen im Konfigurator</td>
+		<td>Neu: Gruppen und Licht-Szenen<br>
+			Neu: zusätzliche Detailinformationen im Konfigurator</td>
 	  </tr>
 	</table>
   </body>
