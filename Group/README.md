@@ -77,6 +77,11 @@
 		<td><b><i>Z2D_SwitchScene($ID, $SceneID)</i></b></td>
 		<td>Aktivierung einer Licht-Szene</td>
 	  </tr>
+	  <tr>
+		<td>12.</td>
+		<td><b><i>Z2D_SwitchScene($ID, $SceneID)</i></b></td>
+		<td>Aktivierung einer Licht-Szene</td>
+	  </tr>
 	</table>
   </body>
 </html>
