@@ -16,10 +16,8 @@ class Z2DLightSwitch extends IPSModule
         $this->RegisterPropertyString('DeviceID', "");
         $this->RegisterPropertyBoolean('Status', false);
         $this->RegisterPropertyString('DeviceType', "lights");
-		$this->RegisterTimer("Update", 60000,'IPS_RequestAction($_IPS["TARGET"], "Update", "GetStateDeconz()");');        
-
-		IPS_Sleep(100);
-		@$this->ApplyChanges();
+#	-----------------------------------------------------------------------------------
+        $this->RegisterAttributeInteger("State", 0);
     }
 
     public function ApplyChanges()
@@ -27,10 +25,29 @@ class Z2DLightSwitch extends IPSModule
         //Never delete this line!
         parent::ApplyChanges();
 
+        $this->RegisterMessage($this->InstanceID, IM_CHANGESTATUS);
+        $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
+
 		@$this->GetStateDeconz();
 			
 #		Filter setzen
-		$this->SetReceiveDataFilter('.*'.$this->ReadPropertyString("DeviceID").'.*');
+		$this->SetReceiveDataFilter('.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"').'.*');
+    }
+
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    {
+        switch ($Message) {
+            case IM_CHANGESTATUS:
+				if($SenderID == @IPS_GetInstance($this->InstanceID)['ConnectionID']){
+					if($Data[0] >= 200)$Data[0] = 215;
+					$state = max($Data[0], $this->ReadAttributeInteger("State"));
+					if($state <> $this->GetStatus())$this->SetStatus($state);
+				}
+				if($SenderID == $this->InstanceID){
+					if($Data[0] == 102) $this->GetStateDeconz();
+				}
+                break;
+        }
     }
 
     public function ReceiveData($JSONString)
@@ -42,10 +59,10 @@ class Z2DLightSwitch extends IPSModule
 		if(is_array($data)){
 			foreach($data as $item){
 				if (property_exists($item, 'error')) {
-					echo "Device unreachable.";
+					$this->WriteAttributeInteger("State", 215);
 					break;
 				}else{
-				    $this->SetStatus(102);
+					$this->WriteAttributeInteger("State", 102);
 				}
 			}
 		}else{
@@ -115,7 +132,7 @@ class Z2DLightSwitch extends IPSModule
 				    $this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
 				    $this->EnableAction('Z2D_State');
 				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->on);
-				    if(!$Payload->on)$this->SetValue('Z2D_Brightness', 0);
+				    if(!$Payload->on) @$this->SetValue('Z2D_Brightness', 0);
 				}
 				if (property_exists($Payload, 'xy')) {
 				    $this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);
@@ -127,9 +144,9 @@ class Z2DLightSwitch extends IPSModule
 				}
 				if (property_exists($Payload, 'reachable')) {
 					if($Payload->reachable){
-						if($this->GetStatus()<>102)$this->SetStatus(102);
+						if($this->ReadAttributeInteger("State") <> 102)$this->WriteAttributeInteger("State", 102);
 					}else{
-						if($this->GetStatus()<>215)$this->SetStatus(215);
+						if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
 					}
 				}
 		    }

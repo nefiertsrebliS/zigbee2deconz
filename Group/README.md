@@ -13,13 +13,14 @@
 	Eine Konfiguration ist nicht erforderlich.
 	<h2>Funktion</h2>
 	Gruppen können im WebFront an- und ausgeschaltet werden.<br>
-	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Gruppen per Skript.
+	Licht-Szenen lassen sich im WebFront ebenso ansteuern. Eine Anzeige der aktive Szene gibt es allerdings nicht.<br>
+	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Gruppen und Szenen per Skript.
 	<h2>Mögliche PHP-Befehle</h2>
 	<table>
 	  <tr>
 		<td>1.</td>
 		<td><b><i>Z2D_DimSet($ID, $Intansity)</i></b></td>
-		<td>Lampe auf einen bestimmten Wert dimmen</td>
+		<td>Gruppe auf einen bestimmten Wert dimmen</td>
 	  </tr>
 	  <tr>
 		<td>2.</td>
@@ -29,7 +30,7 @@
 	  <tr>
 		<td>3.</td>
 		<td><b><i>Z2D_DimUp($ID)<br>Z2D_DimDown($ID)<br>Z2D_DimStop($ID)<br></i></b></td>
-		<td>Dimmer starten und stoppen</td>
+		<td>Gruppen-Dimmer starten und stoppen</td>
 	  </tr>
 	  <tr>
 		<td>4.</td>
@@ -64,12 +65,17 @@
 	  <tr>
 		<td>10.</td>
 		<td><b><i>Z2D_SetColor($ID, $value)</i></b></td>
-		<td>Einstellen einer Lampenfarbe</td>
+		<td>Einstellen der Farbe für eine Gruppe</td>
 	  </tr>
 	  <tr>
 		<td>11.</td>
 		<td><b><i>Z2D_SwitchMode($ID, $value)</i></b></td>
-		<td>Lampe oder Schalter ein/aus-schalten</td>
+		<td>Geräte einer Gruppe ein/aus-schalten</td>
+	  </tr>
+	  <tr>
+		<td>12.</td>
+		<td><b><i>Z2D_SwitchScene($ID, $SceneID)</i></b></td>
+		<td>Aktivierung einer Licht-Szene</td>
 	  </tr>
 	</table>
   </body>

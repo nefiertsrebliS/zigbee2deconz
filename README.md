@@ -53,8 +53,15 @@
 	  </tr>
 	  <tr>
 		<td>V1.08</td>
-		<td>Neu: Gruppen und Scenen</td>
-		<td>Neu: zusätzliche Detailinformationen im Konfigurator</td>
+		<td>Neu: Gruppen und Licht-Szenen<br>
+			Neu: zusätzliche Detailinformationen im Konfigurator</td>
+	  </tr>
+	  <tr>
+		<td>V1.09</td>
+		<td>Fix: Verbesserter Support großer Installationen<br>
+			Fix: Update "Unreachable"<br>
+			Fix: Abbrüche beim Anlegen von Devices<br>
+			Neu: Zusätzliche Attribute (Sensitivity, Offset,...)</td>
 	  </tr>
 	</table>
   </body>

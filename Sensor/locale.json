@@ -42,6 +42,9 @@
       "Power": "Leistung",
       "Current": "Stromstärke",
       "Heat Setpoint": "Temperatur Sollwert",
+      "Offset": "Offset",
+      "Sensitivity": "Empfindlichkeit",
+      "Event": "Ereignis",
 	  "Device unreachable": "Gerät nicht erreichbar"
     }
   }

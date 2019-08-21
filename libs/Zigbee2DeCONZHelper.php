@@ -29,6 +29,12 @@ trait Zigbee2DeCONZHelper
             case 'Z2D_heatsetpoint':
                 $this->setTemperature($Value);
                 break;
+            case 'Z2D_offset':
+                $this->setOffset($Value);
+                break;
+            case 'Z2D_sensitivity':
+                $this->setSensitivity($Value);
+                break;
             case 'Update':
                 eval ('$this->'.$Value.";");
                 break;
@@ -222,18 +228,43 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
+    public function setSensitivity(int $value)
+    {
+        if($value < 0) $value = 0;
+        if($value > 2) $value = 2;
+		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_sensitivity',$value);
+		$data['sensitivity'] = $value;
+        $this->SetDeconz('config', json_encode($data));
+    }
+
+    public function setOffset(float $value)
+    {
+        if($value < -5) $value = -5;
+        if($value >  5) $value =  5;
+		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_offset',$value);
+		$data['offset'] = $value*100;
+        $this->SetDeconz('config', json_encode($data));
+    }
+
 	protected function SetStateDeconz($Payload)
 	{
 	    $type = $this->ReadPropertyString('DeviceType');
-	    $id = $this->ReadPropertyString("DeviceID");
 		switch ($type){
 			case "groups":
-			    $Buffer['command'] = $type.'/'.$id.'/action';
+			    $command = 'action';
 				break;
 			default:
-			    $Buffer['command'] = $type.'/'.$id.'/state';
-				break;
+			    $command = 'state';
 		}
+        $this->SetDeconz($command, $Payload);
+    }
+
+	protected function SetDeconz($command, $Payload)
+	{
+	    $type = $this->ReadPropertyString('DeviceType');
+	    $id = $this->ReadPropertyString("DeviceID");
+
+	    $Buffer['command'] = $type.'/'.$id.'/'.$command;
 	    $Buffer['method'] = 'PUT';
 	    $Buffer['data'] = $Payload;
 
@@ -257,7 +288,7 @@ trait Zigbee2DeCONZHelper
 	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
 
-	    $result['Buffer'] = $this->SendDataToParent($DataJSON);
+	    $result['Buffer'] = @$this->SendDataToParent($DataJSON);
 		if(!$result['Buffer'])return;
 		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
     }

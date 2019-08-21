@@ -16,10 +16,8 @@ class Z2DGroup extends IPSModule
         $this->RegisterPropertyString('DeviceID', "");
         $this->RegisterPropertyBoolean('Status', false);
         $this->RegisterPropertyString('DeviceType', "groups");
-		$this->RegisterTimer("Update", 60000,'IPS_RequestAction($_IPS["TARGET"], "Update", "GetStateDeconz()");');        
-
-		IPS_Sleep(100);
-		@$this->ApplyChanges();
+#	-----------------------------------------------------------------------------------
+        $this->RegisterAttributeInteger("State", 0);
     }
 
     public function ApplyChanges()
@@ -27,10 +25,29 @@ class Z2DGroup extends IPSModule
         //Never delete this line!
         parent::ApplyChanges();
 
+        $this->RegisterMessage($this->InstanceID, IM_CHANGESTATUS);
+        $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
+
 		@$this->GetStateDeconz();
 			
 #		Filter setzen
-		$this->SetReceiveDataFilter(".*id.*".$this->ReadPropertyString("DeviceID").".*r.*groups.*");
+		$this->SetReceiveDataFilter('.*'.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\",\"r\":\"groups\"').'.*');
+    }
+
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    {
+        switch ($Message) {
+            case IM_CHANGESTATUS:
+				if($SenderID == @IPS_GetInstance($this->InstanceID)['ConnectionID']){
+					if($Data[0] >= 200)$Data[0] = 215;
+					$state = max($Data[0], $this->ReadAttributeInteger("State"));
+					if($state <> $this->GetStatus())$this->SetStatus($state);
+				}
+				if($SenderID == $this->InstanceID){
+					if($Data[0] == 102) $this->GetStateDeconz();
+				}
+                break;
+        }
     }
 
     public function ReceiveData($JSONString)
@@ -41,10 +58,10 @@ class Z2DGroup extends IPSModule
 		if(is_array($data)){
 			foreach($data as $item){
 				if (property_exists($item, 'error')) {
-					echo "Device unreachable.";
+					$this->WriteAttributeInteger("State", 215);
 					break;
 				}else{
-				    $this->SetStatus(102);
+					$this->WriteAttributeInteger("State", 102);
 				}
 			}
 		}else{
@@ -62,17 +79,36 @@ class Z2DGroup extends IPSModule
 		    }
 
 		    if (property_exists($data, 'scenes')) {
-				$Payload = $data->scenes;
-				if(count($Payload) > 0){
+				$Scenes = json_decode(json_encode($data->scenes),true);
+				if(count($Scenes) > 0){
 					$this->RegisterVariableInteger('Z2D_Scene', $this->Translate('Scene'), 'Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 5);
 					$this->EnableAction('Z2D_Scene');
 					if (!IPS_VariableProfileExists('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')) {
 						IPS_CreateVariableProfile ('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 1);
 						IPS_SetVariableProfileIcon('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 'Bulb');
 					}
-					foreach($Payload as $scene){
-						$this->SendDebug("Scene",$scene->name,0);
-						IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $scene->id, $scene->name, '',-1);
+
+#-------------------------------------------------------------------------------------
+#	Fehlende Scenen im Profil ergänzen
+#-------------------------------------------------------------------------------------
+
+					$Assotiations = IPS_GetVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')["Associations"];
+					foreach($Scenes as $Scene){
+						$key = array_search($Scene['id'], array_column($Assotiations, 'Value'));
+						if($key !== false){
+						    if($Assotiations[$key]['Name'] != $Scene['name']) IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Scene['id'], $Scene['name'], '',-1);
+						}else{
+						    IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Scene['id'], $Scene['name'], '',-1);
+						}
+					}
+
+#-------------------------------------------------------------------------------------
+#	In DeConz entfernte Scenen im Profil löschen
+#-------------------------------------------------------------------------------------
+					
+					foreach($Assotiations as $Assotiation){
+						$key = array_search($Assotiation['Value'], array_column($Scenes, 'id'));
+						if($key === false) IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Assotiation['Value'], '', '',-1);
 					}
 				}
 		    }

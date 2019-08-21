@@ -46,6 +46,8 @@ class DeconzGateway extends IPSModule
         $this->UseTLS = false;
         $this->RegisterTimer('KeepAlive', 0, 'Z2D_Keepalive($_IPS[\'TARGET\']);');
         $this->OldURL = '';
+		$this->RegisterTimer("Update", 600000,'Z2D_UpdateChildren($_IPS["TARGET"]);');        
+
     }
 
     /**
@@ -398,7 +400,6 @@ class DeconzGateway extends IPSModule
             }
         } catch (Exception $exc) {
             $this->State = WebSocketState::unknow;
-            trigger_error($exc->getMessage(), E_USER_NOTICE);
             return false;
         }
         $this->State = WebSocketState::Connected;
@@ -838,6 +839,57 @@ class DeconzGateway extends IPSModule
 			}
 		}
     }
+
+######################################################################################
+#	UpdateChildren
+#
+#	Holt die Konfiguration und schickt den jeweiligen Auszug an die Children weiter
+######################################################################################
+
+    public function UpdateChildren()
+    {
+		$Buffer['command'] = '';
+		$Buffer['method'] = 'GET';
+		$Buffer['data'] = '';
+
+		$response = $this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
+		$this->SendDebug("UpdateChildren", $response, 0);
+
+		$data = json_decode($response);
+        if (property_exists($data, 'lights')) {
+			foreach ($data->lights as $item){
+				$JSON['DataID'] = '{018EF6B5-AB94-40C6-AA53-46943E824ACF}';
+				$JSON['Buffer'] = json_encode($item);
+				$Data = json_encode($JSON);
+				$this->SendDataToChildren($Data);
+			}
+        }
+		
+        if (property_exists($data, 'sensors')) {
+			foreach ($data->sensors as $item){
+				$JSON['DataID'] = '{018EF6B5-AB94-40C6-AA53-46943E824ACF}';
+				$JSON['Buffer'] = json_encode($item);
+				$Data = json_encode($JSON);
+				$this->SendDataToChildren($Data);
+			}
+        }
+		
+        if (property_exists($data, 'groups')) {
+			foreach ($data->groups as $item){
+				$JSON['DataID'] = '{018EF6B5-AB94-40C6-AA53-46943E824ACF}';
+				$new =  new stdClass();
+		        $new->id = $item->id;
+				$new->r = "groups";
+				$new->scenes = $item->scenes;
+				$new->state = $item->state;
+
+				$JSON['Buffer'] = json_encode($new);
+				$Data = json_encode($JSON);
+				$this->SendDataToChildren($Data);
+			}
+        }
+	}
+		
 
 ######################################################################################
 #	GetDeconzConfiguration
