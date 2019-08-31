@@ -246,6 +246,39 @@ trait Zigbee2DeCONZHelper
         $this->SetDeconz('config', json_encode($data));
     }
 
+    public function setAlert(string $value)
+    {
+        if($value == "none" || $value == "select" || $value == "lselect"){
+			$data['alert'] = $value;
+		    $this->SetStateDeconz(json_encode($data));
+        }else{
+	        trigger_error('no valid Attribute', E_USER_NOTICE);
+		}
+    }
+
+    public function setColorloop(int $value)
+    {
+        if($value <   0)$value =  0;
+        if($value > 255)$value = 255;
+		if($value ==  0){
+			$data['effect'] = "none";
+		}else{
+			$data['on'] = true;
+			$data['colorloopspeed'] = $value;
+			$data['effect'] = "colorloop";
+		}
+	    $this->SetStateDeconz(json_encode($data));
+    }
+
+    public function setJson(string $value)
+    {
+        if(@count(json_decode($value,true))>0){
+		    $this->SetStateDeconz($value);
+        }else{
+	        trigger_error('no valid json-String', E_USER_NOTICE);
+		}
+    }
+
 	protected function SetStateDeconz($Payload)
 	{
 	    $type = $this->ReadPropertyString('DeviceType');
@@ -273,7 +306,7 @@ trait Zigbee2DeCONZHelper
 
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
         $this->SendDebug('Sended', $DataJSON, 0);
-	    $this->SendDataToParent($DataJSON);
+	    $this->SendDebug('Result', $this->SendDataToParent($DataJSON), 0);
     }
 
 	protected function GetStateDeconz()

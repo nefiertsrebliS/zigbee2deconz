@@ -61,7 +61,12 @@
 		<td>Fix: Verbesserter Support großer Installationen<br>
 			Fix: Update "Unreachable"<br>
 			Fix: Abbrüche beim Anlegen von Devices<br>
-			Neu: Zusätzliche Attribute (Sensitivity, Offset,...)</td>
+			Neu: Zusätzliche Parameter (Sensitivity, Offset,...)</td>
+	  </tr>
+	  <tr>
+		<td>V1.10</td>
+		<td>Neu: Zusätzliche Parameter (Alert, Effect)<br>
+			Neu: Mehrere Parameter per JSON-String gleichzeitig einstellen</td>
 	  </tr>
 	</table>
   </body>
