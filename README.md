@@ -69,6 +69,10 @@
 		<td>Neu: Zusätzliche Parameter (Alert, Effect)<br>
 			Neu: Mehrere Parameter per JSON-String gleichzeitig einstellen</td>
 	  </tr>
+	  <tr>
+		<td>V1.11</td>
+		<td>Fix: Lightlevel</td>
+	  </tr>
 	</table>
   </body>
 </html>

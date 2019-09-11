@@ -139,8 +139,8 @@ class Z2DSensor extends IPSModule
 					SetValue($this->GetIDForIdent('Z2D_lux'), $Payload->lux);
 				}
 				if (property_exists($Payload, 'lightlevel')) {
-					$this->RegisterVariableFloat('Z2D_lux', $this->Translate('Illumination'), '~Illumination.F');
-					SetValue($this->GetIDForIdent('Z2D_lux'), $Payload->lightlevel);
+					$this->RegisterVariableFloat('Z2D_lightlevel', $this->Translate('Illumination'), '~Illumination.F');
+					SetValue($this->GetIDForIdent('Z2D_lightlevel'), $Payload->lightlevel);
 				}
 				if (property_exists($Payload, 'pressure')) {
 					$this->RegisterVariableFloat('Z2D_pressure', $this->Translate('Airpressure'), '~AirPressure.F');
