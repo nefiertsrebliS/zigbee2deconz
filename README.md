@@ -73,6 +73,10 @@
 		<td>V1.11</td>
 		<td>Fix: Lightlevel</td>
 	  </tr>
+	  <tr>
+		<td>V1.12</td>
+		<td>Fix: Konfigurator - Instanz existiert nicht</td>
+	  </tr>
 	</table>
   </body>
 </html>

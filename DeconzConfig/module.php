@@ -51,7 +51,7 @@
 			foreach ($Devices as $Device){
 				$ParentID = IPS_GetInstance($Device)['ConnectionID'];
 				if($ParentID > 0){
-					if(IPS_GetInstance($ParentID)['ModuleInfo']['ModuleID'] == $Parent){
+					if(@IPS_GetInstance($ParentID)['ModuleInfo']['ModuleID'] == $Parent){
 					    $Config = json_decode(IPS_GetConfiguration($Device));
 					    if (property_exists($Config, 'DeviceID')) {
 					        $Created[$Config->DeviceID] = $Device;
