@@ -14,7 +14,8 @@
 	<h2>Funktion</h2>
 	Gruppen können im WebFront an- und ausgeschaltet werden.<br>
 	Licht-Szenen lassen sich im WebFront ebenso ansteuern. Eine Anzeige der aktive Szene gibt es allerdings nicht.<br>
-	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Gruppen und Szenen per Skript.
+	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Gruppen und Szenen per Skript.<br>
+	Beim Anlegen neuer Szenen in DeCONZ kann es bis zu 10 Minuten dauern, bis diese in IP-Symcon erscheinen.
 	<h2>Mögliche PHP-Befehle</h2>
 	<table>
 	  <tr>

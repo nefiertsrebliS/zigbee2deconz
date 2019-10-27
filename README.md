@@ -77,6 +77,10 @@
 		<td>V1.12</td>
 		<td>Fix: Konfigurator - Instanz existiert nicht</td>
 	  </tr>
+	  <tr>
+		<td>V1.13</td>
+		<td>Fix: Darstellung von Umlauten in Gruppen</td>
+	  </tr>
 	</table>
   </body>
 </html>
