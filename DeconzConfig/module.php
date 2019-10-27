@@ -1,4 +1,4 @@
-<?
+<?php
 	class DeconzConfig extends IPSModule
 	{
 
@@ -155,4 +155,3 @@
 		}
 			
 	}
-?>
