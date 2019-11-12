@@ -81,6 +81,10 @@
 		<td>V1.13</td>
 		<td>Fix: Darstellung von Umlauten in Gruppen</td>
 	  </tr>
+	  <tr>
+		<td>V1.14</td>
+		<td>Fix: Zucken der Helligkeitsanzeige in Stellung aus</td>
+	  </tr>
 	</table>
   </body>
 </html>

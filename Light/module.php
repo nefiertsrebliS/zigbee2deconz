@@ -108,10 +108,18 @@ class Z2DLightSwitch extends IPSModule
 						}
 					}
 				}
+				if (property_exists($Payload, 'on')) {
+				    $this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
+				    $this->EnableAction('Z2D_State');
+				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->on);
+				}
 				if (property_exists($Payload, 'bri')) {
 				    $this->RegisterVariableInteger('Z2D_Brightness', $this->Translate('Brightness'), '~Intensity.100', 30);
 				    $this->EnableAction('Z2D_Brightness');
 					$bri = ($Payload->bri>1)?round($Payload->bri/2.55):$Payload->bri;
+					if (property_exists($Payload, 'on')) {
+					    if(!$Payload->on) $bri = 0;
+					}
 				    SetValue($this->GetIDForIdent('Z2D_Brightness'), $bri);
 				}
 				if (property_exists($Payload, 'ct')) {
@@ -127,12 +135,6 @@ class Z2DLightSwitch extends IPSModule
 						IPS_SetVariableProfileText('ColorTemperature.Z2D', '', ' K');
 						IPS_SetVariableProfileValues('ColorTemperature.Z2D', 2000, 6500, 100);
 					}
-				}
-				if (property_exists($Payload, 'on')) {
-				    $this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
-				    $this->EnableAction('Z2D_State');
-				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->on);
-				    if(!$Payload->on) @$this->SetValue('Z2D_Brightness', 0);
 				}
 				if (property_exists($Payload, 'xy')) {
 				    $this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);
