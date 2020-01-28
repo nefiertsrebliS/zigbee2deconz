@@ -16,9 +16,15 @@ class Z2DGroup extends IPSModule
         $this->RegisterPropertyString('DeviceID', "");
         $this->RegisterPropertyBoolean('Status', false);
         $this->RegisterPropertyString('DeviceType', "groups");
+        $this->RegisterPropertyInteger('BrightnessID', 0);
 #	-----------------------------------------------------------------------------------
         $this->RegisterAttributeInteger("State", 0);
+
     }
+
+#================================================================================================
+#	ApplyChanges
+#================================================================================================
 
     public function ApplyChanges()
     {
@@ -28,11 +34,22 @@ class Z2DGroup extends IPSModule
         $this->RegisterMessage($this->InstanceID, IM_CHANGESTATUS);
         $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
 
+		if(@$this->ReadPropertyInteger('BrightnessID') > 0){
+			$this->BrightnessID = $this->ReadPropertyInteger('BrightnessID');
+	        $this->RegisterMessage (@$this->ReadPropertyInteger('BrightnessID'), VM_UPDATE);
+		    $this->RegisterVariableInteger('Z2D_Brightness', $this->Translate('Brightness'), '~Intensity.100', 30);
+		    $this->EnableAction('Z2D_Brightness');
+		}
+
 		@$this->GetStateDeconz();
 			
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\",\"r\":\"groups\"').'.*');
     }
+
+#================================================================================================
+#	MessageSink
+#================================================================================================
 
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
@@ -47,8 +64,19 @@ class Z2DGroup extends IPSModule
 					if($Data[0] == 102) $this->GetStateDeconz();
 				}
                 break;
+            case VM_UPDATE:
+				if($SenderID == $this->ReadPropertyInteger('BrightnessID')){
+				    SetValue($this->GetIDForIdent('Z2D_Brightness'), $Data[0]);
+				}else{
+					UnregisterMessage($SenderID, "VM_UPDATE");
+				}
+                break;
         }
     }
+
+#================================================================================================
+#	ReceiveData
+#================================================================================================
 
     public function ReceiveData($JSONString)
     {
@@ -73,7 +101,7 @@ class Z2DGroup extends IPSModule
 				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->all_on);
 				}
 				if (property_exists($Payload, 'any_on')) {
-				    $this->RegisterVariableBoolean('Z2D_AnyOn', $this->Translate('any on'), '~Switch', 0);
+				    $this->RegisterVariableBoolean('Z2D_AnyOn', $this->Translate('any on'), '~Switch', 10);
 				    SetValueBoolean($this->GetIDForIdent('Z2D_AnyOn'), $Payload->any_on);
 				}
 		    }
@@ -81,7 +109,7 @@ class Z2DGroup extends IPSModule
 		    if (property_exists($data, 'scenes')) {
 				$Scenes = json_decode(json_encode($data->scenes),true);
 				if(count($Scenes) > 0){
-					$this->RegisterVariableInteger('Z2D_Scene', $this->Translate('Scene'), 'Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 5);
+					$this->RegisterVariableInteger('Z2D_Scene', $this->Translate('Scene'), 'Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 20);
 					$this->EnableAction('Z2D_Scene');
 					if (!IPS_VariableProfileExists('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')) {
 						IPS_CreateVariableProfile ('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 1);

@@ -87,6 +87,10 @@
 		<td>V1.14</td>
 		<td>Fix: Zucken der Helligkeitsanzeige in Stellung aus</td>
 	  </tr>
+	  <tr>
+		<td>V1.15</td>
+		<td>Neu: Gruppen-Slider für Helligkeit</td>
+	  </tr>
 	</table>
   </body>
 </html>

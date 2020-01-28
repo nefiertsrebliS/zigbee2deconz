@@ -2,7 +2,9 @@
     "elements":
     [
 		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" },
-		{ "name": "Status", "type": "CheckBox", "caption": "emulate Status" }
+		{ "name": "Status", "type": "CheckBox", "caption": "emulate Status" },
+		{ "type": "Label", "caption": " " },
+		{ "name": "BrightnessID",  "type": "SelectVariable","caption": "show Brightness of ID:" }
 	],
     "status":
     [

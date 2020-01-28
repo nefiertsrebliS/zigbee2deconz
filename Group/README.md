@@ -10,7 +10,8 @@
 	<h2>Installation</h2>
 	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.
 	<h2>Konfiguration</h2>
-	Eine Konfiguration ist nicht erforderlich.
+	Da DeCONZ bei Gruppen außer <i>"an/aus"</i> keinen Status sendet, wird der Helligkeitsstatus über eine Referenzvariable realisiert.<br>
+	Die gewünschte Referenzvariable ist in das Konfigurationsformular einzutragen. Ist die Referenzvariable eingetragen, so erscheint im Webfront ein Slider zum Einstellen der Gruppen-Helligkeit.
 	<h2>Funktion</h2>
 	Gruppen können im WebFront an- und ausgeschaltet werden.<br>
 	Licht-Szenen lassen sich im WebFront ebenso ansteuern. Eine Anzeige der aktive Szene gibt es allerdings nicht.<br>
