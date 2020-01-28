@@ -13,6 +13,8 @@
 	Die Installation der Bibliothek wird <a href="https://www.symcon.de/service/dokumentation/komponenten/verwaltungskonsole/module-store/">hier</a> beschrieben.
 	<h2>Danksagung</h2>
 	Das Gateway wurde auf Basis des Websocket-Client von Nall-Chan (<a href="https://github.com/Nall-chan/IPSNetwork">IPSNetwork</a>) verwirklicht. Großen Dank an Nall-Chan für die sehr gute Bibliothek und für die Erlaubnis, diese in meiner Bibliothek nutzen zu dürfen.
+	<h2>Lizenz</h2>
+	<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>
 	<h2>Changelog</h2>
 	<table>
 	  <tr>
