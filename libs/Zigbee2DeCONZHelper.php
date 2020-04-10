@@ -21,19 +21,19 @@ trait Zigbee2DeCONZHelper
                 $this->SwitchColorMode($Value);
                 break;
             case 'Z2D_Color':
-                $this->setColor($Value);
+                $this->SetColor($Value);
                 break;
             case 'Z2D_ColorTemperature':
-                $this->setColorTemperature($Value);
+                $this->SetColorTemperature($Value);
                 break;
             case 'Z2D_heatsetpoint':
-                $this->setTemperature($Value);
+                $this->SetTemperature($Value);
                 break;
             case 'Z2D_offset':
-                $this->setOffset($Value);
+                $this->SetOffset($Value);
                 break;
             case 'Z2D_sensitivity':
-                $this->setSensitivity($Value);
+                $this->SetSensitivity($Value);
                 break;
             case 'Update':
                 eval ('$this->'.$Value.";");
@@ -219,7 +219,7 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
-    public function setTemperature(float $value)
+    public function SetTemperature(float $value)
     {
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
@@ -228,7 +228,7 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
-    public function setSensitivity(int $value)
+    public function SetSensitivity(int $value)
     {
         if($value < 0) $value = 0;
         if($value > 2) $value = 2;
@@ -237,7 +237,7 @@ trait Zigbee2DeCONZHelper
         $this->SetDeconz('config', json_encode($data));
     }
 
-    public function setOffset(float $value)
+    public function SetOffset(float $value)
     {
         if($value < -5) $value = -5;
         if($value >  5) $value =  5;
@@ -246,7 +246,31 @@ trait Zigbee2DeCONZHelper
         $this->SetDeconz('config', json_encode($data));
     }
 
-    public function setAlert(string $value)
+    public function SetConfig(string $parameter, $value)
+    {
+		$data[$parameter] = $value;
+        $this->SetDeconz('config', json_encode($data));
+		$this->GetStateDeconz();
+    }
+
+    public function GetConfig()
+    {
+		$result = $this->GetStateDeconz();
+		if($result){
+	        $Buffer = json_decode($result)->Buffer;
+			$data = json_decode(utf8_decode($Buffer));
+			if (property_exists($data, 'config')) {
+			    $config = $data->config;
+				return(json_encode($config));
+			}else{
+				return(false);
+			}
+		}else{
+			return(false);
+		}
+    }
+
+    public function SetAlert(string $value)
     {
         if($value == "none" || $value == "select" || $value == "lselect"){
 			$data['alert'] = $value;
@@ -256,7 +280,7 @@ trait Zigbee2DeCONZHelper
 		}
     }
 
-    public function setColorloop(int $value)
+    public function SetColorloop(int $value)
     {
         if($value <   0)$value =  0;
         if($value > 255)$value = 255;
@@ -270,7 +294,7 @@ trait Zigbee2DeCONZHelper
 	    $this->SetStateDeconz(json_encode($data));
     }
 
-    public function setJson(string $value)
+    public function SetJson(string $value)
     {
         if(@count(json_decode($value,true))>0){
 		    $this->SetStateDeconz($value);
@@ -322,8 +346,9 @@ trait Zigbee2DeCONZHelper
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
 
 	    $result['Buffer'] = @$this->SendDataToParent($DataJSON);
-		if(!$result['Buffer'])return;
+		if(!$result['Buffer'])return(false);
 		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
+		return(json_encode($result, JSON_UNESCAPED_SLASHES));
     }
 
     protected function HexToRGB($value)

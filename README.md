@@ -91,6 +91,10 @@
 		<td>V1.15</td>
 		<td>Neu: Gruppen-Slider für Helligkeit</td>
 	  </tr>
+	  <tr>
+		<td>V1.16</td>
+		<td>Neu: Abfragen und Setzen von Konfigurationen</td>
+	  </tr>
 	</table>
   </body>
 </html>
