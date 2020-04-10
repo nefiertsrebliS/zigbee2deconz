@@ -41,12 +41,12 @@
 	  </tr>
 	  <tr>
 		<td>5.</td>
-		<td><b><i>Z2D_SetColorTemperature($ID, $value)</i></b></td>
+		<td><b><i>Z2D_setColorTemperature($ID, $value)</i></b></td>
 		<td>Einstellung der Farbtemperatur</td>
 	  </tr>
 	  <tr>
 		<td>6.</td>
-		<td><b><i>Z2D_SetColorTemperatureEx($ID, $value, $Transitiontime)</i></b></td>
+		<td><b><i>Z2D_setColorTemperatureEx($ID, $value, $Transitiontime)</i></b></td>
 		<td>Einstellung der Farbtemperatur zusätzlich mit einstellbarer Dauer</td>
 	  </tr>
 	  <tr>
@@ -66,7 +66,7 @@
 	  </tr>
 	  <tr>
 		<td>10.</td>
-		<td><b><i>Z2D_SetColor($ID, $value)</i></b></td>
+		<td><b><i>Z2D_setColor($ID, $value)</i></b></td>
 		<td>Einstellen der Farbe für eine Gruppe</td>
 	  </tr>
 	  <tr>
@@ -81,17 +81,17 @@
 	  </tr>
 	  <tr>
 		<td>13.</td>
-		<td><b><i>Z2D_SetAlert($ID, $value)</i></b></td>
+		<td><b><i>Z2D_setAlert($ID, $value)</i></b></td>
 		<td>Temporärer Alarm (none, select, lselect)</td>
 	  </tr>
 	  <tr>
 		<td>14.</td>
-		<td><b><i>Z2D_SetColorloop($ID, $value)</i></b></td>
+		<td><b><i>Z2D_setColorloop($ID, $value)</i></b></td>
 		<td>Einen Colorloop ausführen (0-255, 0 = aus)</td>
 	  </tr>
 	  <tr>
 		<td>15.</td>
-		<td><b><i>Z2D_SetJson($ID, $value)</i></b></td>
+		<td><b><i>Z2D_setJson($ID, $value)</i></b></td>
 		<td>Setzen mehrerer Parameter über einen JSON-String</td>
 	  </tr>
 	</table>

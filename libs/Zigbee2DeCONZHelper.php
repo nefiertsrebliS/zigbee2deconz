@@ -21,19 +21,19 @@ trait Zigbee2DeCONZHelper
                 $this->SwitchColorMode($Value);
                 break;
             case 'Z2D_Color':
-                $this->SetColor($Value);
+                $this->setColor($Value);
                 break;
             case 'Z2D_ColorTemperature':
-                $this->SetColorTemperature($Value);
+                $this->setColorTemperature($Value);
                 break;
             case 'Z2D_heatsetpoint':
-                $this->SetTemperature($Value);
+                $this->setTemperature($Value);
                 break;
             case 'Z2D_offset':
-                $this->SetOffset($Value);
+                $this->setOffset($Value);
                 break;
             case 'Z2D_sensitivity':
-                $this->SetSensitivity($Value);
+                $this->setSensitivity($Value);
                 break;
             case 'Update':
                 eval ('$this->'.$Value.";");
@@ -219,7 +219,7 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
-    public function SetTemperature(float $value)
+    public function setTemperature(float $value)
     {
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
@@ -228,7 +228,7 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
-    public function SetSensitivity(int $value)
+    public function setSensitivity(int $value)
     {
         if($value < 0) $value = 0;
         if($value > 2) $value = 2;
@@ -237,7 +237,7 @@ trait Zigbee2DeCONZHelper
         $this->SetDeconz('config', json_encode($data));
     }
 
-    public function SetOffset(float $value)
+    public function setOffset(float $value)
     {
         if($value < -5) $value = -5;
         if($value >  5) $value =  5;
@@ -270,7 +270,7 @@ trait Zigbee2DeCONZHelper
 		}
     }
 
-    public function SetAlert(string $value)
+    public function setAlert(string $value)
     {
         if($value == "none" || $value == "select" || $value == "lselect"){
 			$data['alert'] = $value;
@@ -280,7 +280,7 @@ trait Zigbee2DeCONZHelper
 		}
     }
 
-    public function SetColorloop(int $value)
+    public function setColorloop(int $value)
     {
         if($value <   0)$value =  0;
         if($value > 255)$value = 255;
@@ -294,7 +294,7 @@ trait Zigbee2DeCONZHelper
 	    $this->SetStateDeconz(json_encode($data));
     }
 
-    public function SetJson(string $value)
+    public function setJson(string $value)
     {
         if(@count(json_decode($value,true))>0){
 		    $this->SetStateDeconz($value);
