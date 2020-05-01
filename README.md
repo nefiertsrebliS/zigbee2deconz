@@ -95,6 +95,10 @@
 		<td>V1.16</td>
 		<td>Neu: Abfragen und Setzen von Konfigurationen</td>
 	  </tr>
+	  <tr>
+		<td>V1.17</td>
+		<td>Fix: Undefined Property lastupdated</td>
+	  </tr>
 	</table>
   </body>
 </html>

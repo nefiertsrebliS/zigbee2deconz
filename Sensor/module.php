@@ -58,9 +58,17 @@ class Z2DSensor extends IPSModule
         $data = json_decode(utf8_decode($Buffer));
 	    if (property_exists($data, 'state')) {
 			$Payload = $data->state;
-			if(strtotime($Payload->lastupdated." UTC") <> $this->ReadAttributeInteger("LastUpdated")){
-				$this->WriteAttributeInteger("LastUpdated", strtotime($Payload->lastupdated." UTC"));
 
+			$update = true;
+			if (property_exists($Payload, 'lastupdated')) {
+				if(strtotime($Payload->lastupdated." UTC") <> $this->ReadAttributeInteger("LastUpdated")){
+					$this->WriteAttributeInteger("LastUpdated", strtotime($Payload->lastupdated." UTC"));
+				}else{
+					$update = false;
+				}
+			}
+
+			if($update){
 				if (property_exists($Payload, 'buttonevent')) {
 					$this->RegisterVariableInteger('Z2D_Event', $this->Translate('Event'), '');
 					$this->SetValue('Z2D_Event', $Payload->buttonevent);
@@ -173,6 +181,13 @@ class Z2DSensor extends IPSModule
 					}
 
 					SetValue($this->GetIDForIdent('Z2D_current'), round($Payload->current / 1000 ,3));
+				}
+				if (property_exists($Payload, 'reachable')) {
+					if($Payload->reachable){
+						if($this->ReadAttributeInteger("State") <> 102)$this->WriteAttributeInteger("State", 102);
+					}else{
+						if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
+					}
 				}
 			}
 		}
