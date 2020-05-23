@@ -99,6 +99,11 @@
 		<td>V1.17</td>
 		<td>Fix: Undefined Property lastupdated</td>
 	  </tr>
+	  <tr>
+		<td>V1.18</td>
+		<td>Fix: SetSensitivity<br>
+			Neu: Vibrationstrength, Tiltangle, Orientation</td>
+	  </tr>
 	</table>
   </body>
 </html>

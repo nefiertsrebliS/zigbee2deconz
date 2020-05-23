@@ -230,9 +230,14 @@ trait Zigbee2DeCONZHelper
 
     public function setSensitivity(int $value)
     {
-        if($value < 0) $value = 0;
-        if($value > 2) $value = 2;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_sensitivity',$value);
+		if(!$this->GetIDForIdent("Z2D_sensitivitymax")){
+		    if($value < 0) $value = 0;
+		    if($value > 2) $value = 2;
+		}else{
+			$max = $this->GetValue('Z2D_sensitivitymax');
+		    if($value < 1) $value = 1;
+		    if($value > $max) $value = $max;
+		}
 		$data['sensitivity'] = $value;
         $this->SetDeconz('config', json_encode($data));
     }

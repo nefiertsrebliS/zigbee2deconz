@@ -75,7 +75,6 @@ class Z2DSensor extends IPSModule
 
 					$button = (int)($Payload->buttonevent / 1000);
 					$state  = $Payload->buttonevent % 1000;
-					$this->RegisterVariableInteger('Z2D_Button_'.$button, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
 
 					if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
 						IPS_CreateVariableProfile('ButtonEvent.Z2D', 1);
@@ -92,6 +91,8 @@ class Z2DSensor extends IPSModule
 						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 9, $this->Translate('Tilt'), '',-1);
 						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D',10, $this->Translate('Many press'), '',-1);
 					}
+
+					$this->RegisterVariableInteger('Z2D_Button_'.$button, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
 					SetValue($this->GetIDForIdent('Z2D_Button_'.$button), $state);
 				}
 				if (property_exists($Payload, 'carbonmonoxide')) {
@@ -138,6 +139,25 @@ class Z2DSensor extends IPSModule
 					$this->RegisterVariableBoolean('Z2D_vibration', $this->Translate('Vibration'), '~Alert');
 					SetValue($this->GetIDForIdent('Z2D_vibration'), $Payload->vibration);
 				}
+				if (property_exists($Payload, 'orientation')) {
+					$this->RegisterVariableString('Z2D_orientation', $this->Translate('Orientation'), '');
+					SetValue($this->GetIDForIdent('Z2D_orientation'), json_encode($Payload->orientation));
+				}
+				if (property_exists($Payload, 'vibrationstrength')) {
+					$this->RegisterVariableInteger('Z2D_vibrationstrength', $this->Translate('Vibrationstrength'), '');
+					SetValue($this->GetIDForIdent('Z2D_vibrationstrength'), $Payload->vibrationstrength);
+				}
+				if (property_exists($Payload, 'tiltangle')) {
+					if (!IPS_VariableProfileExists('Angle.Z2D')) {
+						IPS_CreateVariableProfile('Angle.Z2D', 1);
+						IPS_SetVariableProfileIcon('Angle.Z2D', 'TurnLeft');
+						IPS_SetVariableProfileText('Angle.Z2D', '', ' °');
+						IPS_SetVariableProfileValues('Angle.Z2D', 0, 360, 0);
+					}
+
+					$this->RegisterVariableInteger('Z2D_tiltangle', $this->Translate('Tiltangle'), 'Angle.Z2D');
+					SetValue($this->GetIDForIdent('Z2D_tiltangle'), $Payload->tiltangle);
+				}
 				if (property_exists($Payload, 'humidity')) {
 					$this->RegisterVariableFloat('Z2D_humidity', $this->Translate('Humidity'), '~Humidity.F');
 					SetValue($this->GetIDForIdent('Z2D_humidity'), $Payload->humidity / 100.0);
@@ -171,14 +191,14 @@ class Z2DSensor extends IPSModule
 					SetValue($this->GetIDForIdent('Z2D_voltage'), $Payload->voltage);
 				}
 				if (property_exists($Payload, 'current')) {
-					$this->RegisterVariableFloat('Z2D_current', $this->Translate('Current'), 'Ampere.Z2D');
-
 					if (!IPS_VariableProfileExists('Ampere.Z2D')) {
 						IPS_CreateVariableProfile('Ampere.Z2D', 2);
 						IPS_SetVariableProfileIcon('Ampere.Z2D', 'Electricity');
 						IPS_SetVariableProfileText('Ampere.Z2D', '', ' A');
 						IPS_SetVariableProfileDigits('Ampere.Z2D', 2);
 					}
+
+					$this->RegisterVariableFloat('Z2D_current', $this->Translate('Current'), 'Ampere.Z2D');
 
 					SetValue($this->GetIDForIdent('Z2D_current'), round($Payload->current / 1000 ,3));
 				}
@@ -219,16 +239,23 @@ class Z2DSensor extends IPSModule
 	            $this->EnableAction('Z2D_offset');
 			    SetValue($this->GetIDForIdent('Z2D_offset'), $Payload->offset / 100.0);
 			}
+			if (property_exists($Payload, 'sensitivitymax')) {
+			    $this->RegisterVariableInteger('Z2D_sensitivitymax', 'max. '.$this->Translate('Sensitivity'), '');
+			    $this->SetValue('Z2D_sensitivitymax', $Payload->sensitivitymax);
+			}
 			if (property_exists($Payload, 'sensitivity')) {
-			    $this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
-				$this->EnableAction('Z2D_sensitivity');
-
-				if (!IPS_VariableProfileExists('Sensitivity.Z2D')) {
-					IPS_CreateVariableProfile('Sensitivity.Z2D', 1);
-					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 0, $this->Translate('Low'), '',-1);
-					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
-					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
+				if (!property_exists($Payload, 'sensitivitymax')) {
+					if (!IPS_VariableProfileExists('Sensitivity.Z2D')) {
+						IPS_CreateVariableProfile('Sensitivity.Z2D', 1);
+						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 0, $this->Translate('Low'), '',-1);
+						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
+						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
+					}
+					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+				}else{
+					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
 				}
+				$this->EnableAction('Z2D_sensitivity');
 			    $this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
 			}
 	    }
