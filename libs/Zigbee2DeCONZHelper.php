@@ -223,10 +223,11 @@ trait Zigbee2DeCONZHelper
     {
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_heatsetpoint',$value);
+		$this->SetValue('Z2D_heatsetpoint',$value);	// 27.06.2020 bugfix: remove if($this->ReadPropertyBoolean("Status")), does not exist for sensors
 		$data['heatsetpoint'] = $value * 100;
-        $this->SetStateDeconz(json_encode($data));
-    }
+		$this->SetDeconz('config', json_encode($data));	// 27.06.2020 bugfix: change from state to config 
+		$this->GetStateDeconz();						// 27.05.2020 request config after send 
+    
 
     public function setSensitivity(int $value)
     {
@@ -246,9 +247,10 @@ trait Zigbee2DeCONZHelper
     {
         if($value < -5) $value = -5;
         if($value >  5) $value =  5;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_offset',$value);
+			$this->SetValue('Z2D_offset',$value);	// 27.06.2020 bugfix: remove if($this->ReadPropertyBoolean("Status")), does not exist for sensors
 		$data['offset'] = $value*100;
-        $this->SetDeconz('config', json_encode($data));
+		$this->SetDeconz('config', json_encode($data));
+		$this->GetStateDeconz();			// 27.05.2020 request config after send 
     }
 
     public function SetConfig(string $parameter, $value)
