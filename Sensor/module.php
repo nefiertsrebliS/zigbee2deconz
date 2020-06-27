@@ -190,6 +190,10 @@ class Z2DSensor extends IPSModule
 					$this->RegisterVariableFloat('Z2D_voltage', $this->Translate('Voltage'), '~Volt');
 					SetValue($this->GetIDForIdent('Z2D_voltage'), $Payload->voltage);
 				}
+				if (property_exists($Payload, 'valve')) { // 27.06.2020 Attain new: Thermostat valve
+					$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255'); 
+					SetValue($this->GetIDForIdent('Z2D_valve'), $Payload->valve);
+				}
 				if (property_exists($Payload, 'current')) {
 					if (!IPS_VariableProfileExists('Ampere.Z2D')) {
 						IPS_CreateVariableProfile('Ampere.Z2D', 2);
