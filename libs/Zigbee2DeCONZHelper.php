@@ -227,7 +227,7 @@ trait Zigbee2DeCONZHelper
 		$data['heatsetpoint'] = $value * 100;
 		$this->SetDeconz('config', json_encode($data));	// 27.06.2020 bugfix: change from state to config 
 		$this->GetStateDeconz();						// 27.05.2020 request config after send 
-    	}    
+    }    
 
     public function setSensitivity(int $value)
     {
