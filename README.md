@@ -104,6 +104,11 @@
 		<td>Fix: SetSensitivity<br>
 			Neu: Vibrationstrength, Tiltangle, Orientation</td>
 	  </tr>
+	  <tr>
+		<td>V1.19</td>
+		<td>Fix: SetHeatpoint, SetOffset<br>
+			Neu: Valve-Position</td>
+	  </tr>
 	</table>
   </body>
 </html>
