@@ -109,6 +109,10 @@
 		<td>Fix: SetHeatpoint, SetOffset<br>
 			Neu: Valve-Position</td>
 	  </tr>
+	  <tr>
+		<td>V1.20</td>
+		<td>Fix: Variablentyp SetConfig</td>
+	  </tr>
 	</table>
   </body>
 </html>

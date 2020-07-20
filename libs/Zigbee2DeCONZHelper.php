@@ -249,8 +249,11 @@ trait Zigbee2DeCONZHelper
 		$this->SetConfig('offset', $value * 100);
     }
 
-    public function SetConfig(string $parameter, $value)
+    public function SetConfig(string $parameter, string $value)
     {
+        if(is_numeric(str_replace(",",".", $value))){
+            $value = (float)str_replace(",",".", $value);
+        }
 		$data[$parameter] = $value;
         $this->SetDeconz('config', json_encode($data));
 		$this->GetStateDeconz();
