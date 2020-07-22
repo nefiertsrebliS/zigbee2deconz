@@ -213,6 +213,10 @@ class Z2DSensor extends IPSModule
 						if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
 					}
 				}
+				if (property_exists($Payload, 'battery')) {
+					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
+					SetValue($this->GetIDForIdent('Z2D_Battery'), $Payload->battery);
+				}
 			}
 		}
 
