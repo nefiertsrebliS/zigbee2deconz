@@ -224,7 +224,7 @@ trait Zigbee2DeCONZHelper
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
 		$this->SetValue('Z2D_heatsetpoint',$value);
-		$this->SetConfig('heatsetpoint', $value * 100);
+		$this->SetConfig('heatsetpoint', (string) ($value * 100));
     }    
 
     public function setSensitivity(int $value)
@@ -234,7 +234,7 @@ trait Zigbee2DeCONZHelper
 		    if($value > 2) $value = 2;
 		}else{
 			$max = $this->GetValue('Z2D_sensitivitymax');
-		    if($value < 1) $value = 1;
+		    if($value < 0) $value = 0;
 		    if($value > $max) $value = $max;
 		}
 		$data['sensitivity'] = $value;
@@ -246,7 +246,7 @@ trait Zigbee2DeCONZHelper
         if($value < -5) $value = -5;
         if($value >  5) $value =  5;
 		$this->SetValue('Z2D_offset',$value);
-		$this->SetConfig('offset', $value * 100);
+		$this->SetConfig('offset', (string) ($value * 100));
     }
 
     public function SetConfig(string $parameter, string $value)

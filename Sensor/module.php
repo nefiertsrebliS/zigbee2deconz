@@ -213,6 +213,10 @@ class Z2DSensor extends IPSModule
 						if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
 					}
 				}
+				if (property_exists($Payload, 'battery')) {
+					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
+					SetValue($this->GetIDForIdent('Z2D_Battery'), $Payload->battery);
+				}
 			}
 		}
 
@@ -248,16 +252,20 @@ class Z2DSensor extends IPSModule
 			    $this->SetValue('Z2D_sensitivitymax', $Payload->sensitivitymax);
 			}
 			if (property_exists($Payload, 'sensitivity')) {
-				if (!property_exists($Payload, 'sensitivitymax')) {
-					if (!IPS_VariableProfileExists('Sensitivity.Z2D')) {
-						IPS_CreateVariableProfile('Sensitivity.Z2D', 1);
-						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 0, $this->Translate('Low'), '',-1);
-						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
-						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
+				if (!IPS_VariableProfileExists('Sensitivity.Z2D')) {
+					IPS_CreateVariableProfile('Sensitivity.Z2D', 1);
+					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 0, $this->Translate('Low'), '',-1);
+					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
+					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
+				}
+				if (property_exists($Payload, 'sensitivitymax')) {
+					if ($Payload->sensitivitymax == 2) {
+						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+					}else{
+						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
 					}
-					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
 				}else{
-					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
+					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
 				}
 				$this->EnableAction('Z2D_sensitivity');
 			    $this->SetValue('Z2D_sensitivity', $Payload->sensitivity);

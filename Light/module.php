@@ -66,14 +66,6 @@ class Z2DLightSwitch extends IPSModule
 				}
 			}
 		}else{
-			if($this->GetBuffer("Microtimer")<>""){
-				list($usec, $sec) = explode(" ", $this->GetBuffer("Microtimer"));
-				$last = (float)$usec + (float)$sec; 
-				list($usec, $sec) = explode(" ", microtime());
-				$now = (float)$usec + (float)$sec; 
-				if($now - $last < 0.25) return;
-			}
-			$this->SetBuffer("Microtimer", microtime());
 		    $this->SendDebug('Received', $Buffer, 0);
 
 		    if (property_exists($data, 'state')) {

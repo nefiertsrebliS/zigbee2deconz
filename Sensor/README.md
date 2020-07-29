@@ -34,6 +34,16 @@
 			Der Erfolg der Änderung wird im Debugfenster angezeigt<br>
 			Alternativ kann mit <i>Z2D_GetConfig($ID)</i> geprüft werden, ob die Änderung erfolgreich war</td>
 	  </tr>
+	  <tr>
+		<td>4.</td>
+		<td><b><i>Z2D_setSensitivity($ID, $value)</i></b></td>
+		<td>Einstellen der Sensor-Empfindlichkeit</td>
+	  </tr>
+	  <tr>
+		<td>5.</td>
+		<td><b><i>Z2D_setOffset($ID, $value)</i></b></td>
+		<td>Einstellen des Temperatur-Offsets z.B. bei Aqara Temperatursensoren</td>
+	  </tr>
 	</table>
   </body>
 </html>
