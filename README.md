@@ -104,6 +104,22 @@
 		<td>Fix: SetSensitivity<br>
 			Neu: Vibrationstrength, Tiltangle, Orientation</td>
 	  </tr>
+	  <tr>
+		<td>V1.19</td>
+		<td>Fix: SetHeatpoint, SetOffset<br>
+			Neu: Valve-Position</td>
+	  </tr>
+	  <tr>
+		<td>V1.20</td>
+		<td>Fix: Variablentyp SetConfig</td>
+	  </tr>
+	  <tr>
+		<td>V1.21</td>
+		<td>Fix: Probleme ab DeCONZ-Version 2.05.79<br>
+			Fix: Variablentyp SetSensitivity/SetOffset<br>
+			Fix: Teilweise fehlendes Profil Sensitivity<br>
+			Fix: Batteriestatus für Ikea Kadrilj</td>
+	  </tr>
 	</table>
   </body>
 </html>

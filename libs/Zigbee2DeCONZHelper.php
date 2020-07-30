@@ -234,7 +234,7 @@ trait Zigbee2DeCONZHelper
 		    if($value > 2) $value = 2;
 		}else{
 			$max = $this->GetValue('Z2D_sensitivitymax');
-		    if($value < 1) $value = 1;
+		    if($value < 0) $value = 0;
 		    if($value > $max) $value = $max;
 		}
 		$data['sensitivity'] = $value;
