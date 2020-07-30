@@ -190,7 +190,7 @@ class Z2DSensor extends IPSModule
 					$this->RegisterVariableFloat('Z2D_voltage', $this->Translate('Voltage'), '~Volt');
 					SetValue($this->GetIDForIdent('Z2D_voltage'), $Payload->voltage);
 				}
-				if (property_exists($Payload, 'valve')) { // 27.06.2020 Attain new: Thermostat valve
+				if (property_exists($Payload, 'valve')) { 
 					$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255'); 
 					SetValue($this->GetIDForIdent('Z2D_valve'), $Payload->valve);
 				}
@@ -251,11 +251,6 @@ class Z2DSensor extends IPSModule
 			    $this->RegisterVariableInteger('Z2D_sensitivitymax', 'max. '.$this->Translate('Sensitivity'), '');
 			    $this->SetValue('Z2D_sensitivitymax', $Payload->sensitivitymax);
 			}
-			if (property_exists($Payload, 'locked')) {
-				$this->RegisterVariableBoolean('Z2D_locked', $this->Translate('Locked'), '~Lock');
-				$this->EnableAction('Z2D_locked');
-			    $this->SetValue('Z2D_locked', $Payload->locked);
-			}
 			if (property_exists($Payload, 'sensitivity')) {
 				if (!IPS_VariableProfileExists('Sensitivity.Z2D')) {
 					IPS_CreateVariableProfile('Sensitivity.Z2D', 1);
@@ -263,7 +258,15 @@ class Z2DSensor extends IPSModule
 					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
 					IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
 				}
-				$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+				if (property_exists($Payload, 'sensitivitymax')) {
+					if ($Payload->sensitivitymax == 2) {
+						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+					}else{
+						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
+					}
+				}else{
+					$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+				}
 				$this->EnableAction('Z2D_sensitivity');
 			    $this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
 			}
