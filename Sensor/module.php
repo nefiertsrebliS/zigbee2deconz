@@ -254,7 +254,7 @@ class Z2DSensor extends IPSModule
 					IPS_SetVariableProfileText('Delay.Z2D', '', 's');
 					IPS_SetVariableProfileValues('Delay.Z2D', 0, 65535, 0);
 				}
-			    $this->RegisterVariableInteger('Z2D_delay', $this->Translate('Delay'), 'Delay.Z2D');
+			    $this->RegisterVariableInteger('Z2D_delay', $this->Translate('Occupied Delay'), 'Delay.Z2D');
 	            $this->EnableAction('Z2D_delay');
 			    SetValue($this->GetIDForIdent('Z2D_delay'), $Payload->delay);
 			}
