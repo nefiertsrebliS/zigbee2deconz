@@ -49,6 +49,7 @@
       "Orientation": "Orientierung",
       "Sensitivity": "Empfindlichkeit",
       "Event": "Ereignis",
+      "Occupied Delay": "Verzögerung Anwesenheit",
 	  "Device unreachable": "Gerät nicht erreichbar"
     }
   }
