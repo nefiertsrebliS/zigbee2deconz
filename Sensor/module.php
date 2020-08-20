@@ -247,6 +247,17 @@ class Z2DSensor extends IPSModule
 	            $this->EnableAction('Z2D_offset');
 			    SetValue($this->GetIDForIdent('Z2D_offset'), $Payload->offset / 100.0);
 			}
+			if (property_exists($Payload, 'delay')) {
+				if (!IPS_VariableProfileExists('Delay.Z2D')) {
+					IPS_CreateVariableProfile('Delay.Z2D', 1);
+					IPS_SetVariableProfileIcon('Delay.Z2D','Hourglass');
+					IPS_SetVariableProfileText('Delay.Z2D', '', 's');
+					IPS_SetVariableProfileValues('Delay.Z2D', 0, 65535, 1);
+				}
+			    $this->RegisterVariableInteger('Z2D_delay', $this->Translate('Occupied Delay'), 'Delay.Z2D');
+	            $this->EnableAction('Z2D_delay');
+			    SetValue($this->GetIDForIdent('Z2D_delay'), $Payload->delay);
+			}
 			if (property_exists($Payload, 'sensitivitymax')) {
 			    $this->RegisterVariableInteger('Z2D_sensitivitymax', 'max. '.$this->Translate('Sensitivity'), '');
 			    $this->SetValue('Z2D_sensitivitymax', $Payload->sensitivitymax);

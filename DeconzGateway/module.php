@@ -826,7 +826,7 @@ class DeconzGateway extends IPSModule
 						$whitelist = $config->whitelist;
 						$key	= $this->ReadAttributeString("ApiKey");
 						foreach($whitelist as $ApiKey => $item){
-							if($item->name == "ips" && $ApiKey <> $key){
+							if($item->name == "ips_test" && $ApiKey <> $key){
 								$Buffer['command'] = 'config/whitelist/'.$ApiKey;
 								$Buffer['method'] = 'DELETE';
 								$Buffer['data'] = '';
