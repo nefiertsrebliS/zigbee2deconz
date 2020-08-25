@@ -1,7 +1,9 @@
 {
     "elements":
     [
-		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" }
+    { "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" },
+    { "name": "DeviceType", "type": "ValidationTextBox", "caption": "Device Type:", "enabled": false },
+    { "type": "CheckBox", "name": "CreateSwitchButton", "caption": "Create Switch Button", "visible": ""}
     ],
     "status":
     [

@@ -50,6 +50,7 @@
       "Sensitivity": "Empfindlichkeit",
       "Event": "Ereignis",
       "Occupied Delay": "Verzögerung Anwesenheit Aus",
+      "Create Switch Button": "Einzelne Schalterknöpfe erstellen",
 	  "Device unreachable": "Gerät nicht erreichbar"
     }
   }

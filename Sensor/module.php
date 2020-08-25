@@ -14,7 +14,8 @@ class Z2DSensor extends IPSModule
         $this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
-        $this->RegisterPropertyString('DeviceType', "sensors");
+		$this->RegisterPropertyString('DeviceType', "sensors");
+		$this->RegisterPropertyBoolean("CreateSwitchButton", true);
 #	-----------------------------------------------------------------------------------
         $this->RegisterAttributeInteger("State", 0);
         $this->RegisterAttributeInteger("LastUpdated", 0);
@@ -72,28 +73,31 @@ class Z2DSensor extends IPSModule
 				if (property_exists($Payload, 'buttonevent')) {
 					$this->RegisterVariableInteger('Z2D_Event', $this->Translate('Event'), '');
 					$this->SetValue('Z2D_Event', $Payload->buttonevent);
+					if($this->ReadPropertyBoolean("CreateSingleButton")) {
+						$button = (int)($Payload->buttonevent / 1000);
+						$buttonident = (string)$button;
+						$buttonident = preg_replace ( '/[^a-z0-9]/i', 'minus', $buttonident );
+						$state  = $Payload->buttonevent % 1000;
 
-					$button = (int)($Payload->buttonevent / 1000);
-					$state  = $Payload->buttonevent % 1000;
+						if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
+							IPS_CreateVariableProfile('ButtonEvent.Z2D', 1);
+							IPS_SetVariableProfileIcon('ButtonEvent.Z2D', 'Power');
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 0, $this->Translate('Initial Press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 1, $this->Translate('Hold'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 2, $this->Translate('Release after press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 3, $this->Translate('Release after hold'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 4, $this->Translate('Double press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 5, $this->Translate('Triple press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 6, $this->Translate('Quadruple press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 7, $this->Translate('Shake'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 8, $this->Translate('Drop'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 9, $this->Translate('Tilt'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D',10, $this->Translate('Many press'), '',-1);
+						}
 
-					if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
-						IPS_CreateVariableProfile('ButtonEvent.Z2D', 1);
-						IPS_SetVariableProfileIcon('ButtonEvent.Z2D', 'Power');
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 0, $this->Translate('Initial Press'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 1, $this->Translate('Hold'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 2, $this->Translate('Release after press'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 3, $this->Translate('Release after hold'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 4, $this->Translate('Double press'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 5, $this->Translate('Triple press'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 6, $this->Translate('Quadruple press'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 7, $this->Translate('Shake'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 8, $this->Translate('Drop'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 9, $this->Translate('Tilt'), '',-1);
-						IPS_SetVariableProfileAssociation('ButtonEvent.Z2D',10, $this->Translate('Many press'), '',-1);
+						$this->RegisterVariableInteger('Z2D_Button_'.$buttonident, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
+						SetValue($this->GetIDForIdent('Z2D_Button_'.$buttonident), $state);
 					}
-
-					$this->RegisterVariableInteger('Z2D_Button_'.$button, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
-					SetValue($this->GetIDForIdent('Z2D_Button_'.$button), $state);
 				}
 				if (property_exists($Payload, 'carbonmonoxide')) {
 					$this->RegisterVariableBoolean('Z2D_Carbonmonoxide', $this->Translate('Carbonmonoxide'), '~Alert');
