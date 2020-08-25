@@ -3,7 +3,7 @@
     [
     { "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" },
     { "name": "DetailType", "type": "ValidationTextBox", "caption": "Detail Type:", "enabled": false },
-    { "type": "CheckBox", "name": "CreateSwitchButton", "caption": "Create Switch Button", "visible": ""}
+    { "type": "CheckBox", "name": "CreateSwitchButton", "caption": "Create Switch Button"}
     ],
     "status":
     [
