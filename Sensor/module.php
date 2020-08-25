@@ -15,6 +15,7 @@ class Z2DSensor extends IPSModule
 
         $this->RegisterPropertyString('DeviceID', "");
 		$this->RegisterPropertyString('DeviceType', "sensors");
+		$this->RegisterPropertyString('DetailType',"");
 		$this->RegisterPropertyBoolean("CreateSwitchButton", true);
 #	-----------------------------------------------------------------------------------
         $this->RegisterAttributeInteger("State", 0);

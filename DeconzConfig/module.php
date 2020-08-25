@@ -111,7 +111,7 @@
 							"configuration" => [
 								"DeviceID" => $item->uniqueid,
 								"DeviceType" => $type,
-								'DetailType'   => $item->type
+								"DetailType"   => $item->type
 							]
 						]
 					];
