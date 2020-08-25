@@ -110,7 +110,8 @@
 							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
 							"configuration" => [
 								"DeviceID" => $item->uniqueid,
-								"DeviceType" => $type
+								"DeviceType" => $type,
+								'DetailType'   => $item->type
 							]
 						]
 					];
