@@ -77,7 +77,8 @@ class Z2DSensor extends IPSModule
 					if($this->ReadPropertyBoolean("CreateSwitchButton")) {
 						$button = (int)($Payload->buttonevent / 1000);
 						$buttonident = (string)$button;
-						$buttonident = preg_replace ( '/[^a-z0-9]/i', 'minus', $buttonident );
+						$buttonident = preg_replace ( '/[^a-z0-9]/i', '_', $buttonident ); // replace all unsupported IDENT character with _
+						
 						$state  = $Payload->buttonevent % 1000;
 
 						if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
