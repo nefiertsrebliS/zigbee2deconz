@@ -44,6 +44,11 @@
 		<td><b><i>Z2D_setOffset($ID, $value)</i></b></td>
 		<td>Einstellen des Temperatur-Offsets z.B. bei Aqara Temperatursensoren</td>
 	  </tr>
+	  <tr>
+		<td>6.</td>
+		<td><b><i>Z2D_setDelay($ID, $value)</i></b></td>
+		<td>Einstellen der Ausschaltverzögerung von Bewegungsmeldern</td>
+	  </tr>
 	</table>
   </body>
 </html>

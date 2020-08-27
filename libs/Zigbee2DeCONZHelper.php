@@ -32,6 +32,9 @@ trait Zigbee2DeCONZHelper
             case 'Z2D_offset':
                 $this->setOffset($Value);
                 break;
+            case 'Z2D_delay':
+                $this->setDelay($Value);
+                break;
             case 'Z2D_sensitivity':
                 $this->setSensitivity($Value);
                 break;
@@ -247,6 +250,14 @@ trait Zigbee2DeCONZHelper
         if($value >  5) $value =  5;
 		$this->SetValue('Z2D_offset',$value);
 		$this->SetConfig('offset', (string) ($value * 100));
+    }
+
+    public function setDelay(int $value)
+    {
+        if($value <   0)$value =  0;
+        if($value > 65535)$value = 65535;
+		$this->SetValue('Z2D_delay',$value);
+		$this->SetConfig('delay', (string) ($value));
     }
 
     public function SetConfig(string $parameter, string $value)

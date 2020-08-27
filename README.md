@@ -120,6 +120,11 @@
 			Fix: Teilweise fehlendes Profil Sensitivity<br>
 			Fix: Batteriestatus für Ikea Kadrilj</td>
 	  </tr>
+	  <tr>
+		<td>V1.22</td>
+		<td>Neu: Unterstützung des Xiaomi Mi Aqara Zauberwürfel<br>
+			Neu: Config Delay für Bewegungsmelder</td>
+	  </tr>
 	</table>
   </body>
 </html>

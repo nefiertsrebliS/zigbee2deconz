@@ -2,6 +2,8 @@
   "translations": {
     "de": {
       "State": "Status",
+      "Angle": "Winkel",
+	  "switch off hesitation": "Ausschaltverzögerung",		
       "Temperature": "Temperatur",		
       "Humidity": "Feuchtigkeit",
       "Pressure": "Druck",
