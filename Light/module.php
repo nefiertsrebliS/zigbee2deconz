@@ -89,7 +89,7 @@ class Z2DLightSwitch extends IPSModule
 							default:
 								$colormode = 0;
 						}
-						SetValue($this->GetIDForIdent('Z2D_colormode'), $colormode);
+						$this->SetValue('Z2D_colormode', $colormode);
 
 						if (!IPS_VariableProfileExists('Colormode.Z2D')) {
 							IPS_CreateVariableProfile('Colormode.Z2D', 1);
@@ -103,7 +103,7 @@ class Z2DLightSwitch extends IPSModule
 				if (property_exists($Payload, 'on')) {
 				    $this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
 				    $this->EnableAction('Z2D_State');
-				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->on);
+				    $this->SetValue('Z2D_State', $Payload->on);
 				}
 				if (property_exists($Payload, 'bri')) {
 				    $this->RegisterVariableInteger('Z2D_Brightness', $this->Translate('Brightness'), '~Intensity.100', 30);
@@ -112,14 +112,14 @@ class Z2DLightSwitch extends IPSModule
 					if (property_exists($Payload, 'on')) {
 					    if(!$Payload->on) $bri = 0;
 					}
-				    SetValue($this->GetIDForIdent('Z2D_Brightness'), $bri);
+				    $this->SetValue('Z2D_Brightness', $bri);
 				}
 				if (property_exists($Payload, 'ct')) {
 				    $this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 20);
 				    $this->EnableAction('Z2D_ColorTemperature');
 					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
 					$value = round($value, -2);
-				    SetValue($this->GetIDForIdent('Z2D_ColorTemperature'), (int)$value);
+				    $this->SetValue('Z2D_ColorTemperature', (int)$value);
 
 					if (!IPS_VariableProfileExists('ColorTemperature.Z2D')) {
 					    IPS_CreateVariableProfile('ColorTemperature.Z2D', 1);
@@ -134,7 +134,7 @@ class Z2DLightSwitch extends IPSModule
 					$cie['x'] = $Payload->xy[0];
 					$cie['y'] = $Payload->xy[1];
 					$cie['bri'] = $Payload->bri;
-				    SetValue($this->GetIDForIdent('Z2D_Color'), $this->CieToDec($cie));
+				    $this->SetValue('Z2D_Color', $this->CieToDec($cie));
 				}
 				if (property_exists($Payload, 'reachable')) {
 					if($Payload->reachable){

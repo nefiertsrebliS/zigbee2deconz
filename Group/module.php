@@ -66,7 +66,7 @@ class Z2DGroup extends IPSModule
                 break;
             case VM_UPDATE:
 				if($SenderID == $this->ReadPropertyInteger('BrightnessID')){
-				    SetValue($this->GetIDForIdent('Z2D_Brightness'), $Data[0]);
+				    $this->SetValue('Z2D_Brightness', $Data[0]);
 				}else{
 					UnregisterMessage($SenderID, "VM_UPDATE");
 				}
@@ -98,11 +98,11 @@ class Z2DGroup extends IPSModule
 				if (property_exists($Payload, 'all_on')) {
 				    $this->RegisterVariableBoolean('Z2D_State', $this->Translate('all'), '~Switch', 0);
 				    $this->EnableAction('Z2D_State');
-				    SetValueBoolean($this->GetIDForIdent('Z2D_State'), $Payload->all_on);
+				    $this->SetValue('Z2D_State', $Payload->all_on);
 				}
 				if (property_exists($Payload, 'any_on')) {
 				    $this->RegisterVariableBoolean('Z2D_AnyOn', $this->Translate('any on'), '~Switch', 10);
-				    SetValueBoolean($this->GetIDForIdent('Z2D_AnyOn'), $Payload->any_on);
+				    $this->SetValue('Z2D_AnyOn', $Payload->any_on);
 				}
 		    }
 
