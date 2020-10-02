@@ -125,6 +125,10 @@
 		<td>Neu: Unterstützung des Xiaomi Mi Aqara Zauberwürfel<br>
 			Neu: Config Delay für Bewegungsmelder</td>
 	  </tr>
+	  <tr>
+		<td>V1.23</td>
+		<td>Fix: Fehler in Konfigurator-Liste bei Einsatz mehrerer Gateways</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -43,21 +43,18 @@
 #	Search for created Devices
 #----------------------------------------------------------------
 
-			$ParentID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-			$Parent = IPS_GetInstance($ParentID)['ModuleInfo']['ModuleID'];
+			$GatewayID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
 			$Devices = IPS_GetInstanceListByModuleType(3); 			// all Devices
 
 			$Created = array();
 			foreach ($Devices as $Device){
 				$ParentID = IPS_GetInstance($Device)['ConnectionID'];
-				if($ParentID > 0){
-					if(@IPS_GetInstance($ParentID)['ModuleInfo']['ModuleID'] == $Parent){
+                if($ParentID == $GatewayID){
 					    $Config = json_decode(IPS_GetConfiguration($Device));
 					    if (property_exists($Config, 'DeviceID')) {
 					        $Created[$Config->DeviceID] = $Device;
 					    }
-					}
-				}
+                }
 			}
 
 #----------------------------------------------------------------
