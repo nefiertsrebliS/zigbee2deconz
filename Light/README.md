@@ -63,8 +63,8 @@
 	  </tr>
 	  <tr>
 		<td>10.</td>
-		<td><b><i>Z2D_setColor($ID, $value)</i></b></td>
-		<td>Einstellen einer Lampenfarbe</td>
+		<td><b><i>Z2D_setColor($ID, $Color)<br>Z2D_setColorEx($ID, $Color, $Transitiontime)</i></b></td>
+		<td>Einstellen einer Lampenfarbe (Color als Integer-Wert)</td>
 	  </tr>
 	  <tr>
 		<td>11.</td>

@@ -222,6 +222,18 @@ trait Zigbee2DeCONZHelper
         $this->SetStateDeconz(json_encode($data));
     }
 
+    public function SetColorEx(int $color, int $Transitiontime)
+    {
+		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Color',$value);
+        $RGB = $this->HexToRGB($color);
+        $cie = $this->RGBToCIE($RGB[0], $RGB[1], $RGB[2]);
+		$data['on'] = true;
+		$data['xy'] = array($cie['x'], $cie['y']);
+		$data['bri'] = $cie['bri'];
+		$data['transitiontime'] = $Transitiontime;
+        $this->SetStateDeconz(json_encode($data));
+    }
+
     public function setTemperature(float $value)
     {
         if($value <  6)$value =  6;

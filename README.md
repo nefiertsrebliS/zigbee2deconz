@@ -129,6 +129,10 @@
 		<td>V1.23</td>
 		<td>Fix: Fehler in Konfigurator-Liste bei Einsatz mehrerer Gateways</td>
 	  </tr>
+	  <tr>
+		<td>V1.24</td>
+		<td>Neu: Z2D_SetColorEx</td>
+	  </tr>
 	</table>
   </body>
 </html>
