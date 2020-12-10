@@ -55,7 +55,9 @@
       "Orientation": "Orientierung",
       "Sensitivity": "Empfindlichkeit",
       "Event": "Ereignis",
-	  "Device unreachable": "Gerät nicht erreichbar"
+	  "Device unreachable": "Gerät nicht erreichbar",
+	  "Instance": "Instanz",
+	  "Received Data unreadable": "Empfange Daten nicht lesbar"
     }
   }
 }

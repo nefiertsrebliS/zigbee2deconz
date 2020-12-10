@@ -287,7 +287,7 @@ trait Zigbee2DeCONZHelper
 		$result = $this->GetStateDeconz();
 		if($result){
 	        $Buffer = json_decode($result)->Buffer;
-			$data = json_decode(utf8_decode($Buffer));
+			$data = json_decode($Buffer);
 			if (property_exists($data, 'config')) {
 			    $config = $data->config;
 				return(json_encode($config));
@@ -359,7 +359,14 @@ trait Zigbee2DeCONZHelper
 
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
         $this->SendDebug('Sended', $DataJSON, 0);
-	    $this->SendDebug('Result', $this->SendDataToParent($DataJSON), 0);
+	    $Result = $this->SendDataToParent($DataJSON);
+
+		$messages = json_decode($Result);
+		foreach($messages as $message){
+			if(property_exists($message, "error")){
+				$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$message->error->description,KL_ERROR);
+			}
+		}
     }
 
 	protected function GetStateDeconz()

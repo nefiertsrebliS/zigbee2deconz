@@ -24,32 +24,7 @@
                 {
                     "code": 104,
                     "icon": "inactive",
-                    "caption": "Interface closed"
-                },
-                {
-                    "code": 200,
-                    "icon": "error",
-                    "caption": "user authorized"
-                },
-                {
-                    "code": 201,
-                    "icon": "error",
-                    "caption": "Connection lost. Please check Client Socket"
-                },
-                {
-                    "code": 202,
-                    "icon": "error",
-                    "caption": "URL invalid"
-                },
-                {
-                    "code": 203,
-                    "icon": "error",
-                    "caption": "Handshake error"
-                },
-                {
-                    "code": 204,
-                    "icon": "error",
-                    "caption": "Ping interval to small"
+                    "caption": "DeCONZ does not respond. URL and port correct?"
                 },
                 {
                     "code": 205,

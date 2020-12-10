@@ -6,7 +6,9 @@
 			"Manufacturer": "Hersteller",
 			"Model": "Modell",
 			"Type": "Typ",
-			"Class": "Klasse"
+			"Class": "Klasse",
+			"Instance": "Instanz",
+			"Received Data unreadable": "Empfange Daten nicht lesbar"
 		}
 	}
 }

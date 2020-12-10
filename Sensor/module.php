@@ -54,8 +54,12 @@ class Z2DSensor extends IPSModule
     {
         $Buffer = json_decode($JSONString)->Buffer;
         $this->SendDebug('Received', $Buffer, 0);
+        $data = json_decode($Buffer);
+		if(json_last_error() !== 0){
+			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$this->Translate("Received Data unreadable"),KL_ERROR);
+			return;
+		}
 
-        $data = json_decode(utf8_decode($Buffer));
 	    if (property_exists($data, 'state')) {
 			$Payload = $data->state;
 

@@ -6,7 +6,10 @@
       "Scene": "Szene",
 	  "Device unreachable": "Gerät nicht erreichbar",
 	  "emulate Status": "Status emulieren",
-	  "show Brightness of ID:": "zeige Helligkeit der ID:"
+	  "show Brightness of ID:": "zeige Helligkeit der ID:",
+	  "Instance": "Instanz",
+	  "Received Data unreadable": "Empfange Daten nicht lesbar"
+
     }
   }
 }
