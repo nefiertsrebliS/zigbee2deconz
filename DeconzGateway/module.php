@@ -271,6 +271,7 @@ class DeconzGateway extends IPSModule
 		}
 
 		foreach($messages as $message){
+			if(!is_object($message))return $response;
 			if(property_exists($message, "error")){
 				switch($message->error->description){
 					case "link button not pressed":

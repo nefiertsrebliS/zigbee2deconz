@@ -138,6 +138,10 @@
 			Neu: Maßnahmen zur Reduzierung der Prozessorlast<br>
 			Neu: Log-Meldungen bei Fehlern</td>
 	  </tr>
+	  <tr>
+		<td>V2.01</td>
+		<td>Fix: PHP-Error Gateway</td>
+	  </tr>
 	</table>
   </body>
 </html>
