@@ -361,6 +361,11 @@ trait Zigbee2DeCONZHelper
         $this->SendDebug('Sended', $DataJSON, 0);
 	    $Result = $this->SendDataToParent($DataJSON);
 
+		if(!$Result){
+			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": Gateway-Server-Error",KL_ERROR);
+			return;
+		}
+
 		$messages = json_decode($Result);
 		foreach($messages as $message){
 			if(property_exists($message, "error")){

@@ -142,6 +142,10 @@
 		<td>V2.01</td>
 		<td>Fix: PHP-Error Gateway</td>
 	  </tr>
+	  <tr>
+		<td>V2.02</td>
+		<td>Fix: PHP-Error bei Verbindungsstörung zum Server</td>
+	  </tr>
 	</table>
   </body>
 </html>

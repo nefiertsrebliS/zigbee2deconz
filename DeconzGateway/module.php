@@ -146,6 +146,7 @@ class DeconzGateway extends IPSModule
 		$this->SendDebug("UpdateChildren", $response, 0);
 
 		$data = json_decode($response);
+		if(!is_object($data))return;
         if (property_exists($data, 'lights')) {
 			foreach ($data->lights as $item){
 				$JSON['DataID'] = '{C51A4B94-8195-4673-B78D-04D91D52D2DD}';
