@@ -29,7 +29,7 @@ class Z2DSensor extends IPSModule
         $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
 
 		@$this->GetStateDeconz();
-			
+
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"').'.*');
     }
@@ -180,14 +180,14 @@ class Z2DSensor extends IPSModule
 					$this->SetValue('Z2D_vibrationstrength', $Payload->vibrationstrength);
 				}
 				if (property_exists($Payload, 'tiltangle')) {
-					if (!IPS_VariableProfileExists('Angle.Z2D')) {
-						IPS_CreateVariableProfile('Angle.Z2D', 1);
-						IPS_SetVariableProfileIcon('Angle.Z2D', 'TurnLeft');
-						IPS_SetVariableProfileText('Angle.Z2D', '', ' °');
-						IPS_SetVariableProfileValues('Angle.Z2D', 0, 360, 0);
+					if (!IPS_VariableProfileExists('TiltAngle.Z2D')) {
+						IPS_CreateVariableProfile('TiltAngle.Z2D', 1);
+						IPS_SetVariableProfileIcon('TiltAngle.Z2D', 'TurnLeft');
+						IPS_SetVariableProfileText('TiltAngle.Z2D', '', ' °');
+						IPS_SetVariableProfileValues('TiltAngle.Z2D', 0, 360, 0);
 					}
 
-					$this->RegisterVariableInteger('Z2D_tiltangle', $this->Translate('Tiltangle'), 'Angle.Z2D');
+					$this->RegisterVariableInteger('Z2D_tiltangle', $this->Translate('Tiltangle'), 'TiltAngle.Z2D');
 					$this->SetValue('Z2D_tiltangle', $Payload->tiltangle);
 				}
 				if (property_exists($Payload, 'humidity')) {
@@ -222,8 +222,8 @@ class Z2DSensor extends IPSModule
 					$this->RegisterVariableFloat('Z2D_voltage', $this->Translate('Voltage'), '~Volt');
 					$this->SetValue('Z2D_voltage', $Payload->voltage);
 				}
-				if (property_exists($Payload, 'valve')) { 
-					$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255'); 
+				if (property_exists($Payload, 'valve')) {
+					$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255');
 					$this->SetValue('Z2D_valve', $Payload->valve);
 				}
 				if (property_exists($Payload, 'current')) {
