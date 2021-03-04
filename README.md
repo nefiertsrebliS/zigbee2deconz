@@ -150,6 +150,10 @@
 		<td>V2.03</td>
 		<td>Fix: Profilname doppelt belegt</td>
 	  </tr>
+      <tr>
+		<td>V2.04</td>
+		<td>Fix: IPS_GetConfigurationForm</td>
+	  </tr>
 	</table>
   </body>
 </html>
