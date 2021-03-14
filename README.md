@@ -154,6 +154,10 @@
 		<td>V2.04</td>
 		<td>Fix: IPS_GetConfigurationForm</td>
 	  </tr>
+      <tr>
+		<td>V2.05</td>
+		<td>Neu: Entfall regelmäßige Statusabfrage</td>
+	  </tr>
 	</table>
   </body>
 </html>

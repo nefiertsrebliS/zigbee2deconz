@@ -325,7 +325,8 @@ trait Zigbee2DeCONZHelper
 
     public function setJson(string $value)
     {
-        if(@count(json_decode($value,true))>0){
+        json_decode($value);
+        if(json_last_error() == JSON_ERROR_NONE){
 		    $this->SetStateDeconz($value);
         }else{
 	        trigger_error('no valid json-String', E_USER_NOTICE);
@@ -386,7 +387,7 @@ trait Zigbee2DeCONZHelper
 	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
 
-	    $result['Buffer'] = @$this->SendDataToParent($DataJSON);
+	    $result['Buffer'] = $this->SendDataToParent($DataJSON);
 		if(!$result['Buffer'])return(false);
 		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
 		return(json_encode($result, JSON_UNESCAPED_SLASHES));

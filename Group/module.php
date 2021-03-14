@@ -32,16 +32,15 @@ class Z2DGroup extends IPSModule
         parent::ApplyChanges();
 
         $this->RegisterMessage($this->InstanceID, IM_CHANGESTATUS);
-        $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
 
-		if(@$this->ReadPropertyInteger('BrightnessID') > 0){
+		if($this->ReadPropertyInteger('BrightnessID') > 0){
 			$this->BrightnessID = $this->ReadPropertyInteger('BrightnessID');
-	        $this->RegisterMessage (@$this->ReadPropertyInteger('BrightnessID'), VM_UPDATE);
+	        $this->RegisterMessage ($this->ReadPropertyInteger('BrightnessID'), VM_UPDATE);
 		    $this->RegisterVariableInteger('Z2D_Brightness', $this->Translate('Brightness'), '~Intensity.100', 30);
 		    $this->EnableAction('Z2D_Brightness');
 		}
 
-		@$this->GetStateDeconz();
+		$this->GetStateDeconz();
 			
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\",\"r\":\"groups\"').'.*');
@@ -54,16 +53,6 @@ class Z2DGroup extends IPSModule
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
         switch ($Message) {
-            case IM_CHANGESTATUS:
-				if($SenderID == @IPS_GetInstance($this->InstanceID)['ConnectionID']){
-					if($Data[0] >= 200)$Data[0] = 215;
-					$state = max($Data[0], $this->ReadAttributeInteger("State"));
-					if($state <> $this->GetStatus())$this->SetStatus($state);
-				}
-				if($SenderID == $this->InstanceID){
-					if($Data[0] == 102) $this->GetStateDeconz();
-				}
-                break;
             case VM_UPDATE:
 				if($SenderID == $this->ReadPropertyInteger('BrightnessID')){
 				    $this->SetValue('Z2D_Brightness', $Data[0]);

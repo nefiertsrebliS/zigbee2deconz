@@ -16,7 +16,6 @@ class Z2DSensor extends IPSModule
         $this->RegisterPropertyString('DeviceID', "");
         $this->RegisterPropertyString('DeviceType', "sensors");
 #	-----------------------------------------------------------------------------------
-        $this->RegisterAttributeInteger("State", 0);
         $this->RegisterAttributeInteger("LastUpdated", 0);
     }
 
@@ -25,29 +24,10 @@ class Z2DSensor extends IPSModule
         //Never delete this line!
         parent::ApplyChanges();
 
-        $this->RegisterMessage($this->InstanceID, IM_CHANGESTATUS);
-        $this->RegisterMessage(@IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
-
-		@$this->GetStateDeconz();
+		$this->GetStateDeconz();
 
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"').'.*');
-    }
-
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
-    {
-        switch ($Message) {
-            case IM_CHANGESTATUS:
-				if($SenderID == @IPS_GetInstance($this->InstanceID)['ConnectionID']){
-					if($Data[0] >= 200)$Data[0] = 215;
-					$state = max($Data[0], $this->ReadAttributeInteger("State"));
-					if($state <> $this->GetStatus())$this->SetStatus($state);
-				}
-				if($SenderID == $this->InstanceID){
-					if($Data[0] == 102) $this->GetStateDeconz();
-				}
-                break;
-        }
     }
 
     public function ReceiveData($JSONString)
@@ -240,9 +220,9 @@ class Z2DSensor extends IPSModule
 				}
 				if (property_exists($Payload, 'reachable')) {
 					if($Payload->reachable){
-						if($this->ReadAttributeInteger("State") <> 102)$this->WriteAttributeInteger("State", 102);
+						$this->SetStatus(102);
 					}else{
-						if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
+						$this->SetStatus(215);
 					}
 				}
 				if (property_exists($Payload, 'battery')) {
@@ -260,9 +240,9 @@ class Z2DSensor extends IPSModule
 			}
 			if (property_exists($Payload, 'reachable')) {
 				if($Payload->reachable){
-					if($this->ReadAttributeInteger("State") <> 102)$this->WriteAttributeInteger("State", 102);
+					$this->SetStatus(102);
 				}else{
-					if($this->ReadAttributeInteger("State") <> 215)$this->WriteAttributeInteger("State", 215);
+					$this->SetStatus(215);
 				}
 			}
 			if (property_exists($Payload, 'temperature')) {

@@ -13,7 +13,7 @@ class DeconzGateway extends IPSModule
         $this->RegisterPropertyInteger("SendPort", 80);
         $this->RegisterAttributeInteger("wsPort", 0);
 
-		$this->RegisterTimer("Update", 600000,'Z2D_UpdateChildren($_IPS["TARGET"]);');        
+		$this->SetBuffer("Children", "0");
     }
 
 #=====================================================================================
@@ -131,56 +131,7 @@ class DeconzGateway extends IPSModule
 			}
 		}
     }
-
-#=====================================================================================
-    public function UpdateChildren()
-
-#	Holt die Konfiguration und schickt den jeweiligen Auszug an die Children weiter
-#=====================================================================================
-    {
-		$Buffer['command'] = '';
-		$Buffer['method'] = 'GET';
-		$Buffer['data'] = '';
-
-		$response = $this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
-		$this->SendDebug("UpdateChildren", $response, 0);
-
-		$data = json_decode($response);
-		if(!is_object($data))return;
-        if (property_exists($data, 'lights')) {
-			foreach ($data->lights as $item){
-				$JSON['DataID'] = '{C51A4B94-8195-4673-B78D-04D91D52D2DD}';
-				$JSON['Buffer'] = json_encode($item);
-				$Data = json_encode($JSON);
-				$this->SendDataToChildren($Data);
-			}
-        }
-		
-        if (property_exists($data, 'sensors')) {
-			foreach ($data->sensors as $item){
-				$JSON['DataID'] = '{D7B089F0-6AFD-8861-2226-07B675D951B1}';
-				$JSON['Buffer'] = json_encode($item);
-				$Data = json_encode($JSON);
-				$this->SendDataToChildren($Data);
-			}
-        }
-		
-        if (property_exists($data, 'groups')) {
-			foreach ($data->groups as $item){
-				$JSON['DataID'] = '{24BE3EC7-6166-9E37-906E-A8286E97582E}';
-				$new =  new stdClass();
-		        $new->id = $item->id;
-				$new->r = "groups";
-				$new->scenes = $item->scenes;
-				$new->state = $item->state;
-
-				$JSON['Buffer'] = json_encode($new);
-				$Data = json_encode($JSON);
-				$this->SendDataToChildren($Data);
-			}
-        }
-	}
-
+	
 #=====================================================================================
     protected function GetDeconzConfiguration()
 
