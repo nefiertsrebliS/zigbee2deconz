@@ -40,7 +40,7 @@ class Z2DGroup extends IPSModule
 		    $this->EnableAction('Z2D_Brightness');
 		}
 
-		$this->GetStateDeconz();
+		if($this->HasActiveParent())$this->GetStateDeconz();
 			
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\",\"r\":\"groups\"').'.*');

@@ -23,7 +23,7 @@ class Z2DLightSwitch extends IPSModule
         //Never delete this line!
         parent::ApplyChanges();
 
-		$this->GetStateDeconz();
+		if($this->HasActiveParent())$this->GetStateDeconz();
 			
 #		Filter setzen
 		$this->SetReceiveDataFilter('.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"').'.*');
