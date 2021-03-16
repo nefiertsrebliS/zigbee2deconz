@@ -60,6 +60,7 @@ class DeconzGateway extends IPSModule
 			$JSON['Buffer'] = $data->Buffer;
 			$Data = json_encode($JSON);
 			$this->SendDataToChildren($Data);
+			$this->SetStatus(102);
 		}
     }
 
