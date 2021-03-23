@@ -4,12 +4,18 @@
       "all": "alle",
       "any on": "einige an",
       "Scene": "Szene",
-	  "Device unreachable": "Gerät nicht erreichbar",
-	  "emulate Status": "Status emulieren",
-	  "show Brightness of ID:": "zeige Helligkeit der ID:",
-	  "Instance": "Instanz",
-	  "Received Data unreadable": "Empfange Daten nicht lesbar"
-
+      "State": "Status",
+      "Temperature": "Temperatur",		
+      "Humidity": "Feuchtigkeit",
+      "Pressure": "Druck",
+      "Brightness": "Helligkeit",
+      "Colormode": "Farbmodus",
+      "Color": "Farbe",
+      "Color-Temperature": "Farbtemperatur",
+      "Multicolor": "Multicolor",
+      "Device unreachable": "Gerät nicht erreichbar",
+      "Instance": "Instanz",
+      "Received Data unreadable": "Empfange Daten nicht lesbar"
     }
   }
 }

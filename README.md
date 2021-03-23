@@ -158,6 +158,12 @@
 		<td>V2.05</td>
 		<td>Neu: Entfall regelmäßige Statusabfrage</td>
 	  </tr>
+      <tr>
+		<td>V3.00</td>
+		<td>Neu: Geräte mit zugeordneten Sensoren werden in einer gemeinsamen Instanz angelegt<br>
+			Neu: Gruppen können komplett aus dem Webfront gesteuert werden<br>
+			Fix: Leer Gruppen werden im Konfigurator automatisch ausgeblendet</td>
+	  </tr>
 	</table>
   </body>
 </html>

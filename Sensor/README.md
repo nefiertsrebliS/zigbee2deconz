@@ -6,9 +6,10 @@
   </head>
 
   <body>
-	<h1>IPS-DeCONZ-Sensoren</h1>
+	<h1>DeCONZ-Sensoren</h1>
 	<h2>Installation</h2>
-	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.
+	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.<br>
+	<b>Achtung:</b> Sensoren, die einem <i>DeCONZ-Device</i> zugeordnet sind, erscheinen nur dann im Konfigurator, wenn Sie als Instanz angelegt wurden.
 	<h2>Konfiguration</h2>
 	Eine Konfiguration ist nicht erforderlich.    
 	<h2>Funktion</h2>

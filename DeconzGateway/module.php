@@ -22,6 +22,7 @@ class DeconzGateway extends IPSModule
     {
         parent::ApplyChanges();
 		if($this->CheckURL()===false)return;
+		$this->GetDeconzWsPort();
 		$this->ForceParent("{D68FD31F-0E90-7019-F16C-1949BD3079EF}");
     }
 		
@@ -60,7 +61,9 @@ class DeconzGateway extends IPSModule
 			$JSON['Buffer'] = $data->Buffer;
 			$Data = json_encode($JSON);
 			$this->SendDataToChildren($Data);
-			$this->SetStatus(102);
+			if($this->GetStatus() != 102) { 
+				if($this->CheckURL())$this->SetStatus(102);
+			}
 		}
     }
 
@@ -127,6 +130,7 @@ class DeconzGateway extends IPSModule
 							}
 						}
 					}
+
 					$this->ApplyChanges();
 				}
 			}
@@ -134,7 +138,7 @@ class DeconzGateway extends IPSModule
     }
 	
 #=====================================================================================
-    protected function GetDeconzConfiguration()
+	protected function GetDeconzConfiguration()
 
 #	Holt die Konfiguration und setzt, wenn erforderlich, den gültigen WebSocket-Port
 #=====================================================================================
@@ -144,19 +148,30 @@ class DeconzGateway extends IPSModule
 		$Buffer['data'] = '';
 
 		$response = $this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
+		
+		if(!$response)return false;
 
 		$config = json_decode($response);
         if (property_exists($config, 'config')) {
-		    if (property_exists($config->config, 'websocketport')) {
-				$wsPort		= $config->config->websocketport;
-				if($wsPort <> $this->ReadAttributeInteger("wsPort")){
-					$this->WriteAttributeInteger("wsPort", $wsPort);
-					$this->ApplyChanges();
-					$this->SendDebug("WebSocket", "set Port successfully", 0);
-				}
-		    }
 			return $config->config;
-        }
+		}
+    }
+	
+#=====================================================================================
+protected function GetDeconzWsPort()
+
+#	Ermittelt den gültigen WebSocket-Port
+#=====================================================================================
+    {
+		$config = $this->GetDeconzConfiguration();
+
+		if (property_exists($config, 'websocketport')) {
+			$wsPort		= $config->websocketport;
+			if($wsPort <> $this->ReadAttributeInteger("wsPort")){
+				$this->WriteAttributeInteger("wsPort", $wsPort);
+				$this->SendDebug("WebSocket", "set Port successfully", 0);
+			}
+		}
 		
     }
 
@@ -167,10 +182,7 @@ class DeconzGateway extends IPSModule
 #	Die Auswertung der Antwort erfolgt in SendToDeConz.
 #=====================================================================================
     {
-		$Buffer['command'] = '';
-		$Buffer['method'] = 'GET';
-		$Buffer['data'] = '';
-		return $this->SendToDeconz(json_encode($Buffer, JSON_UNESCAPED_SLASHES));
+		return !$this->GetDeconzConfiguration()?false:true;
     }
 
 #=====================================================================================

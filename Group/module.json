@@ -9,6 +9,6 @@
 	],
 	"parentRequirements": ["{875B91AC-45F1-9757-30F6-BF71445B2BDB}"],
 	"childRequirements": [],
-	"implemented": ["{24BE3EC7-6166-9E37-906E-A8286E97582E}"],
+	"implemented": ["{24BE3EC7-6166-9E37-906E-A8286E97582E}","{C51A4B94-8195-4673-B78D-04D91D52D2DD}"],
 	"prefix": "Z2D"
 }

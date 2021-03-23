@@ -6,22 +6,22 @@
   </head>
 
   <body>
-	<h1>DeCONZ-Gruppen</h1>
+	<h1>DeCONZ-Device</h1>
 	<h2>Installation</h2>
-	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.
+	Die Installation geschieht direkt über den Konfigurator. Die Instanz legt bei der Installation selbstständig die erforderlichen Variablen und Profile an und ist direkt einsatzfähig.<br>
+	Hat das Gerät zugeordnete Sensoren, so werden diese in die Instanz des Gerätes integriert.
 	<h2>Konfiguration</h2>
-	Da DeCONZ bei Gruppen außer <i>"an/aus"</i> keinen Status sendet, wird das erste Gerät der Gruppe als Referenz gewählt.<br>
-	Mit den angezeigten Variablen <i>"Farbmodus"</i>, <i>"Farbe"</i>, <i>"Farbtemperatur"</i> und <i>"Helligkeit"</i> kann die gesamte Gruppe gesteuert werden. Die angezeigten Werte beziehen sich aber immer auf den Zustand des ersten Gerätes der Gruppe.
+	Eine Konfiguration ist nicht erforderlich.
 	<h2>Funktion</h2>
-	Gruppen können über das WebFront angesteuert werden.<br>
-	Licht-Szenen lassen sich im WebFront ebenso ansteuern. Eine Anzeige der aktive Szene gibt es allerdings nicht.<br>
-	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Gruppen und Szenen per Skript.<br>
+	Der Funktionsumfang hängt vom Gerät ab.  Die Bedienung erfolgt im WebFront.<br>
+	Darüber hinaus gibt es einen umfangreichen Befehlsatz zur Ansteuerung der Geräte per Skript.
+	Der Befehlsatz zur Ansteuerung der zugeordneten Sensoren ist im README.md der Sensoren zu finden.
 	<h2>Mögliche PHP-Befehle</h2>
 	<table>
 	  <tr>
 		<td>1.</td>
 		<td><b><i>Z2D_DimSet($ID, $Intansity)</i></b></td>
-		<td>Gruppe auf einen bestimmten Wert dimmen</td>
+		<td>Lampe auf einen bestimmten Wert dimmen</td>
 	  </tr>
 	  <tr>
 		<td>2.</td>
@@ -31,7 +31,7 @@
 	  <tr>
 		<td>3.</td>
 		<td><b><i>Z2D_DimUp($ID)<br>Z2D_DimDown($ID)<br>Z2D_DimStop($ID)<br></i></b></td>
-		<td>Gruppen-Dimmer starten und stoppen</td>
+		<td>Dimmer starten und stoppen</td>
 	  </tr>
 	  <tr>
 		<td>4.</td>
@@ -65,31 +65,26 @@
 	  </tr>
 	  <tr>
 		<td>10.</td>
-		<td><b><i>Z2D_setColor($ID, $value)</i></b></td>
-		<td>Einstellen der Farbe für eine Gruppe</td>
+		<td><b><i>Z2D_setColor($ID, $Color)<br>Z2D_setColorEx($ID, $Color, $Transitiontime)</i></b></td>
+		<td>Einstellen einer Lampenfarbe (Color als Integer-Wert)</td>
 	  </tr>
 	  <tr>
 		<td>11.</td>
 		<td><b><i>Z2D_SwitchMode($ID, $value)</i></b></td>
-		<td>Geräte einer Gruppe ein/aus-schalten</td>
+		<td>Lampe oder Schalter ein/aus-schalten</td>
 	  </tr>
 	  <tr>
 		<td>12.</td>
-		<td><b><i>Z2D_SwitchScene($ID, $SceneID)</i></b></td>
-		<td>Aktivierung einer Licht-Szene</td>
-	  </tr>
-	  <tr>
-		<td>13.</td>
 		<td><b><i>Z2D_setAlert($ID, $value)</i></b></td>
 		<td>Temporärer Alarm (none, select, lselect)</td>
 	  </tr>
 	  <tr>
-		<td>14.</td>
+		<td>13.</td>
 		<td><b><i>Z2D_setColorloop($ID, $value)</i></b></td>
 		<td>Einen Colorloop ausführen (0-255, 0 = aus)</td>
 	  </tr>
 	  <tr>
-		<td>15.</td>
+		<td>14.</td>
 		<td><b><i>Z2D_setJson($ID, $value)</i></b></td>
 		<td>Setzen mehrerer Parameter über einen JSON-String</td>
 	  </tr>

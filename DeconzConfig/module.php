@@ -51,6 +51,7 @@
 			$Data['DataID'] 	= '{F51DECC3-17B8-C099-0EAF-A911EB2CDFB8}';
 			$Data['Buffer'] 	= json_encode($Buffer, JSON_UNESCAPED_SLASHES);
 
+			if(!$this->HasActiveParent())return;
 			$result	= $this->SendDataToParent(json_encode($Data, JSON_UNESCAPED_SLASHES));
 		    if (!$result)return;
 			$data = json_decode($this->ReadAttributeString("elements"));
@@ -86,6 +87,7 @@
 		    if (property_exists($data, $type)) {
 				$items = $data->$type;
 				foreach($items as $item){
+                    if($item->type == "Configuration tool")continue;
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 					$Values[] = [
@@ -98,10 +100,9 @@
 						'DeviceType' => $type,
 						'create'	 => 
 						[
-							"moduleID" => "{309E76BB-9027-24A8-FACE-FC45D198C1CD}",
+							"moduleID" => "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
 							"configuration" => [
-								"DeviceID" => $item->uniqueid,
-								"DeviceType" => $type
+								"DeviceID" => $item->uniqueid
 							]
 						]
 					];
@@ -114,6 +115,11 @@
 				foreach($items as $item){
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
+                    if($ID == 0 && $item->type != "Daylight"){
+                        foreach($data->lights as $light){
+                            if(strstr($item->uniqueid,  $light->uniqueid)!== false) continue(2);
+                        }
+                    }
 					$Values[] = [
 						'instanceID' => $ID,
 						'name'       => $item->name,
@@ -126,8 +132,7 @@
 						[
 							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
 							"configuration" => [
-								"DeviceID" => $item->uniqueid,
-								"DeviceType" => $type
+								"DeviceID" => $item->uniqueid
 							]
 						]
 					];
@@ -140,6 +145,7 @@
 				foreach($items as $item){
 					$ID	= 0;
 					if(isset($Created[$item->id])) $ID = $Created[$item->id];
+                    if($ID == 0 && count($item->lights) == 0)continue;
 					$Values[] = [
 						'instanceID' => $ID,
 						'name'       => $item->name,
@@ -152,8 +158,7 @@
 						[
 							"moduleID" => "{D5D510EA-0158-B850-A700-AA824AF59DC3}",
 							"configuration" => [
-								"DeviceID" => $item->id,
-								"DeviceType" => $type
+								"DeviceID" => $item->id
 							]
 						]
 					];

@@ -2,16 +2,6 @@
   "translations": {
     "de": {
       "State": "Status",
-      "Angle": "Winkel",
- 	  "Move":"Bewegung",
- 	  "Shake":"Schütteln",
- 	  "Drop":"Fallen",
- 	  "Tilt":"Neigung",
-      "Tiltangle": "Neigungswinkel",
- 	  "Knock":"Klopfen",
- 	  "Rotate Clockwise":"Drehung im Uhrzeigersinn",
- 	  "Rotate Counter Clockwise":"Drehung gegen den Uhrzeigersinn",
-	  "Switch off Hesitation": "Ausschaltverzögerung",		
       "Temperature": "Temperatur",		
       "Humidity": "Feuchtigkeit",
       "Pressure": "Druck",
@@ -32,8 +22,10 @@
       "Triple press": "3-mal gedrückt",
       "Quadruple press": "4-mal gedrückt",
       "Many press": "x-mal gedrückt",
+      "Shake": "geschüttelt",
+      "Drop": "gefallen",
+      "Tilt": "Erschütterung",
       "Illumination": "Beleuchtungsstärke",
-      "Lightlevel": "Lichtstärke",
       "Smoke": "Rauch",
       "Daylight": "Tageslicht",
       "Carbonmonoxide": "Kohlenmonoxyd",
@@ -44,20 +36,16 @@
       "on": "an",
       "tampered": "manipuliert",
       "Water": "Wasser",
-      "Vibration": "Erschütterung",
-      "Vibrationstrength": "Erschütterungsstärke",
+      "Vibration": "Vibration",
       "Airpressure": "Luftdruck",
       "Consumption": "Verbrauch",
       "Power": "Leistung",
       "Current": "Stromstärke",
       "Heat Setpoint": "Temperatur Sollwert",
-      "Offset": "Offset",
-      "Orientation": "Orientierung",
-      "Sensitivity": "Empfindlichkeit",
-      "Event": "Ereignis",
       "Device unreachable": "Gerät nicht erreichbar",
       "Instance": "Instanz",
       "Received Data unreadable": "Empfange Daten nicht lesbar"
+
     }
   }
 }

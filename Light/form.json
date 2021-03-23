@@ -1,8 +1,7 @@
 {
     "elements":
     [
-		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" },
-		{ "name": "Status", "type": "CheckBox", "caption": "emulate Status" }
+		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" }
 	],
     "status":
     [

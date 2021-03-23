@@ -6,7 +6,7 @@
   </head>
 
   <body>
-	<h1>IPS-DeCONZ-Gateway</h1>
+	<h1>DeCONZ-Gateway</h1>
 	<h2>Installation</h2>
 	Das Gateway wird im Objektbaum unter "Splitter Instanzen" installiert. Es regelt die Kommunikation zwischen IP-Symcon und DeCONZ. Ohne Gateway ist eine Nutzung der Bibliothek nicht möglich.
 	<h2>Konfiguration</h2>

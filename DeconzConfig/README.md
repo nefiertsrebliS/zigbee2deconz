@@ -6,7 +6,7 @@
   </head>
 
   <body>
-	<h1>IPS-DeCONZ-Konfigurator</h1>
+	<h1>DeCONZ-Konfigurator</h1>
 	<h2>Installation</h2>
 	Der Konfigurator wird im Objektbaum unter "Konfigurator Instanzen" installiert. Er verbindet sich automatisch mit dem zuvor installierten und konfigurierten Gateway.
 	<h2>Konfiguration</h2>

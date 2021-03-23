@@ -2,46 +2,49 @@
 
 declare(strict_types=1);
 
-trait Zigbee2DeCONZHelper
+trait DeconzHelper
 {
+#=====================================================================================
     public function RequestAction($Ident, $Value)
+#=====================================================================================
     {
-        switch ($Ident) {
-            case 'Z2D_Brightness':
+        $IdentArray = explode("_",$Ident);
+        switch ($IdentArray[1]) {
+            case 'Brightness':
 				if($Value > 0){
 	                $this->DimSet($Value);
 				}else{
 	                $this->SwitchMode(false);
 				}
                 break;
-            case 'Z2D_State':
+            case 'State':
                 $this->SwitchMode($Value);
                 break;
-            case 'Z2D_colormode':
+            case 'colormode':
                 $this->SwitchColorMode($Value);
                 break;
-            case 'Z2D_Color':
+            case 'Color':
                 $this->setColor($Value);
                 break;
-            case 'Z2D_ColorTemperature':
+            case 'ColorTemperature':
                 $this->setColorTemperature($Value);
                 break;
-            case 'Z2D_heatsetpoint':
+            case 'heatsetpoint':
                 $this->setTemperature($Value);
                 break;
-            case 'Z2D_offset':
+            case 'offset':
                 $this->setOffset($Value);
                 break;
-            case 'Z2D_delay':
+            case 'delay':
                 $this->setDelay($Value);
                 break;
-            case 'Z2D_sensitivity':
+            case 'sensitivity':
                 $this->setSensitivity($Value);
                 break;
             case 'Update':
                 eval ('$this->'.$Value.";");
                 break;
-            case 'Z2D_Scene':
+            case 'Scene':
                 $this->SwitchScene($Value);
                 break;
             default:
@@ -50,121 +53,142 @@ trait Zigbee2DeCONZHelper
         }
     }
 
+#=====================================================================================
     public function DimSet(int $Intensity)
+#=====================================================================================
     {
 		if($Intensity < 0)$Intensity = 0;
 		if($Intensity > 100)$Intensity = 100;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Brightness',$Intensity);
 		$Intensity = round($Intensity * 2.55);
 		if($Intensity == 0){
 			$Payload = '{"on":false}';
-			if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',false);
 		}else{
 			$Payload = '{"on":true,"bri":'.$Intensity.'}';
-			if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',true);
 		}
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimUp()
+#=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":254, "transitiontime":60}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimDown()
+#=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":-254, "transitiontime":60}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimStop()
+#=====================================================================================
     {
 		$Payload = '{"bri_inc":0}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimSetEx(int $Intensity, int $Transitiontime)
+#=====================================================================================
     {
 		if($Intensity < 0)$Intensity = 0;
 		if($Intensity > 100)$Intensity = 100;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Brightness',$Intensity);
 		$Intensity = round($Intensity * 2.55);
 		if($Intensity == 0){
 			$Payload = '{"bri":0, "transitiontime":'.$Transitiontime.',"on":false}';
-			if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',false);
 		}else{
 			$Payload = '{"on":true,"bri":'.$Intensity.', "transitiontime":'.$Transitiontime.'}';
-			if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',true);
 		}
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimUpEx(int $Transitiontime)
+#=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":254, "transitiontime":'.$Transitiontime.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function DimDownEx(int $Transitiontime)
+#=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":-254, "transitiontime":'.$Transitiontime.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function SetColorTemperature(int $value)
+#=====================================================================================
     {
 		if($value < 2000)$value = 2000;
 		if($value > 6500)$value = 6500;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_ColorTemperature',$value);
 		$value = round($value * (500-153)/(2000-6500) + 654);
 		$Payload = '{"on":true,"ct":'.$value.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function ColorTemperatureUp()
+#=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":400, "transitiontime":60}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function ColorTemperatureDown()
+#=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":-400, "transitiontime":60}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function ColorTemperatureStop()
+#=====================================================================================
     {
 		$Payload = '{"ct_inc":0}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function SetColorTemperatureEx(int $value, int $Transitiontime)
+#=====================================================================================
     {
 		if($value < 2000)$value = 2000;
 		if($value > 6500)$value = 6500;
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_ColorTemperature',$value);
 		$value = round($value * (500-153)/(2000-6500) + 654);
 		$Payload = '{"on":true,"ct":'.$value.', "transitiontime":'.$Transitiontime.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function ColorTemperatureUpEx(int $Transitiontime)
+#=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":400, "transitiontime":'.$Transitiontime.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function ColorTemperatureDownEx(int $Transitiontime)
+#=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":-400, "transitiontime":'.$Transitiontime.'}';
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function SwitchColorMode(int $value)
+#=====================================================================================
     {
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_colormode',$value);
         switch ($value) {
             case 1:
 			    $this->SetColorTemperature($this->GetValue('Z2D_ColorTemperature'));
@@ -179,9 +203,10 @@ trait Zigbee2DeCONZHelper
         }
     }
 
+#=====================================================================================
     public function SwitchMode(bool $value)
+#=====================================================================================
     {
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',$value);
         switch ($value) {
             case true:
 			    $Payload = '{"on": true}';
@@ -190,16 +215,26 @@ trait Zigbee2DeCONZHelper
 			    $Payload = '{"on": false}';
                 break;
         }
-        $this->SetStateDeconz($Payload);
+        $this->SetDeconz($Payload);
     }
 
+#=====================================================================================
     public function SwitchScene(int $value)
+#=====================================================================================
     {
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_State',$value);
+        $CommandList = json_decode($this->ReadAttributeString('CommandList'));
+        if(json_last_error() !== 0 ){
+            $this->SendDebug("SwitchScene", "unknown Command", 0); 
+            $this->GetStateDeconz();
+            return;
+        }
+        if(!property_exists($CommandList, 'scene')){
+            $this->SendDebug("SwitchScene", "unknown Command", 0); 
+            $this->GetStateDeconz();
+            return;
+        }
 
-	    $type = $this->ReadPropertyString('DeviceType');
-	    $id = $this->ReadPropertyString("DeviceID");
-	    $Buffer['command'] = $type.'/'.$id.'/scenes/'.$value.'/recall';
+	    $Buffer['command'] = $CommandList->scene.$value.'/recall';
 	    $Buffer['method'] = 'PUT';
 	    $Buffer['data'] = '';
 
@@ -211,30 +246,34 @@ trait Zigbee2DeCONZHelper
 	    $this->SendDataToParent($DataJSON);
     }
 
+#=====================================================================================
     public function SetColor(int $color)
+#=====================================================================================
     {
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Color',$value);
         $RGB = $this->HexToRGB($color);
         $cie = $this->RGBToCIE($RGB[0], $RGB[1], $RGB[2]);
 		$data['on'] = true;
 		$data['xy'] = array($cie['x'], $cie['y']);
 		$data['bri'] = $cie['bri'];
-        $this->SetStateDeconz(json_encode($data));
+        $this->SetDeconz(json_encode($data));
     }
 
+#=====================================================================================
     public function SetColorEx(int $color, int $Transitiontime)
+#=====================================================================================
     {
-		if($this->ReadPropertyBoolean("Status"))$this->SetValue('Z2D_Color',$value);
         $RGB = $this->HexToRGB($color);
         $cie = $this->RGBToCIE($RGB[0], $RGB[1], $RGB[2]);
 		$data['on'] = true;
 		$data['xy'] = array($cie['x'], $cie['y']);
 		$data['bri'] = $cie['bri'];
 		$data['transitiontime'] = $Transitiontime;
-        $this->SetStateDeconz(json_encode($data));
+        $this->SetDeconz(json_encode($data));
     }
 
+#=====================================================================================
     public function setTemperature(float $value)
+#=====================================================================================
     {
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
@@ -242,7 +281,9 @@ trait Zigbee2DeCONZHelper
 		$this->SetConfig('heatsetpoint', (string) ($value * 100));
     }    
 
+#=====================================================================================
     public function setSensitivity(int $value)
+#=====================================================================================
     {
 		if(!$this->GetIDForIdent("Z2D_sensitivitymax")){
 		    if($value < 0) $value = 0;
@@ -256,7 +297,9 @@ trait Zigbee2DeCONZHelper
         $this->SetDeconz('config', json_encode($data));
     }
 
+#=====================================================================================
     public function setOffset(float $value)
+#=====================================================================================
     {
         if($value < -5) $value = -5;
         if($value >  5) $value =  5;
@@ -264,7 +307,9 @@ trait Zigbee2DeCONZHelper
 		$this->SetConfig('offset', (string) ($value * 100));
     }
 
+#=====================================================================================
     public function setDelay(int $value)
+#=====================================================================================
     {
         if($value <   0)$value =  0;
         if($value > 65535)$value = 65535;
@@ -272,7 +317,9 @@ trait Zigbee2DeCONZHelper
 		$this->SetConfig('delay', (string) ($value));
     }
 
+#=====================================================================================
     public function SetConfig(string $parameter, string $value)
+#=====================================================================================
     {
         if(is_numeric(str_replace(",",".", $value))){
             $value = (float)str_replace(",",".", $value);
@@ -282,7 +329,9 @@ trait Zigbee2DeCONZHelper
 		$this->GetStateDeconz();
     }
 
+#=====================================================================================
     public function GetConfig()
+#=====================================================================================
     {
 		$result = $this->GetStateDeconz();
 		if($result){
@@ -299,17 +348,21 @@ trait Zigbee2DeCONZHelper
 		}
     }
 
+#=====================================================================================
     public function setAlert(string $value)
+#=====================================================================================
     {
         if($value == "none" || $value == "select" || $value == "lselect"){
 			$data['alert'] = $value;
-		    $this->SetStateDeconz(json_encode($data));
+		    $this->SetDeconz(json_encode($data));
         }else{
 	        trigger_error('no valid Attribute', E_USER_NOTICE);
 		}
     }
 
+#=====================================================================================
     public function setColorloop(int $value)
+#=====================================================================================
     {
         if($value <   0)$value =  0;
         if($value > 255)$value = 255;
@@ -320,38 +373,39 @@ trait Zigbee2DeCONZHelper
 			$data['colorloopspeed'] = $value;
 			$data['effect'] = "colorloop";
 		}
-	    $this->SetStateDeconz(json_encode($data));
+	    $this->SetDeconz(json_encode($data));
     }
 
+#=====================================================================================
     public function setJson(string $value)
+#=====================================================================================
     {
         json_decode($value);
         if(json_last_error() == JSON_ERROR_NONE){
-		    $this->SetStateDeconz($value);
+		    $this->SetDeconz($value);
         }else{
 	        trigger_error('no valid json-String', E_USER_NOTICE);
 		}
     }
 
-	protected function SetStateDeconz($Payload)
-	{
-	    $type = $this->ReadPropertyString('DeviceType');
-		switch ($type){
-			case "groups":
-			    $command = 'action';
-				break;
-			default:
-			    $command = 'state';
-		}
-        $this->SetDeconz($command, $Payload);
-    }
+#=====================================================================================
+    protected function SetDeconz($Payload)
+#=====================================================================================
+    {
+        $command = array_key_first(json_decode($Payload, true));
+        $CommandList = json_decode($this->ReadAttributeString('CommandList'));
+        if(json_last_error() !== 0 ){
+            $this->SendDebug("SetDeconz", "unknown Command", 0); 
+            $this->GetStateDeconz();
+            return;
+        }
+        if(!property_exists($CommandList, $command)){
+            $this->SendDebug("SetDeconz", "unknown Command", 0); 
+            $this->GetStateDeconz();
+            return;
+        }
 
-	protected function SetDeconz($command, $Payload)
-	{
-	    $type = $this->ReadPropertyString('DeviceType');
-	    $id = $this->ReadPropertyString("DeviceID");
-
-	    $Buffer['command'] = $type.'/'.$id.'/'.$command;
+        $Buffer['command'] = $CommandList->$command;
 	    $Buffer['method'] = 'PUT';
 	    $Buffer['data'] = $Payload;
 
@@ -375,11 +429,15 @@ trait Zigbee2DeCONZHelper
 		}
     }
 
+#=====================================================================================
 	protected function GetStateDeconz()
+#=====================================================================================
 	{
-	    $type = $this->ReadPropertyString('DeviceType');
-	    $id = $this->ReadPropertyString("DeviceID");
-	    $Buffer['command'] = $type.'/'.$id;
+        $DeviceID = $this->ReadPropertyString('DeviceID');
+        if($DeviceID == '')return(false);
+        $IDtype = (strstr($DeviceID, ":") !== false)?"uniqueid":"id";
+
+        $Buffer['command'] = '';
 	    $Buffer['method'] = 'GET';
 	    $Buffer['data'] = "";
 
@@ -387,13 +445,48 @@ trait Zigbee2DeCONZHelper
 	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
 	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
 
-	    $result['Buffer'] = $this->SendDataToParent($DataJSON);
-		if(!$result['Buffer'])return(false);
-		$this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
-		return(json_encode($result, JSON_UNESCAPED_SLASHES));
+	    $response = $this->SendDataToParent($DataJSON);
+		if(!$response)return(false);
+        $this->SendDebug("Response", $response,0);
+        $data = json_decode($response);
+        foreach($data as $type => $items){
+            foreach($items as $item){
+                if(!@property_exists($item, $IDtype))continue;
+                $ModuleID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
+                switch($ModuleID){
+                    case "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}":
+                        if(strstr($item->$IDtype, $DeviceID) !== false){
+                            $item->r = $type;
+                            $result['Buffer'] = json_encode($item);
+                            $this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
+                        }
+                    default:
+                        if($item->$IDtype == $DeviceID){
+                            if($type == "groups"){
+                                if(count($item->lights) > 0)$index = $item->lights[0];
+                                foreach($item->lights as $key=>$light){
+                                    $item->lights[$key] = $data->lights->$light->uniqueid;
+                                }
+                            }
+                            $item->r = $type;
+                            $result['Buffer'] = json_encode($item);
+                            $this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
+                            if($type == "groups"){
+                                if(count($item->lights) > 0){
+                                    $data->lights->$index->r = "lights";
+                                    $result['Buffer'] = json_encode($data->lights->$index);
+                                    $this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));
+                                }
+                            }
+                        }
+                }
+            }
+        }
     }
 
+#=====================================================================================
     protected function HexToRGB($value)
+#=====================================================================================
     {
         $RGB = array();
         $RGB[0] = (($value >> 16) & 0xFF);
@@ -403,7 +496,9 @@ trait Zigbee2DeCONZHelper
         return $RGB;
     }
 
+#=====================================================================================
     protected function RGBToCIE($red, $green, $blue)
+#=====================================================================================
     {
         $cie = array();
 		$cie['bri'] = max($red, $green, $blue);
@@ -422,7 +517,9 @@ trait Zigbee2DeCONZHelper
         return $cie;
     }
 
+#=====================================================================================
     protected function CieToDec($cie)
+#=====================================================================================
     {
         $cie['z'] = 1 - $cie['x'] - $cie['y'];
 

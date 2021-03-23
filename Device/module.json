@@ -1,0 +1,14 @@
+{
+	"id": "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
+	"name": "DeconzDevice",
+	"type": 3,
+	"vendor": "ZigBee DeCONZ",
+	"aliases": 
+	[
+		"ZigBee Device"
+	],
+	"parentRequirements": ["{875B91AC-45F1-9757-30F6-BF71445B2BDB}"],
+	"childRequirements": [],
+	"implemented": ["{C51A4B94-8195-4673-B78D-04D91D52D2DD}","{D7B089F0-6AFD-8861-2226-07B675D951B1}"],
+	"prefix": "Z2D"
+}
