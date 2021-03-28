@@ -164,6 +164,10 @@
 			Neu: Gruppen können komplett aus dem Webfront gesteuert werden<br>
 			Fix: Leer Gruppen werden im Konfigurator automatisch ausgeblendet</td>
 	  </tr>
+      <tr>
+		<td>V3.01</td>
+		<td>Fix: Falsche Gateway-GUID</td>
+	  </tr>
 	</table>
   </body>
 </html>

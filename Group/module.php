@@ -13,7 +13,7 @@ class Z2DGroup extends IPSModule
     {
         //Never delete this line!
         parent::Create();
-        $this->ConnectParent('{C440BB89-DB7F-DCF3-FED4-1A2FBB62F1F9}');
+        $this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
