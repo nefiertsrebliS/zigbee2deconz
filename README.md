@@ -172,6 +172,10 @@
 		<td>V3.02</td>
 		<td>Neu: Mehrere Gateways können auf einen DeCONZ-Server zugreifen</td>
 	  </tr>
+      <tr>
+		<td>V3.03</td>
+		<td>Neu: Multisensoren werden in einer gemeinsamen Instanz angelegt</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -116,10 +116,13 @@
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
                     if($ID == 0 && $item->type != "Daylight"){
-                        foreach($data->lights as $light){
-                            if(strstr($item->uniqueid,  $light->uniqueid)!== false) continue(2);
+						foreach($Values as $Value){
+                            if(strstr($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
-                    }
+						$parts = explode("-",$item->uniqueid);
+						$item->uniqueid = $parts[0]."-".$parts[1];
+						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
+					}
 					$Values[] = [
 						'instanceID' => $ID,
 						'name'       => $item->name,
@@ -130,7 +133,8 @@
 						'DeviceType' => $type,
 						'create'	 => 
 						[
-							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
+							"moduleID" => "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
+#							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
 							"configuration" => [
 								"DeviceID" => $item->uniqueid
 							]
