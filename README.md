@@ -168,6 +168,10 @@
 		<td>V3.01</td>
 		<td>Fix: Falsche Gateway-GUID</td>
 	  </tr>
+      <tr>
+		<td>V3.02</td>
+		<td>Neu: Mehrere Gateways können auf einen DeCONZ-Server zugreifen</td>
+	  </tr>
 	</table>
   </body>
 </html>

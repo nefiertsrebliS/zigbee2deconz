@@ -120,9 +120,8 @@ class DeconzGateway extends IPSModule
 
 					if (property_exists($config, 'whitelist')) {
 						$whitelist = $config->whitelist;
-						$key	= $this->ReadAttributeString("ApiKey");
 						foreach($whitelist as $ApiKey => $item){
-							if($item->name == "ips" && $ApiKey <> $key){
+							if(time() - strtotime($item->{"last use date"}) > 3600 * 24 * 90 ){
 								$Buffer['command'] = 'config/whitelist/'.$ApiKey;
 								$Buffer['method'] = 'DELETE';
 								$Buffer['data'] = '';
