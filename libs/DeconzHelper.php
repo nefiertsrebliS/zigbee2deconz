@@ -233,17 +233,7 @@ trait DeconzHelper
             $this->GetStateDeconz();
             return;
         }
-
-	    $Buffer['command'] = $CommandList->scene.$value.'/recall';
-	    $Buffer['method'] = 'PUT';
-	    $Buffer['data'] = '';
-
-	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
-	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
-
-	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
-        $this->SendDebug('Sended', $DataJSON, 0);
-	    $this->SendDataToParent($DataJSON);
+        $this->SendParent($CommandList->scene.$value.'/recall', 'PUT', '');
     }
 
 #=====================================================================================
@@ -321,31 +311,37 @@ trait DeconzHelper
     public function SetConfig(string $parameter, string $value)
 #=====================================================================================
     {
-        if(is_numeric(str_replace(",",".", $value))){
-            $value = (float)str_replace(",",".", $value);
+        $config = $this->GetConfig();
+        if($config === false)return false;
+        if(property_exists(json_decode($config), $parameter)){
+            if(is_numeric(str_replace(",",".", $value))){
+                $value = (float)str_replace(",",".", $value);
+            }
+            $id = $this->ReadPropertyString("DeviceID");
+            $data[$parameter] = $value;
+            $this->SendParent('sensors/'.$id.'/config', 'PUT', json_encode($data));
+        }else{
+            $this->SendDebug("SetConfig", "Parameter is not valid for this Instance", 0);
+            return false;
         }
-		$data[$parameter] = $value;
-        $this->SetDeconz('config', json_encode($data));
-		$this->GetStateDeconz();
     }
 
 #=====================================================================================
     public function GetConfig()
 #=====================================================================================
     {
-		$result = $this->GetStateDeconz();
-		if($result){
-	        $Buffer = json_decode($result)->Buffer;
-			$data = json_decode($Buffer);
-			if (property_exists($data, 'config')) {
-			    $config = $data->config;
-				return(json_encode($config));
-			}else{
-				return(false);
-			}
-		}else{
-			return(false);
-		}
+	    $id = $this->ReadPropertyString("DeviceID");
+        $response = $this->SendParent('sensors/'.$id, 'GET', '');
+		if(!$response)return(false);
+        $data = json_decode($response);
+        if(json_last_error() !== 0 )return(false);
+        if(is_array($data)) return false;
+        if (property_exists($data, 'config')) {
+            $config = $data->config;
+            return(json_encode($config));
+        }else{
+            return(false);
+        }
     }
 
 #=====================================================================================
@@ -404,17 +400,7 @@ trait DeconzHelper
             $this->GetStateDeconz();
             return;
         }
-
-        $Buffer['command'] = $CommandList->$command;
-	    $Buffer['method'] = 'PUT';
-	    $Buffer['data'] = $Payload;
-
-	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
-	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
-
-	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
-        $this->SendDebug('Sended', $DataJSON, 0);
-	    $Result = $this->SendDataToParent($DataJSON);
+        $Result = $this->SendParent($CommandList->$command, 'PUT', $Payload);
 
 		if(!$Result){
 			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": Gateway-Server-Error",KL_ERROR);
@@ -430,24 +416,14 @@ trait DeconzHelper
     }
 
 #=====================================================================================
-	protected function GetStateDeconz()
+    protected function GetStateDeconz()
 #=====================================================================================
 	{
         $DeviceID = $this->ReadPropertyString('DeviceID');
         if($DeviceID == '')return(false);
         $IDtype = (strstr($DeviceID, ":") !== false)?"uniqueid":"id";
-
-        $Buffer['command'] = '';
-	    $Buffer['method'] = 'GET';
-	    $Buffer['data'] = "";
-
-	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
-	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
-	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
-
-	    $response = $this->SendDataToParent($DataJSON);
+        $response = $this->SendParent('', 'GET', '');
 		if(!$response)return(false);
-        $this->SendDebug("Response", $response,0);
         $data = json_decode($response);
         foreach($data as $type => $items){
             foreach($items as $item){
@@ -482,6 +458,25 @@ trait DeconzHelper
                 }
             }
         }
+    }
+
+
+#=====================================================================================
+    protected function SendParent(string $command, string $method, string $data)
+#=====================================================================================
+	{
+        $Buffer['command'] = $command;
+	    $Buffer['method'] = $method;
+	    $Buffer['data'] = $data;
+
+	    $Data['DataID'] = '{875B91AC-45F1-9757-30F6-BF71445B2BDB}';
+	    $Data['Buffer'] = json_encode($Buffer, JSON_UNESCAPED_SLASHES);
+	    $DataJSON = json_encode($Data, JSON_UNESCAPED_SLASHES);
+
+        $this->SendDebug('Sended', $DataJSON, 0);
+	    $response = $this->SendDataToParent($DataJSON);
+        $this->SendDebug("Response", $response,0);
+        return $response;
     }
 
 #=====================================================================================

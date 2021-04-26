@@ -176,6 +176,11 @@
 		<td>V3.03</td>
 		<td>Neu: Multisensoren werden in einer gemeinsamen Instanz angelegt</td>
 	  </tr>
+      <tr>
+		<td>V3.04</td>
+		<td>Fix: GetConfig und SetConfig<br>
+			Fix: Temperaturprofil</td>
+	  </tr>
 	</table>
   </body>
 </html>

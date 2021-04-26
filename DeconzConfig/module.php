@@ -121,6 +121,7 @@
                         }
 						$parts = explode("-",$item->uniqueid);
 						$item->uniqueid = $parts[0]."-".$parts[1];
+#						$item->uniqueid = explode("-",$item->uniqueid)[0];
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 					}
 					$Values[] = [
@@ -134,7 +135,6 @@
 						'create'	 => 
 						[
 							"moduleID" => "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
-#							"moduleID" => "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}",
 							"configuration" => [
 								"DeviceID" => $item->uniqueid
 							]

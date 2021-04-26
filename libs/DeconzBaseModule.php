@@ -232,6 +232,11 @@ trait DeconzBaseModule
 						$this->RegisterVariableBoolean('Z2D_on', $this->Translate('on'), '~Switch');
 						$this->SetValue('Z2D_on', $Payload->on);
 					}
+					if (property_exists($Payload, 'alarm')) {
+						$this->RegisterVariableBoolean('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
+						$this->SetValue('Z2D_alarm', $Payload->alarm);
+						$CommandList->alarm = $Command;
+					}
 					if (property_exists($Payload, 'tampered')) {
 						$this->RegisterVariableBoolean('Z2D_tampered', $this->Translate('tampered'), '~Alert');
 						$this->SetValue('Z2D_tampered', $Payload->tampered);
@@ -340,17 +345,17 @@ trait DeconzBaseModule
 					}
 				}
 				if (property_exists($Payload, 'temperature')) {
-					$this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature');
+					$this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature.Room');
 					$this->SetValue('Z2D_temperature', $Payload->temperature / 100.0);
 				}
 				if (property_exists($Payload, 'heatsetpoint')) {
-					$this->RegisterVariableFloat('Z2D_heatsetpoint', $this->Translate('Heat Setpoint'), '~Temperature');
+					$this->RegisterVariableFloat('Z2D_heatsetpoint', $this->Translate('Heat Setpoint'), '~Temperature.Room');
 					$CommandList->heatsetpoint = $Command;
 					$this->EnableAction('Z2D_heatsetpoint');
 					$this->SetValue('Z2D_heatsetpoint', $Payload->heatsetpoint / 100.0);
 				}
 				if (property_exists($Payload, 'offset')) {
-					$this->RegisterVariableFloat('Z2D_offset', $this->Translate('Offset'), '~Temperature');
+					$this->RegisterVariableFloat('Z2D_offset', $this->Translate('Offset'), '~Temperature.Room');
 					$CommandList->offset = $Command;
 					$this->EnableAction('Z2D_offset');
 					$this->SetValue('Z2D_offset', $Payload->offset / 100.0);
