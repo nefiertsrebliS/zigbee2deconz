@@ -9,6 +9,7 @@
 			//Never delete this line!
 			parent::Create();
 	        $this->RegisterAttributeString("elements", "");
+			$this->RegisterPropertyBoolean("combine", true);
 
 			//Connect to available deconz gateway
 			$this->ConnectParent("{9013F138-F270-C396-09D6-43368E390C5F}");
@@ -61,6 +62,12 @@
 			}
 
 #----------------------------------------------------------------
+#	Group Devices?
+#----------------------------------------------------------------
+
+			$combine = $this->ReadPropertyBoolean("combine");
+
+#----------------------------------------------------------------
 #	Search for created Devices
 #----------------------------------------------------------------
 
@@ -79,6 +86,39 @@
 			}
 
 #----------------------------------------------------------------
+#	Search combinable Devices
+#----------------------------------------------------------------
+
+			$combinable = array();		
+		    $type = 'lights';
+		    if (property_exists($data, $type)) {
+				$items = $data->$type;
+				foreach($items as $item){
+					$baseUniqueid = explode("-",$item->uniqueid)[0];
+
+					if(array_key_exists ($baseUniqueid, $combinable)){
+						$combinable[$baseUniqueid] = true;
+					}else{
+						$combinable[$baseUniqueid] = false;
+					}
+				}
+			}
+
+		    $type = 'sensors';
+		    if (property_exists($data, $type)) {
+				$items = $data->$type;
+				foreach($items as $item){
+					$baseUniqueid = explode("-",$item->uniqueid)[0];
+
+					if(array_key_exists ($baseUniqueid, $combinable)){
+						$combinable[$baseUniqueid] = true;
+					}else{
+						$combinable[$baseUniqueid] = false;
+					}
+				}
+			}
+
+#----------------------------------------------------------------
 #	Built Array for Configurator
 #----------------------------------------------------------------
 
@@ -87,9 +127,21 @@
 		    if (property_exists($data, $type)) {
 				$items = $data->$type;
 				foreach($items as $item){
+					$DevType = $type;
+					$moduleID = "{309E76BB-9027-24A8-FACE-FC45D198C1CD}";
                     if($item->type == "Configuration tool")continue;
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
+					$baseUniqueid = explode("-",$item->uniqueid)[0];
+                    if($ID == 0 && $combine && $combinable[$baseUniqueid]){
+						foreach($Values as $Value){
+                            if(strstr($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
+                        }
+						$item->uniqueid = $baseUniqueid;
+						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
+						$DevType = 'devices';
+						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";
+					}
 					$Values[] = [
 						'instanceID' => $ID,
 						'name'       => $item->name,
@@ -97,10 +149,10 @@
 						'Manufacturer'   => $item->manufacturername,
 						'modelID'   => $item->modelid,
 						'DetailType'   => $item->type,
-						'DeviceType' => $type,
+						'DeviceType' => $DevType,
 						'create'	 => 
 						[
-							"moduleID" => "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
+							"moduleID" => $moduleID,
 							"configuration" => [
 								"DeviceID" => $item->uniqueid
 							]
@@ -113,16 +165,19 @@
 		    if (property_exists($data, $type)) {
 				$items = $data->$type;
 				foreach($items as $item){
+					$DevType = $type;
+					$moduleID = "{60F3A8DF-5953-4B9E-CB5A-EF7769E3C9FA}";
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
-                    if($ID == 0 && $item->type != "Daylight"){
+					$baseUniqueid = explode("-",$item->uniqueid)[0];
+                    if($ID == 0 && $item->type != "Daylight" && $combine && $combinable[$baseUniqueid]){
 						foreach($Values as $Value){
                             if(strstr($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
-						$parts = explode("-",$item->uniqueid);
-						$item->uniqueid = $parts[0]."-".$parts[1];
-#						$item->uniqueid = explode("-",$item->uniqueid)[0];
+						$item->uniqueid = $baseUniqueid;
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
+						$DevType = 'devices';
+						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";
 					}
 					$Values[] = [
 						'instanceID' => $ID,
@@ -131,10 +186,10 @@
 						'Manufacturer'   => $item->manufacturername,
 						'modelID'   => $item->modelid,
 						'DetailType'   => $item->type,
-						'DeviceType' => $type,
+						'DeviceType' => $DevType,
 						'create'	 => 
 						[
-							"moduleID" => "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}",
+							"moduleID" => $moduleID,
 							"configuration" => [
 								"DeviceID" => $item->uniqueid
 							]

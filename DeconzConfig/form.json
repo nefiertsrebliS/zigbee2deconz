@@ -1,6 +1,7 @@
 {
 	"elements":[
-	],
+        { "type": "CheckBox", "name": "combine", "caption": "Group Devices" }	
+    ],
     "actions": [
         {
             "type": "Configurator",

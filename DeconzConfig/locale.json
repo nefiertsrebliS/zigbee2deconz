@@ -1,6 +1,7 @@
 {
 	"translations": {
 		"de": { 
+			"Group Devices": "Geräte zusammenfassen",
 			"DeviceID": "Geräte-ID",
 			"Name": "Name",
 			"Manufacturer": "Hersteller",

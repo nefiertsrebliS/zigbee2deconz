@@ -181,6 +181,11 @@
 		<td>Fix: GetConfig und SetConfig<br>
 			Fix: Temperaturprofil</td>
 	  </tr>
+      <tr>
+		<td>V3.05</td>
+		<td>Neu: Gerätezusammenfassung im Konfigurator auswählbar<br>
+			Fix: einige Geräte wurden nicht zusammengefasst</td>
+	  </tr>
 	</table>
   </body>
 </html>
