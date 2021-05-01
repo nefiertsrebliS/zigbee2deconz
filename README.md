@@ -186,6 +186,11 @@
 		<td>Neu: Gerätezusammenfassung im Konfigurator auswählbar<br>
 			Fix: einige Geräte wurden nicht zusammengefasst</td>
 	  </tr>
+      <tr>
+		<td>V3.06</td>
+		<td>Neu: Konfiguration von Gateway-Parametern<br>
+			Fix: Anlegen von Geistervariablen</td>
+	  </tr>
 	</table>
   </body>
 </html>

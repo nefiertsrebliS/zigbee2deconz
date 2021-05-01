@@ -139,7 +139,7 @@ class DeconzGateway extends IPSModule
 #=====================================================================================
 	protected function GetDeconzConfiguration()
 
-#	Holt die Konfiguration und setzt, wenn erforderlich, den gültigen WebSocket-Port
+#	Holt die Gateway-Konfiguration
 #=====================================================================================
     {
 		$Buffer['command'] = '';
@@ -154,6 +154,34 @@ class DeconzGateway extends IPSModule
         if (property_exists($config, 'config')) {
 			return $config->config;
 		}
+    }
+	
+#=====================================================================================
+	public function GetConfig()
+
+#	public function von GetDeconzConfiguration()
+#=====================================================================================
+    {
+		$response = $this->GetDeconzConfiguration();
+		if(!$response)return(false);
+		return(json_encode($response));
+    }
+
+#=====================================================================================
+    public function SetConfig(string $parameter, string $value)
+
+#	Setzt Konfigurationsparameter des Gateways
+#=====================================================================================
+    {
+		$data[$parameter] = $value;
+
+		$Buffer['command'] = 'config';
+	    $Buffer['method'] = 'PUT';
+	    $Buffer['data'] = json_encode($data);
+
+		$response = $this->SendToDeconz(json_encode($Buffer));
+		$this->SendDebug("SetConfig", $response, 0);
+		return $response;
     }
 	
 #=====================================================================================
@@ -257,4 +285,3 @@ protected function GetDeconzWsPort()
 		}
     }
 }
-

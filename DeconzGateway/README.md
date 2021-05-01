@@ -19,6 +19,21 @@
 	</ol>
 	Das Gateway sollte jetzt funktionieren und den Status "Verbunden" anzeigen.<br><br>
 	Weiter geht es mit dem Konfigurator.
+	<h2>Mögliche PHP-Befehle</h2>
+	<table>
+	  <tr>
+		<td>1.</td>
+		<td><b><i>Z2D_GetConfig($ID)</i></b></td>
+		<td>Holt die Konfiguration des Gateways<br>
+			Diese wird als JSON-String ausgegeben</td>
+	  </tr>
+	  <tr>
+		<td>2.</td>
+		<td><b><i>Z2D_SetConfig($ID, $Parameter, $Value)</i></b></td>
+		<td>Konfiguration von Gateway-Parametern entsprechen der <a href="https://dresden-elektronik.github.io/deconz-rest-doc/endpoints/configuration/#modify-configuration">Parameterliste</a><br>
+			Der Erfolg der Änderung wird im Debugfenster angezeigt und als JSON-String zurückgemeldet</td>
+	  </tr>
+	</table>
   </body>
 </html>
 

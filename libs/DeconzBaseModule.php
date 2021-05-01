@@ -9,9 +9,10 @@ trait DeconzBaseModule
     public function Create()
 #=====================================================================================
     {
-        //Never delete this line!
+#		Never delete this line!
         parent::Create();
-        $this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
+
+		$this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
@@ -23,13 +24,13 @@ trait DeconzBaseModule
     public function ApplyChanges()
 #=====================================================================================
     {
-        //Never delete this line!
-        parent::ApplyChanges();
-			
 #		Filter setzen
 		$Filter = '.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").'.*'.preg_quote('\"').'.*';
 		$this->SendDebug("Filter", $Filter, 0);
 		$this->SetReceiveDataFilter($Filter);
+
+#		Never delete this line!
+		parent::ApplyChanges();
 
 		if($this->HasActiveParent())$this->GetStateDeconz();
     }
