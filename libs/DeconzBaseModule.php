@@ -25,7 +25,8 @@ trait DeconzBaseModule
 #=====================================================================================
     {
 #		Filter setzen
-		$Filter = '.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").'.*'.preg_quote('\"').'.*';
+		$Filter = " ";
+		if($this->ReadPropertyString("DeviceID") != "")$Filter = '.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").'.*'.preg_quote('\"').'.*';
 		$this->SendDebug("Filter", $Filter, 0);
 		$this->SetReceiveDataFilter($Filter);
 
