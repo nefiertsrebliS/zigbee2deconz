@@ -132,7 +132,12 @@ trait DeconzBaseModule
 						$this->SetStatus(215);
 					}
 				}
-			}
+				if (property_exists($Payload, 'alarm')) {
+					$this->RegisterVariableString('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
+					$this->SetValue('Z2D_alarm', $Payload->alarm);
+					$CommandList->alarm = $Command;
+				}
+		}
 		}elseif($data->r == "sensors"){
 			if (property_exists($data, 'state')) {
 				$Command = "/".$data->r."/".$data->uniqueid."/state";
