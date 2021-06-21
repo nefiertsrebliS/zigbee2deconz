@@ -134,7 +134,7 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'alert')) {
 					if (property_exists($data, 'type')){
-						if($data->type == 'On/Off plug-in unit'){
+						if($data->type == 'Warning device'){
 								if (!IPS_VariableProfileExists('Alert.Z2D')) {
 								IPS_CreateVariableProfile('Alert.Z2D', 1);
 								IPS_SetVariableProfileAssociation("Alert.Z2D", 0, $this->Translate('Off'), "", -1);
