@@ -44,8 +44,10 @@
       "Heat Setpoint": "Temperatur Sollwert",
       "Device unreachable": "Gerät nicht erreichbar",
       "Instance": "Instanz",
-      "Received Data unreadable": "Empfange Daten nicht lesbar"
-
+      "Received Data unreadable": "Empfange Daten nicht lesbar",
+      "Off": "Aus",
+      "Short On": "Kurz Ein",
+      "On": "Ein"
     }
   }
 }

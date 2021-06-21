@@ -47,6 +47,9 @@ trait DeconzHelper
             case 'Scene':
                 $this->SwitchScene($Value);
                 break;
+            case 'Alert':
+                $this->SwitchAlert($Value);
+                break;
             default:
                 $this->SendDebug('Request Action', 'No Action defined: ' . $Ident, 0);
                 break;
@@ -234,6 +237,15 @@ trait DeconzHelper
             return;
         }
         $this->SendParent($CommandList->scene.$value.'/recall', 'PUT', '');
+    }
+
+#=====================================================================================
+public function SwitchAlert(int $value)
+#=====================================================================================
+    {
+        $data['alert'] = array('none', 'select', 'lselect')[$value];
+        $Payload = json_encode($data);
+        $this->SetDeconz($Payload);
     }
 
 #=====================================================================================

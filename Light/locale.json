@@ -42,11 +42,13 @@
       "Power": "Leistung",
       "Current": "Stromstärke",
       "Heat Setpoint": "Temperatur Sollwert",
-	  "Device unreachable": "Gerät nicht erreichbar",
-	  "emulate Status": "Status emulieren",
-	  "Instance": "Instanz",
-	  "Received Data unreadable": "Empfange Daten nicht lesbar"
-
+      "Device unreachable": "Gerät nicht erreichbar",
+      "emulate Status": "Status emulieren",
+      "Instance": "Instanz",
+      "Received Data unreadable": "Empfange Daten nicht lesbar",
+      "Off": "Aus",
+      "Short On": "Kurz Ein",
+      "On": "Ein"
     }
   }
 }

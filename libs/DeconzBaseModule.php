@@ -132,10 +132,23 @@ trait DeconzBaseModule
 						$this->SetStatus(215);
 					}
 				}
-				if (property_exists($Payload, 'alarm')) {
-					$this->RegisterVariableString('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
-					$this->SetValue('Z2D_alarm', $Payload->alarm);
-					$CommandList->alarm = $Command;
+				if (property_exists($Payload, 'alert')) {
+					if (property_exists($data, 'type')){
+						if($data->type == 'On/Off plug-in unit'){
+								if (!IPS_VariableProfileExists('Alert.Z2D')) {
+								IPS_CreateVariableProfile('Alert.Z2D', 1);
+								IPS_SetVariableProfileAssociation("Alert.Z2D", 0, $this->Translate('Off'), "", -1);
+								IPS_SetVariableProfileAssociation("Alert.Z2D", 1, $this->Translate('Short On'), "", -1);
+								IPS_SetVariableProfileAssociation("Alert.Z2D", 2, $this->Translate('On'), "", -1);
+								IPS_SetVariableProfileIcon('Alert.Z2D', 'Alert');
+							};
+							$this->RegisterVariableInteger('Z2D_Alert', $this->Translate('Alarm'), 'Alert.Z2D');
+							$this->EnableAction('Z2D_Alert');
+							$value = array_search($Payload->alert, array('none', 'select', 'lselect'));
+							if($value !== false)$this->SetValue('Z2D_Alert', $value);
+							$CommandList->alert = $Command;	
+						}
+					} 
 				}
 		}
 		}elseif($data->r == "sensors"){
