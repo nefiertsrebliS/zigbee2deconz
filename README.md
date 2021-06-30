@@ -191,6 +191,10 @@
 		<td>Neu: Konfiguration von Gateway-Parametern<br>
 			Fix: Anlegen von Geistervariablen</td>
 	  </tr>
+      <tr>
+		<td>V3.07</td>
+		<td>Neu: Unterstützung von Warning-Devices</td>
+	  </tr>
 	</table>
   </body>
 </html>

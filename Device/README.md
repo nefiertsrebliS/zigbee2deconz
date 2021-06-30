@@ -88,6 +88,11 @@
 		<td><b><i>Z2D_setJson($ID, $value)</i></b></td>
 		<td>Setzen mehrerer Parameter über einen JSON-String</td>
 	  </tr>
+	  <tr>
+		<td>15.</td>
+		<td><b><i>Z2D_SwitchAlert($ID, $value)</i></b></td>
+		<td>Nur für Warning-Devices: Schaltet den Alarm ein/aus [0,1,2]</td>
+	  </tr>
 	</table>
   </body>
 </html>
