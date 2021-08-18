@@ -195,6 +195,12 @@
 		<td>V3.07</td>
 		<td>Neu: Unterstützung von Warning-Devices</td>
 	  </tr>
+      <tr>
+		<td>V3.08</td>
+		<td>Fix: Fehler beim ersten Aufruf von Variablenprofilen<br>
+			Fix: Fehlermeldungen bei nicht erreichbaren Geräten<br>
+			Fix: Spaltenbreite im Konfigurator</td>
+	  </tr>
 	</table>
   </body>
 </html>

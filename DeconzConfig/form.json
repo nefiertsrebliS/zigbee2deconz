@@ -10,27 +10,27 @@
             "columns": [{
                     "caption": "DeviceID",
                     "name": "DeviceID",
-                    "width": "15vw"
+                    "width": "250px"
                 },{
                     "caption": "Name",
                     "name": "name",
-                    "width": "auto"
+                    "width": "300px"
                 },{
                     "caption": "Manufacturer",
                     "name": "Manufacturer",
-                    "width": "15vw"
+                    "width": "200px"
                 },{
                     "caption": "Model",
                     "name": "modelID",
-                    "width": "15vw"
+                    "width": "300px"
                 },{
                     "caption": "Type",
                     "name": "DetailType",
-                    "width": "13vw"
+                    "width": "auto"
                 },{
                     "caption": "Class",
                     "name": "DeviceType",
-                    "width": "7vw"
+                    "width": "100px"
                 }
             ],
             "values": []

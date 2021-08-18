@@ -422,7 +422,8 @@ public function SwitchAlert(int $value)
 		$messages = json_decode($Result);
 		foreach($messages as $message){
 			if(property_exists($message, "error")){
-				$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$message->error->description,KL_ERROR);
+#				$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$message->error->description,KL_ERROR);
+                echo $message->error->description.chr(10);
 			}
 		}
     }

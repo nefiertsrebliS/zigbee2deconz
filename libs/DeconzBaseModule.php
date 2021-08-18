@@ -71,19 +71,19 @@ trait DeconzBaseModule
 					$this->SetValue('Z2D_Brightness', $bri);
 				}
 				if (property_exists($Payload, 'ct')) {
-					$this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 20);
-					$CommandList->ct = $Command;
-					$this->EnableAction('Z2D_ColorTemperature');
-					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
-					$value = round($value, -2);
-					$this->SetValue('Z2D_ColorTemperature', (int)$value);
-
 					if (!IPS_VariableProfileExists('ColorTemperature.Z2D')) {
 						IPS_CreateVariableProfile('ColorTemperature.Z2D', 1);
 						IPS_SetVariableProfileIcon('ColorTemperature.Z2D', 'TurnLeft');
 						IPS_SetVariableProfileText('ColorTemperature.Z2D', '', ' K');
 						IPS_SetVariableProfileValues('ColorTemperature.Z2D', 2000, 6500, 100);
 					}
+
+					$this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 20);
+					$CommandList->ct = $Command;
+					$this->EnableAction('Z2D_ColorTemperature');
+					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
+					$value = round($value, -2);
+					$this->SetValue('Z2D_ColorTemperature', (int)$value);
 				}
 				if (property_exists($Payload, 'xy')) {
 					$this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);
@@ -96,6 +96,14 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'colormode')) {
 					if ((property_exists($Payload, 'xy') || property_exists($Payload, 'hs')) && property_exists($Payload, 'ct')){
+						if (!IPS_VariableProfileExists('Colormode.Z2D')) {
+							IPS_CreateVariableProfile('Colormode.Z2D', 1);
+							IPS_SetVariableProfileIcon('Colormode.Z2D', 'TurnLeft');
+							IPS_SetVariableProfileAssociation('Colormode.Z2D', 1, $this->Translate('Color-Temperature'), '',-1);
+							IPS_SetVariableProfileAssociation('Colormode.Z2D', 2, $this->Translate('Multicolor'), '',-1);
+							IPS_SetVariableProfileValues('Colormode.Z2D', 1, 2, 1);
+						}
+
 						$this->RegisterVariableInteger('Z2D_colormode', $this->Translate('Colormode'), 'Colormode.Z2D', 10);
 						$CommandList->colormode = $Command;
 						$this->EnableAction('Z2D_colormode');
@@ -115,14 +123,6 @@ trait DeconzBaseModule
 								$colormode = 0;
 						}
 						$this->SetValue('Z2D_colormode', $colormode);
-
-						if (!IPS_VariableProfileExists('Colormode.Z2D')) {
-							IPS_CreateVariableProfile('Colormode.Z2D', 1);
-							IPS_SetVariableProfileIcon('Colormode.Z2D', 'TurnLeft');
-							IPS_SetVariableProfileAssociation('Colormode.Z2D', 1, $this->Translate('Color-Temperature'), '',-1);
-							IPS_SetVariableProfileAssociation('Colormode.Z2D', 2, $this->Translate('Multicolor'), '',-1);
-							IPS_SetVariableProfileValues('Colormode.Z2D', 1, 2, 1);
-						}
 					}
 				}
 				if (property_exists($Payload, 'reachable')) {
