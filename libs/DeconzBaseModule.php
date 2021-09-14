@@ -158,8 +158,12 @@ trait DeconzBaseModule
 	
 				$update = true;
 				if (property_exists($Payload, 'lastupdated')) {
-					if(strtotime($Payload->lastupdated." UTC") <> $this->ReadAttributeInteger("LastUpdated")){
-						$this->WriteAttributeInteger("LastUpdated", strtotime($Payload->lastupdated." UTC"));
+					$ts = $this->timestampWithMillis($Payload->lastupdated);
+					IPS_LogMessage("millis1", $ts);
+					IPS_LogMessage("millis2", $this->ReadAttributeFloat("LastUpdated"));
+					IPS_LogMessage("millis1 - 30 > millis2", $ts - 0.03 > $this->ReadAttributeFloat("LastUpdated"));
+					if($ts - 0.03 > $this->ReadAttributeFloat("LastUpdated")) {
+						$this->WriteAttributeFloat("LastUpdated", $ts);
 					}else{
 						$update = false;
 					}
@@ -420,4 +424,13 @@ trait DeconzBaseModule
 		}
 		$this->WriteAttributeString('CommandList', json_encode($CommandList));
 	}
+
+
+#=====================================================================================
+protected function timestampWithMillis($isoTime)
+#=====================================================================================
+    {
+        $dt = DateTime::createFromFormat("Y-m-d\TH:i:s.u+", $isoTime);
+        return $dt->getTimestamp() + ($dt->format("u") / 1000000);
+    }	
 }

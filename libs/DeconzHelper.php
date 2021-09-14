@@ -550,5 +550,6 @@ public function SwitchAlert(int $value)
 
         return $dec;
     }
+
 }
 
