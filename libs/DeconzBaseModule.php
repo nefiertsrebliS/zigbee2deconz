@@ -17,7 +17,7 @@ trait DeconzBaseModule
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
-		$this->RegisterAttributeInteger("LastUpdated", 0);
+		$this->RegisterAttributeFloat("LastUpdated", 0);
 }
 
 #=====================================================================================
