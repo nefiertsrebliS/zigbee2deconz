@@ -159,7 +159,6 @@ trait DeconzBaseModule
 				$update = true;
 				if (property_exists($Payload, 'lastupdated')) {
 					$ts = $this->timestampWithMillis($Payload->lastupdated);
-					IPS_LogMessage("deconz", $ts . " - 0-03 > " . $this->ReadAttributeFloat("LastUpdated") . " = " . ($ts - 0.03 > $this->ReadAttributeFloat("LastUpdated")));
 					if($ts - 0.03 > $this->ReadAttributeFloat("LastUpdated")) {
 						$this->WriteAttributeFloat("LastUpdated", $ts);
 					}else{
