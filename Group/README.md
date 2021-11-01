@@ -76,20 +76,25 @@
 	  <tr>
 		<td>12.</td>
 		<td><b><i>Z2D_SwitchScene($ID, $SceneID)</i></b></td>
-		<td>Aktivierung einer Licht-Szene</td>
+		<td>Aktivierung einer Licht-Szene ($SceneID: siehe Szene-Profil)</td>
 	  </tr>
 	  <tr>
 		<td>13.</td>
+		<td><b><i>Z2D_SwitchSceneByName($ID, $Name)</i></b></td>
+		<td>Aktivierung einer Licht-Szene mit dem Szenennamen</td>
+	  </tr>
+	  <tr>
+		<td>14.</td>
 		<td><b><i>Z2D_setAlert($ID, $value)</i></b></td>
 		<td>Temporärer Alarm (none, select, lselect)</td>
 	  </tr>
 	  <tr>
-		<td>14.</td>
+		<td>15.</td>
 		<td><b><i>Z2D_setColorloop($ID, $value)</i></b></td>
 		<td>Einen Colorloop ausführen (0-255, 0 = aus)</td>
 	  </tr>
 	  <tr>
-		<td>15.</td>
+		<td>16.</td>
 		<td><b><i>Z2D_setJson($ID, $value)</i></b></td>
 		<td>Setzen mehrerer Parameter über einen JSON-String</td>
 	  </tr>

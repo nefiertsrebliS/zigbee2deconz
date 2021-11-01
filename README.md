@@ -201,6 +201,11 @@
 			Fix: Fehlermeldungen bei nicht erreichbaren Geräten<br>
 			Fix: Spaltenbreite im Konfigurator</td>
 	  </tr>
+      <tr>
+		<td>V3.09</td>
+		<td>Fix: Gruppenszenen werden nicht aktualisiert<br>
+			Neu: SwitchSceneByName</td>
+	  </tr>
 	</table>
   </body>
 </html>

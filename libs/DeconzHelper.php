@@ -240,7 +240,68 @@ trait DeconzHelper
     }
 
 #=====================================================================================
-public function SwitchAlert(int $value)
+    public function SwitchSceneByName(string $name)
+#=====================================================================================
+    {
+        $Assotiations = IPS_GetVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')["Associations"];
+        $key = array_search($name, array_column($Assotiations, 'Name'));
+        if($key !== false){
+            $this->SwitchScene(intval($Assotiations[$key]['Value']));
+        }else{            
+            echo "Z2D_SwitchSceneByName: unknown Scene"; 
+        }
+    }
+
+#=====================================================================================
+    private function GetScenes(string $command)
+#=====================================================================================
+    {
+        $Scenes = json_decode($this->SendParent($command, 'GET', ''));
+        if(is_null($Scenes)){
+            $this->UnregisterVariable('Z2D_Scene');
+            if (IPS_VariableProfileExists('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D'))IPS_DeleteVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D');
+            return false;
+        }
+
+        if (!IPS_VariableProfileExists('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')) {
+            IPS_CreateVariableProfile ('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 1);
+            IPS_SetVariableProfileIcon('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 'Bulb');
+        }
+        $this->RegisterVariableInteger('Z2D_Scene', $this->Translate('Scene'), 'Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 20);
+        $this->EnableAction('Z2D_Scene');
+
+#-------------------------------------------------------------------------------------
+#	obsolete Scenen im Profil löschen oder geänderte Namen anpassen
+#-------------------------------------------------------------------------------------
+				
+        $Assotiations = IPS_GetVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')["Associations"];
+        foreach($Assotiations as $Assotiation){
+            $num = "".$Assotiation['Value'];
+            if (property_exists($Scenes, $num)) {
+                if($Scenes->$num->name != $Assotiation['Name']){
+                    IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $num, $Scenes->$num->name, '',-1);
+                }
+            }else{
+                IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $num, '', '',-1);
+            }
+        }
+
+#-------------------------------------------------------------------------------------
+#	neue Scenen ins Profil schreiben 
+#-------------------------------------------------------------------------------------
+
+        foreach($Scenes as $id=>$Scene){
+            $key = array_search($id, array_column($Assotiations, 'Value'));
+            if($key === false || $Assotiations[$key]['Name'] != $Scene->name){
+                IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $id, $Scene->name, '',-1);
+            }
+        }
+
+        return true;
+    }
+
+#=====================================================================================
+    public function SwitchAlert(int $value)
 #=====================================================================================
     {
         $data['alert'] = array('none', 'select', 'lselect')[$value];

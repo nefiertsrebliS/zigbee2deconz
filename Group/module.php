@@ -63,6 +63,12 @@ class Z2DGroup extends IPSModule
 
 		$CommandList = json_decode($this->ReadAttributeString('CommandList'));
 		if(!$CommandList)$CommandList = new \stdClass;
+
+		if(time() - $this->ReadAttributeInteger("LastUpdated") > 10){
+			$this->WriteAttributeInteger("LastUpdated", time());
+			if($this->GetScenes("/groups/".$this->ReadPropertyString('DeviceID')."/scenes/"))$CommandList->scene = "/groups/".$this->ReadPropertyString('DeviceID')."/scenes/";
+		}
+
 		if($data->r == "groups"){
 			if (property_exists($data, 'state')) {
 				$Command = "/groups/".$data->id."/action";
@@ -76,42 +82,6 @@ class Z2DGroup extends IPSModule
 				if (property_exists($Payload, 'any_on')) {
 					$this->RegisterVariableBoolean('Z2D_AnyOn', $this->Translate('any on'), '~Switch', 10);
 					$this->SetValue('Z2D_AnyOn', $Payload->any_on);
-				}
-			}
-
-			if (property_exists($data, 'scenes')) {
-				$Scenes = json_decode(json_encode($data->scenes),true);
-				if(count($Scenes) > 0){
-					$this->RegisterVariableInteger('Z2D_Scene', $this->Translate('Scene'), 'Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 20);
-					$CommandList->scene = "/groups/".$data->id."/scenes/";
-					$this->EnableAction('Z2D_Scene');
-					if (!IPS_VariableProfileExists('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')) {
-						IPS_CreateVariableProfile ('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 1);
-						IPS_SetVariableProfileIcon('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', 'Bulb');
-					}
-
-#-------------------------------------------------------------------------------------
-#	Fehlende Scenen im Profil ergänzen
-#-------------------------------------------------------------------------------------
-
-					$Assotiations = IPS_GetVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')["Associations"];
-					foreach($Scenes as $Scene){
-						$key = array_search($Scene['id'], array_column($Assotiations, 'Value'));
-						if($key !== false){
-							if($Assotiations[$key]['Name'] != $Scene['name']) IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Scene['id'], $Scene['name'], '',-1);
-						}else{
-							IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Scene['id'], $Scene['name'], '',-1);
-						}
-					}
-
-#-------------------------------------------------------------------------------------
-#	In DeConz entfernte Scenen im Profil löschen
-#-------------------------------------------------------------------------------------
-				
-					foreach($Assotiations as $Assotiation){
-						$key = array_search($Assotiation['Value'], array_column($Scenes, 'id'));
-						if($key === false) IPS_SetVariableProfileAssociation('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D', $Assotiation['Value'], '', '',-1);
-					}
 				}
 			}
 
