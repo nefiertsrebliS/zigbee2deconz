@@ -206,6 +206,10 @@
 		<td>Fix: Gruppenszenen werden nicht aktualisiert<br>
 			Neu: SwitchSceneByName</td>
 	  </tr>
+      <tr>
+		<td>V3.10</td>
+		<td>Fix: Fehler beim Aufruf von Z2D_setSensitivity</td>
+	  </tr>
 	</table>
   </body>
 </html>

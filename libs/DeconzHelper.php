@@ -357,7 +357,7 @@ trait DeconzHelper
 		    if($value > $max) $value = $max;
 		}
 		$data['sensitivity'] = $value;
-        $this->SetDeconz('config', json_encode($data));
+        $this->SetDeconz(json_encode($data));
     }
 
 #=====================================================================================
