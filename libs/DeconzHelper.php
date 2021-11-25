@@ -611,5 +611,6 @@ trait DeconzHelper
 
         return $dec;
     }
+
 }
 

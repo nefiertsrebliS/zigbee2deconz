@@ -17,7 +17,7 @@ trait DeconzBaseModule
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
-		$this->RegisterAttributeInteger("LastUpdated", 0);
+		$this->RegisterAttributeFloat("LastUpdated", 0);
 }
 
 #=====================================================================================
@@ -158,8 +158,9 @@ trait DeconzBaseModule
 	
 				$update = true;
 				if (property_exists($Payload, 'lastupdated')) {
-					if(strtotime($Payload->lastupdated." UTC") <> $this->ReadAttributeInteger("LastUpdated")){
-						$this->WriteAttributeInteger("LastUpdated", strtotime($Payload->lastupdated." UTC"));
+					$ts = $this->timestampWithMillis($Payload->lastupdated);
+					if($ts - 0.03 > $this->ReadAttributeFloat("LastUpdated")) {
+						$this->WriteAttributeFloat("LastUpdated", $ts);
 					}else{
 						$update = false;
 					}
@@ -420,4 +421,13 @@ trait DeconzBaseModule
 		}
 		$this->WriteAttributeString('CommandList', json_encode($CommandList));
 	}
+
+
+#=====================================================================================
+	protected function timestampWithMillis($isoTime)
+#=====================================================================================
+    {
+        $dt = DateTime::createFromFormat("Y-m-d\TH:i:s.u+", $isoTime);
+        return $dt->getTimestamp() + ($dt->format("u") / 1000000);
+    }	
 }
