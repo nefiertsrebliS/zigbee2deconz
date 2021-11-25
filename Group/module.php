@@ -19,7 +19,7 @@ class Z2DGroup extends IPSModule
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
 		$this->RegisterAttributeString('GroupLights', "");
-		$this->RegisterAttributeFloat("LastUpdated", 0);
+		$this->RegisterAttributeInteger("LastUpdated", 0);
     }
 
 

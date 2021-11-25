@@ -210,6 +210,10 @@
 		<td>V3.10</td>
 		<td>Fix: Fehler beim Aufruf von Z2D_setSensitivity</td>
 	  </tr>
+      <tr>
+		<td>V3.11</td>
+		<td>Neu: Berücksichtigung von Millisekunden beim Update von Tastendrücken</td>
+	  </tr>
 	</table>
   </body>
 </html>
