@@ -17,7 +17,6 @@ trait DeconzBaseModule
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
-		$this->RegisterAttributeFloat("LastUpdated", 0);
 }
 
 #=====================================================================================
@@ -159,8 +158,8 @@ trait DeconzBaseModule
 				$update = true;
 				if (property_exists($Payload, 'lastupdated')) {
 					$ts = $this->timestampWithMillis($Payload->lastupdated);
-					if($ts - 0.03 > $this->ReadAttributeFloat("LastUpdated")) {
-						$this->WriteAttributeFloat("LastUpdated", $ts);
+					if($ts - (float) $this->GetBuffer($data->uniqueid) > 0.03) {
+						$this->SetBuffer($data->uniqueid, $ts);
 					}else{
 						$update = false;
 					}
@@ -221,133 +220,133 @@ trait DeconzBaseModule
 						$this->RegisterVariableInteger('Z2D_Gesture', $this->Translate('Gesture'), 'Gesture.Z2D');
 						$this->SetValue('Z2D_Gesture', $Payload->gesture);
 					}
-					if (property_exists($Payload, 'carbonmonoxide')) {
-						$this->RegisterVariableBoolean('Z2D_Carbonmonoxide', $this->Translate('Carbonmonoxide'), '~Alert');
-						$this->SetValue('Z2D_Carbonmonoxide', $Payload->carbonmonoxide);
+				}
+				if (property_exists($Payload, 'carbonmonoxide')) {
+					$this->RegisterVariableBoolean('Z2D_Carbonmonoxide', $this->Translate('Carbonmonoxide'), '~Alert');
+					$this->SetValue('Z2D_Carbonmonoxide', $Payload->carbonmonoxide);
+				}
+				if (property_exists($Payload, 'dark')) {
+					$this->RegisterVariableBoolean('Z2D_dark', $this->Translate('dark'), '~Switch');
+					$this->SetValue('Z2D_dark', $Payload->dark);
+				}
+				if (property_exists($Payload, 'fire')) {
+					$this->RegisterVariableBoolean('Z2D_fire', $this->Translate('Fire'), '~Alert');
+					$this->SetValue('Z2D_fire', $Payload->fire);
+				}
+				if (property_exists($Payload, 'daylight')) {
+					$this->RegisterVariableBoolean('Z2D_daylight', $this->Translate('Daylight'), '~Switch');
+					$this->SetValue('Z2D_daylight', $Payload->daylight);
+				}
+				if (property_exists($Payload, 'lowbattery')) {
+					$this->RegisterVariableBoolean('Z2D_lowbattery', $this->Translate('Battery'), '~Battery');
+					$this->SetValue('Z2D_lowbattery', $Payload->lowbattery);
+				}
+				if (property_exists($Payload, 'presence')) {
+					$this->RegisterVariableBoolean('Z2D_presence', $this->Translate('Presence'), '~Presence');
+					$this->SetValue('Z2D_presence', $Payload->presence);
+				}
+				if (property_exists($Payload, 'open')) {
+					$this->RegisterVariableBoolean('Z2D_open', $this->Translate('open'), '~Window');
+					$this->SetValue('Z2D_open', $Payload->open);
+				}
+				if (property_exists($Payload, 'on')) {
+					$this->RegisterVariableBoolean('Z2D_on', $this->Translate('on'), '~Switch');
+					$this->SetValue('Z2D_on', $Payload->on);
+				}
+				if (property_exists($Payload, 'alarm')) {
+					$this->RegisterVariableBoolean('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
+					$this->SetValue('Z2D_alarm', $Payload->alarm);
+					$CommandList->alarm = $Command;
+				}
+				if (property_exists($Payload, 'tampered')) {
+					$this->RegisterVariableBoolean('Z2D_tampered', $this->Translate('tampered'), '~Alert');
+					$this->SetValue('Z2D_tampered', $Payload->tampered);
+				}
+				if (property_exists($Payload, 'water')) {
+					$this->RegisterVariableBoolean('Z2D_water', $this->Translate('Water'), '~Alert');
+					$this->SetValue('Z2D_water', $Payload->water);
+				}
+				if (property_exists($Payload, 'vibration')) {
+					$this->RegisterVariableBoolean('Z2D_vibration', $this->Translate('Vibration'), '~Alert');
+					$this->SetValue('Z2D_vibration', $Payload->vibration);
+				}
+				if (property_exists($Payload, 'orientation')) {
+					$this->RegisterVariableString('Z2D_orientation', $this->Translate('Orientation'), '');
+					$this->SetValue('Z2D_orientation', json_encode($Payload->orientation));
+				}
+				if (property_exists($Payload, 'vibrationstrength')) {
+					$this->RegisterVariableInteger('Z2D_vibrationstrength', $this->Translate('Vibrationstrength'), '');
+					$this->SetValue('Z2D_vibrationstrength', $Payload->vibrationstrength);
+				}
+				if (property_exists($Payload, 'tiltangle')) {
+					if (!IPS_VariableProfileExists('TiltAngle.Z2D')) {
+						IPS_CreateVariableProfile('TiltAngle.Z2D', 1);
+						IPS_SetVariableProfileIcon('TiltAngle.Z2D', 'TurnLeft');
+						IPS_SetVariableProfileText('TiltAngle.Z2D', '', ' °');
+						IPS_SetVariableProfileValues('TiltAngle.Z2D', 0, 360, 0);
 					}
-					if (property_exists($Payload, 'dark')) {
-						$this->RegisterVariableBoolean('Z2D_dark', $this->Translate('dark'), '~Switch');
-						$this->SetValue('Z2D_dark', $Payload->dark);
+
+					$this->RegisterVariableInteger('Z2D_tiltangle', $this->Translate('Tiltangle'), 'TiltAngle.Z2D');
+					$this->SetValue('Z2D_tiltangle', $Payload->tiltangle);
+				}
+				if (property_exists($Payload, 'humidity')) {
+					$this->RegisterVariableFloat('Z2D_humidity', $this->Translate('Humidity'), '~Humidity.F');
+					$this->SetValue('Z2D_humidity', $Payload->humidity / 100.0);
+				}
+				if (property_exists($Payload, 'lux')) {
+					$this->RegisterVariableFloat('Z2D_lux', $this->Translate('Illumination'), '~Illumination.F');
+					$this->SetValue('Z2D_lux', $Payload->lux);
+				}
+				if (property_exists($Payload, 'lightlevel')) {
+					$this->RegisterVariableFloat('Z2D_lightlevel', $this->Translate('Illumination'), '~Illumination.F');
+					$this->SetValue('Z2D_lightlevel', $Payload->lightlevel);
+				}
+				if (property_exists($Payload, 'pressure')) {
+					$this->RegisterVariableFloat('Z2D_pressure', $this->Translate('Airpressure'), '~AirPressure.F');
+					$this->SetValue('Z2D_pressure', $Payload->pressure);
+				}
+				if (property_exists($Payload, 'temperature')) {
+					$this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature');
+					$this->SetValue('Z2D_temperature', $Payload->temperature / 100.0);
+				}
+				if (property_exists($Payload, 'consumption')) {
+					$this->RegisterVariableFloat('Z2D_consumption', $this->Translate('Consumption'), '~Electricity');
+					$this->SetValue('Z2D_consumption', round($Payload->consumption / 1000 ,3));
+				}
+				if (property_exists($Payload, 'power')) {
+					$this->RegisterVariableFloat('Z2D_power', $this->Translate('Power'), '~Watt.14490');
+					$this->SetValue('Z2D_power', $Payload->power);
+				}
+				if (property_exists($Payload, 'voltage')) {
+					$this->RegisterVariableFloat('Z2D_voltage', $this->Translate('Voltage'), '~Volt');
+					$this->SetValue('Z2D_voltage', $Payload->voltage);
+				}
+				if (property_exists($Payload, 'valve')) {
+					$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255');
+					$this->SetValue('Z2D_valve', $Payload->valve);
+				}
+				if (property_exists($Payload, 'current')) {
+					if (!IPS_VariableProfileExists('Ampere.Z2D')) {
+						IPS_CreateVariableProfile('Ampere.Z2D', 2);
+						IPS_SetVariableProfileIcon('Ampere.Z2D', 'Electricity');
+						IPS_SetVariableProfileText('Ampere.Z2D', '', ' A');
+						IPS_SetVariableProfileDigits('Ampere.Z2D', 2);
 					}
-					if (property_exists($Payload, 'fire')) {
-						$this->RegisterVariableBoolean('Z2D_fire', $this->Translate('Fire'), '~Alert');
-						$this->SetValue('Z2D_fire', $Payload->fire);
+
+					$this->RegisterVariableFloat('Z2D_current', $this->Translate('Current'), 'Ampere.Z2D');
+
+					$this->SetValue('Z2D_current', round($Payload->current / 1000 ,3));
+				}
+				if (property_exists($Payload, 'reachable')) {
+					if($Payload->reachable){
+						$this->SetStatus(102);
+					}else{
+						$this->SetStatus(215);
 					}
-					if (property_exists($Payload, 'daylight')) {
-						$this->RegisterVariableBoolean('Z2D_daylight', $this->Translate('Daylight'), '~Switch');
-						$this->SetValue('Z2D_daylight', $Payload->daylight);
-					}
-					if (property_exists($Payload, 'lowbattery')) {
-						$this->RegisterVariableBoolean('Z2D_lowbattery', $this->Translate('Battery'), '~Battery');
-						$this->SetValue('Z2D_lowbattery', $Payload->lowbattery);
-					}
-					if (property_exists($Payload, 'presence')) {
-						$this->RegisterVariableBoolean('Z2D_presence', $this->Translate('Presence'), '~Presence');
-						$this->SetValue('Z2D_presence', $Payload->presence);
-					}
-					if (property_exists($Payload, 'open')) {
-						$this->RegisterVariableBoolean('Z2D_open', $this->Translate('open'), '~Window');
-						$this->SetValue('Z2D_open', $Payload->open);
-					}
-					if (property_exists($Payload, 'on')) {
-						$this->RegisterVariableBoolean('Z2D_on', $this->Translate('on'), '~Switch');
-						$this->SetValue('Z2D_on', $Payload->on);
-					}
-					if (property_exists($Payload, 'alarm')) {
-						$this->RegisterVariableBoolean('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
-						$this->SetValue('Z2D_alarm', $Payload->alarm);
-						$CommandList->alarm = $Command;
-					}
-					if (property_exists($Payload, 'tampered')) {
-						$this->RegisterVariableBoolean('Z2D_tampered', $this->Translate('tampered'), '~Alert');
-						$this->SetValue('Z2D_tampered', $Payload->tampered);
-					}
-					if (property_exists($Payload, 'water')) {
-						$this->RegisterVariableBoolean('Z2D_water', $this->Translate('Water'), '~Alert');
-						$this->SetValue('Z2D_water', $Payload->water);
-					}
-					if (property_exists($Payload, 'vibration')) {
-						$this->RegisterVariableBoolean('Z2D_vibration', $this->Translate('Vibration'), '~Alert');
-						$this->SetValue('Z2D_vibration', $Payload->vibration);
-					}
-					if (property_exists($Payload, 'orientation')) {
-						$this->RegisterVariableString('Z2D_orientation', $this->Translate('Orientation'), '');
-						$this->SetValue('Z2D_orientation', json_encode($Payload->orientation));
-					}
-					if (property_exists($Payload, 'vibrationstrength')) {
-						$this->RegisterVariableInteger('Z2D_vibrationstrength', $this->Translate('Vibrationstrength'), '');
-						$this->SetValue('Z2D_vibrationstrength', $Payload->vibrationstrength);
-					}
-					if (property_exists($Payload, 'tiltangle')) {
-						if (!IPS_VariableProfileExists('TiltAngle.Z2D')) {
-							IPS_CreateVariableProfile('TiltAngle.Z2D', 1);
-							IPS_SetVariableProfileIcon('TiltAngle.Z2D', 'TurnLeft');
-							IPS_SetVariableProfileText('TiltAngle.Z2D', '', ' °');
-							IPS_SetVariableProfileValues('TiltAngle.Z2D', 0, 360, 0);
-						}
-	
-						$this->RegisterVariableInteger('Z2D_tiltangle', $this->Translate('Tiltangle'), 'TiltAngle.Z2D');
-						$this->SetValue('Z2D_tiltangle', $Payload->tiltangle);
-					}
-					if (property_exists($Payload, 'humidity')) {
-						$this->RegisterVariableFloat('Z2D_humidity', $this->Translate('Humidity'), '~Humidity.F');
-						$this->SetValue('Z2D_humidity', $Payload->humidity / 100.0);
-					}
-					if (property_exists($Payload, 'lux')) {
-						$this->RegisterVariableFloat('Z2D_lux', $this->Translate('Illumination'), '~Illumination.F');
-						$this->SetValue('Z2D_lux', $Payload->lux);
-					}
-					if (property_exists($Payload, 'lightlevel')) {
-						$this->RegisterVariableFloat('Z2D_lightlevel', $this->Translate('Illumination'), '~Illumination.F');
-						$this->SetValue('Z2D_lightlevel', $Payload->lightlevel);
-					}
-					if (property_exists($Payload, 'pressure')) {
-						$this->RegisterVariableFloat('Z2D_pressure', $this->Translate('Airpressure'), '~AirPressure.F');
-						$this->SetValue('Z2D_pressure', $Payload->pressure);
-					}
-					if (property_exists($Payload, 'temperature')) {
-						$this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature');
-						$this->SetValue('Z2D_temperature', $Payload->temperature / 100.0);
-					}
-					if (property_exists($Payload, 'consumption')) {
-						$this->RegisterVariableFloat('Z2D_consumption', $this->Translate('Consumption'), '~Electricity');
-						$this->SetValue('Z2D_consumption', round($Payload->consumption / 1000 ,3));
-					}
-					if (property_exists($Payload, 'power')) {
-						$this->RegisterVariableFloat('Z2D_power', $this->Translate('Power'), '~Watt.14490');
-						$this->SetValue('Z2D_power', $Payload->power);
-					}
-					if (property_exists($Payload, 'voltage')) {
-						$this->RegisterVariableFloat('Z2D_voltage', $this->Translate('Voltage'), '~Volt');
-						$this->SetValue('Z2D_voltage', $Payload->voltage);
-					}
-					if (property_exists($Payload, 'valve')) {
-						$this->RegisterVariableInteger('Z2D_valve', $this->Translate('Valve'), '~Intensity.255');
-						$this->SetValue('Z2D_valve', $Payload->valve);
-					}
-					if (property_exists($Payload, 'current')) {
-						if (!IPS_VariableProfileExists('Ampere.Z2D')) {
-							IPS_CreateVariableProfile('Ampere.Z2D', 2);
-							IPS_SetVariableProfileIcon('Ampere.Z2D', 'Electricity');
-							IPS_SetVariableProfileText('Ampere.Z2D', '', ' A');
-							IPS_SetVariableProfileDigits('Ampere.Z2D', 2);
-						}
-	
-						$this->RegisterVariableFloat('Z2D_current', $this->Translate('Current'), 'Ampere.Z2D');
-	
-						$this->SetValue('Z2D_current', round($Payload->current / 1000 ,3));
-					}
-					if (property_exists($Payload, 'reachable')) {
-						if($Payload->reachable){
-							$this->SetStatus(102);
-						}else{
-							$this->SetStatus(215);
-						}
-					}
-					if (property_exists($Payload, 'battery')) {
-						$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
-						$this->SetValue('Z2D_Battery', $Payload->battery);
-					}
+				}
+				if (property_exists($Payload, 'battery')) {
+					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
+					$this->SetValue('Z2D_Battery', $Payload->battery);
 				}
 			}
 	

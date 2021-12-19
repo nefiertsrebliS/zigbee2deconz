@@ -214,6 +214,10 @@
 		<td>V3.11</td>
 		<td>Neu: Berücksichtigung von Millisekunden beim Update von Tastendrücken</td>
 	  </tr>
+      <tr>
+		<td>V3.12</td>
+		<td>Fix: Update bei zusammengefassten Geräten teilweise fehlerhaft</td>
+	  </tr>
 	</table>
   </body>
 </html>
