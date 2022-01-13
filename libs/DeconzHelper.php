@@ -91,7 +91,7 @@ trait DeconzHelper
     public function DimStop()
 #=====================================================================================
     {
-		$Payload = '{"bri_inc":0}';
+		$Payload = '{"on":true,"bri_inc":0}';
         $this->SetDeconz($Payload);
     }
 
@@ -157,7 +157,7 @@ trait DeconzHelper
     public function ColorTemperatureStop()
 #=====================================================================================
     {
-		$Payload = '{"ct_inc":0}';
+		$Payload = '{"on":true,"ct_inc":0}';
         $this->SetDeconz($Payload);
     }
 

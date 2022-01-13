@@ -218,6 +218,10 @@
 		<td>V3.12</td>
 		<td>Fix: Update bei zusammengefassten Geräten teilweise fehlerhaft</td>
 	  </tr>
+      <tr>
+		<td>V3.13</td>
+		<td>Fix: unknown Command bei DimStop, ColorTemperatureStop</td>
+	  </tr>
 	</table>
   </body>
 </html>
