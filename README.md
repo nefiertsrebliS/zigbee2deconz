@@ -222,6 +222,10 @@
 		<td>V3.13</td>
 		<td>Fix: unknown Command bei DimStop, ColorTemperatureStop</td>
 	  </tr>
+      <tr>
+		<td>V3.14</td>
+		<td>Entfall Entprellung von Tastendrücken</td>
+	  </tr>
 	</table>
   </body>
 </html>

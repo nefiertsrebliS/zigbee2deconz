@@ -154,72 +154,60 @@ trait DeconzBaseModule
 			if (property_exists($data, 'state')) {
 				$Command = "/".$data->r."/".$data->uniqueid."/state";
 				$Payload = $data->state;
-	
-				$update = true;
-				if (property_exists($Payload, 'lastupdated')) {
-					$ts = $this->timestampWithMillis($Payload->lastupdated);
-					if($ts - (float) $this->GetBuffer($data->uniqueid) > 0.03) {
-						$this->SetBuffer($data->uniqueid, $ts);
+
+				if (property_exists($Payload, 'buttonevent')) {
+					if (@$Payload->gesture == 7 || @$Payload->gesture == 8) {
+						if (!IPS_VariableProfileExists('Angle.Z2D')) {
+							IPS_CreateVariableProfile('Angle.Z2D', 2);
+							IPS_SetVariableProfileIcon('Angle.Z2D', 'Repeat');
+							IPS_SetVariableProfileText('Angle.Z2D', '', ' °');
+							IPS_SetVariableProfileDigits('Angle.Z2D', 2);
+						}
+						$this->RegisterVariableFloat('Z2D_angle', $this->Translate('Angle'), 'Angle.Z2D');
+						$this->SetValue('Z2D_angle', round($Payload->buttonevent / 100 ,2));
 					}else{
-						$update = false;
+						$this->RegisterVariableInteger('Z2D_Event', $this->Translate('Event'), '');
+						$this->SetValue('Z2D_Event', $Payload->buttonevent);
+
+						$button = (int)($Payload->buttonevent / 1000);
+						$state  = $Payload->buttonevent % 1000;
+
+						if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
+							IPS_CreateVariableProfile('ButtonEvent.Z2D', 1);
+							IPS_SetVariableProfileIcon('ButtonEvent.Z2D', 'Power');
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 0, $this->Translate('Initial Press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 1, $this->Translate('Hold'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 2, $this->Translate('Release after press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 3, $this->Translate('Release after hold'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 4, $this->Translate('Double press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 5, $this->Translate('Triple press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 6, $this->Translate('Quadruple press'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 7, $this->Translate('Shake'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 8, $this->Translate('Drop'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 9, $this->Translate('Tilt'), '',-1);
+							IPS_SetVariableProfileAssociation('ButtonEvent.Z2D',10, $this->Translate('Many press'), '',-1);
+						}
+
+						$this->RegisterVariableInteger('Z2D_Button_'.$button, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
+						$this->SetValue('Z2D_Button_'.$button, $state);
 					}
 				}
-	
-				if($update){
-					if (property_exists($Payload, 'buttonevent')) {
-						if (@$Payload->gesture == 7 || @$Payload->gesture == 8) {
-							if (!IPS_VariableProfileExists('Angle.Z2D')) {
-								IPS_CreateVariableProfile('Angle.Z2D', 2);
-								IPS_SetVariableProfileIcon('Angle.Z2D', 'Repeat');
-								IPS_SetVariableProfileText('Angle.Z2D', '', ' °');
-								IPS_SetVariableProfileDigits('Angle.Z2D', 2);
-							}
-							$this->RegisterVariableFloat('Z2D_angle', $this->Translate('Angle'), 'Angle.Z2D');
-							$this->SetValue('Z2D_angle', round($Payload->buttonevent / 100 ,2));
-						}else{
-							$this->RegisterVariableInteger('Z2D_Event', $this->Translate('Event'), '');
-							$this->SetValue('Z2D_Event', $Payload->buttonevent);
-	
-							$button = (int)($Payload->buttonevent / 1000);
-							$state  = $Payload->buttonevent % 1000;
-	
-							if (!IPS_VariableProfileExists('ButtonEvent.Z2D')) {
-								IPS_CreateVariableProfile('ButtonEvent.Z2D', 1);
-								IPS_SetVariableProfileIcon('ButtonEvent.Z2D', 'Power');
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 0, $this->Translate('Initial Press'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 1, $this->Translate('Hold'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 2, $this->Translate('Release after press'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 3, $this->Translate('Release after hold'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 4, $this->Translate('Double press'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 5, $this->Translate('Triple press'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 6, $this->Translate('Quadruple press'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 7, $this->Translate('Shake'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 8, $this->Translate('Drop'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D', 9, $this->Translate('Tilt'), '',-1);
-								IPS_SetVariableProfileAssociation('ButtonEvent.Z2D',10, $this->Translate('Many press'), '',-1);
-							}
-	
-							$this->RegisterVariableInteger('Z2D_Button_'.$button, $this->Translate('Button')." ".$button, 'ButtonEvent.Z2D');
-							$this->SetValue('Z2D_Button_'.$button, $state);
-						}
+				if (property_exists($Payload, 'gesture')) {
+					if (!IPS_VariableProfileExists('Gesture.Z2D')) {
+						IPS_CreateVariableProfile('Gesture.Z2D', 1);
+						IPS_SetVariableProfileIcon('Gesture.Z2D', 'Repeat');
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 0, $this->Translate('Move'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 1, $this->Translate('Shake'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 2, $this->Translate('Drop'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 3, $this->Translate('Tilt').' 90°', '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 4, $this->Translate('Tilt').' 180°', '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 5, $this->Translate('Move'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 6, '2x '.$this->Translate('Knock'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 7, $this->Translate('Rotate Clockwise'), '',-1);
+						IPS_SetVariableProfileAssociation('Gesture.Z2D', 8, $this->Translate('Rotate Counter Clockwise'), '',-1);
 					}
-					if (property_exists($Payload, 'gesture')) {
-						if (!IPS_VariableProfileExists('Gesture.Z2D')) {
-							IPS_CreateVariableProfile('Gesture.Z2D', 1);
-							IPS_SetVariableProfileIcon('Gesture.Z2D', 'Repeat');
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 0, $this->Translate('Move'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 1, $this->Translate('Shake'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 2, $this->Translate('Drop'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 3, $this->Translate('Tilt').' 90°', '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 4, $this->Translate('Tilt').' 180°', '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 5, $this->Translate('Move'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 6, '2x '.$this->Translate('Knock'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 7, $this->Translate('Rotate Clockwise'), '',-1);
-							IPS_SetVariableProfileAssociation('Gesture.Z2D', 8, $this->Translate('Rotate Counter Clockwise'), '',-1);
-						}
-						$this->RegisterVariableInteger('Z2D_Gesture', $this->Translate('Gesture'), 'Gesture.Z2D');
-						$this->SetValue('Z2D_Gesture', $Payload->gesture);
-					}
+					$this->RegisterVariableInteger('Z2D_Gesture', $this->Translate('Gesture'), 'Gesture.Z2D');
+					$this->SetValue('Z2D_Gesture', $Payload->gesture);
 				}
 				if (property_exists($Payload, 'carbonmonoxide')) {
 					$this->RegisterVariableBoolean('Z2D_Carbonmonoxide', $this->Translate('Carbonmonoxide'), '~Alert');
@@ -420,13 +408,4 @@ trait DeconzBaseModule
 		}
 		$this->WriteAttributeString('CommandList', json_encode($CommandList));
 	}
-
-
-#=====================================================================================
-	protected function timestampWithMillis($isoTime)
-#=====================================================================================
-    {
-        $dt = DateTime::createFromFormat("Y-m-d\TH:i:s.u+", $isoTime);
-        return $dt->getTimestamp() + ($dt->format("u") / 1000000);
-    }	
 }
