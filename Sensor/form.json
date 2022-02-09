@@ -1,10 +1,9 @@
 {
     "elements":
     [
-		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" }
+        { "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" }
     ],
     "status":
     [
-	    { "code": 215,"icon": "error","caption": "Device unreachable"}
-	]
+    ]
 }

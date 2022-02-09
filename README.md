@@ -226,6 +226,10 @@
 		<td>V3.14</td>
 		<td>Entfall Entprellung von Tastendrücken</td>
 	  </tr>
+      <tr>
+		<td>V3.15</td>
+		<td>Neu: Variable reachable anstelle Status 215</td>
+	  </tr>
 	</table>
   </body>
 </html>

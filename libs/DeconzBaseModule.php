@@ -17,7 +17,7 @@ trait DeconzBaseModule
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
-}
+	}
 
 #=====================================================================================
     public function ApplyChanges()
@@ -125,16 +125,12 @@ trait DeconzBaseModule
 					}
 				}
 				if (property_exists($Payload, 'reachable')) {
-					if($Payload->reachable){
-						$this->SetStatus(102);
-					}else{
-						$this->SetStatus(215);
-					}
+					$this->SetReachable($Payload->reachable);
 				}
 				if (property_exists($Payload, 'alert')) {
 					if (property_exists($data, 'type')){
 						if($data->type == 'Warning device'){
-								if (!IPS_VariableProfileExists('Alert.Z2D')) {
+							if (!IPS_VariableProfileExists('Alert.Z2D')) {
 								IPS_CreateVariableProfile('Alert.Z2D', 1);
 								IPS_SetVariableProfileAssociation("Alert.Z2D", 0, $this->Translate('Off'), "", -1);
 								IPS_SetVariableProfileAssociation("Alert.Z2D", 1, $this->Translate('Short On'), "", -1);
@@ -326,11 +322,7 @@ trait DeconzBaseModule
 					$this->SetValue('Z2D_current', round($Payload->current / 1000 ,3));
 				}
 				if (property_exists($Payload, 'reachable')) {
-					if($Payload->reachable){
-						$this->SetStatus(102);
-					}else{
-						$this->SetStatus(215);
-					}
+					$this->SetReachable($Payload->reachable);
 				}
 				if (property_exists($Payload, 'battery')) {
 					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
@@ -346,11 +338,7 @@ trait DeconzBaseModule
 					$this->SetValue('Z2D_Battery', $Payload->battery);
 				}
 				if (property_exists($Payload, 'reachable')) {
-					if($Payload->reachable){
-						$this->SetStatus(102);
-					}else{
-						$this->SetStatus(215);
-					}
+					$this->SetReachable($Payload->reachable);
 				}
 				if (property_exists($Payload, 'temperature')) {
 					$this->RegisterVariableFloat('Z2D_temperature', $this->Translate('Temperature'), '~Temperature.Room');
@@ -407,5 +395,18 @@ trait DeconzBaseModule
 			}
 		}
 		$this->WriteAttributeString('CommandList', json_encode($CommandList));
+	}
+
+	#=====================================================================================
+	private function SetReachable($reachable)
+	#=====================================================================================
+    {
+		if (!IPS_VariableProfileExists('Reachable.Z2D')) {
+			IPS_CreateVariableProfile('Reachable.Z2D', 0);
+			IPS_SetVariableProfileAssociation("Reachable.Z2D", false, 'Offline', "", 0xFF0000);
+			IPS_SetVariableProfileAssociation("Reachable.Z2D", true, 'Online', "", 0x00FF00);
+		};
+		$this->RegisterVariableBoolean('Z2D_Reachable', $this->Translate('reachable'), 'Reachable.Z2D');
+		$this->SetValue('Z2D_Reachable', $reachable);
 	}
 }

@@ -5,6 +5,5 @@
 	],
     "status":
     [
-	    { "code": 215,"icon": "error","caption": "Device unreachable"}
 	]
 }
