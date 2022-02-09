@@ -93,6 +93,11 @@
 		<td><b><i>Z2D_SwitchAlert($ID, $value)</i></b></td>
 		<td>Nur für Warning-Devices: Schaltet den Alarm ein/aus [0,1,2]</td>
 	  </tr>
+	  <tr>
+		<td>16.</td>
+		<td><b><i>Z2D_isReachable($ID)</i></b></td>
+		<td>Fragt ab, ob das Gerät erreichbar ist</td>
+	  </tr>
 	</table>
   </body>
 </html>

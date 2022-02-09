@@ -1,21 +1,22 @@
 {
-  "translations": {
-    "de": {
-      "all": "alle",
-      "any on": "einige an",
-      "Scene": "Szene",
-      "State": "Status",
-      "Temperature": "Temperatur",		
-      "Humidity": "Feuchtigkeit",
-      "Pressure": "Druck",
-      "Brightness": "Helligkeit",
-      "Colormode": "Farbmodus",
-      "Color": "Farbe",
-      "Color-Temperature": "Farbtemperatur",
-      "Multicolor": "Multicolor",
-      "Device unreachable": "Gerät nicht erreichbar",
-      "Instance": "Instanz",
-      "Received Data unreadable": "Empfange Daten nicht lesbar"
+    "translations": {
+        "de": {
+            "DeviceID": "GeräteID",
+            "all": "alle",
+            "any on": "einige an",
+            "Scene": "Szene",
+            "State": "Status",
+            "Temperature": "Temperatur",		
+            "Humidity": "Feuchtigkeit",
+            "Pressure": "Druck",
+            "Brightness": "Helligkeit",
+            "Colormode": "Farbmodus",
+            "Color": "Farbe",
+            "Color-Temperature": "Farbtemperatur",
+            "Multicolor": "Multicolor",
+            "Device unreachable": "Gerät nicht erreichbar",
+            "Instance": "Instanz",
+            "Received Data unreadable": "Empfange Daten nicht lesbar"
+        }
     }
-  }
 }

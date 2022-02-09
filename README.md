@@ -229,6 +229,7 @@
       <tr>
 		<td>V3.15</td>
 		<td>Neu: Variable reachable anstelle Status 215</td>
+		<td>Neu: Z2D_isReachable</td>
 	  </tr>
 	</table>
   </body>

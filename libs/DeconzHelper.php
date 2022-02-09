@@ -550,6 +550,15 @@ trait DeconzHelper
         $this->SendDebug('Sended', $DataJSON, 0);
 	    $response = $this->SendDataToParent($DataJSON);
         $this->SendDebug("Response", $response,0);
+
+        if(strpos($response, 'groups') === false){
+            if(strpos($response, 'success') !== false){
+                $this->SetReachable(true);
+            }elseif(strpos($response, 'not reachable') !== false){
+                $this->SetReachable(false);
+            }
+        }
+
         return $response;
     }
 

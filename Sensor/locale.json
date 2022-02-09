@@ -1,6 +1,8 @@
 {
     "translations": {
         "de": {
+            "DeviceID": "GeräteID",
+            "Show Reachable Status": "Zeige Erreichbarkeit",
             "State": "Status",
             "Angle": "Winkel",
             "reachable": "erreichbar",

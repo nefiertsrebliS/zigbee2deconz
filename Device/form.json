@@ -1,7 +1,8 @@
 {
     "elements":
     [
-		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID:" }
+		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID" },
+		{ "name": "ShowReachable", "type": "CheckBox", "caption": "Show Reachable Status" }
 	],
     "status":
     [

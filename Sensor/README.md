@@ -50,6 +50,11 @@
 		<td><b><i>Z2D_setDelay($ID, $value)</i></b></td>
 		<td>Einstellen der Ausschaltverzögerung von Bewegungsmeldern</td>
 	  </tr>
+	  <tr>
+		<td>7.</td>
+		<td><b><i>Z2D_isReachable($ID)</i></b></td>
+		<td>Fragt ab, ob das Gerät erreichbar ist</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -15,8 +15,10 @@ trait DeconzBaseModule
 		$this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
+		$this->RegisterPropertyBoolean('ShowReachable', false);
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
+		$this->RegisterAttributeBoolean('reachable', true);
 	}
 
 #=====================================================================================
@@ -401,6 +403,8 @@ trait DeconzBaseModule
 	private function SetReachable($reachable)
 	#=====================================================================================
     {
+		$this->WriteAttributeBoolean('reachable', $reachable);
+		if(!$this->ReadPropertyBoolean('ShowReachable'))return;
 		if (!IPS_VariableProfileExists('Reachable.Z2D')) {
 			IPS_CreateVariableProfile('Reachable.Z2D', 0);
 			IPS_SetVariableProfileAssociation("Reachable.Z2D", false, 'Offline', "", 0xFF0000);
@@ -408,5 +412,12 @@ trait DeconzBaseModule
 		};
 		$this->RegisterVariableBoolean('Z2D_Reachable', $this->Translate('reachable'), 'Reachable.Z2D');
 		$this->SetValue('Z2D_Reachable', $reachable);
+	}
+
+	#=====================================================================================
+	public function isReachable()
+	#=====================================================================================
+    {
+		return $this->ReadAttributeBoolean('reachable');
 	}
 }
