@@ -55,6 +55,11 @@
 		<td><b><i>Z2D_isReachable($ID)</i></b></td>
 		<td>Fragt ab, ob das Gerät erreichbar ist</td>
 	  </tr>
+	  <tr>
+		<td>8.</td>
+		<td><b><i>Z2D_setFanmode($ID, $value)</i></b></td>
+		<td>Setzt die Lüfterstufe von IKEA Starkvind (0...4)</td>
+	  </tr>
 	</table>
   </body>
 </html>

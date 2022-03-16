@@ -231,6 +231,10 @@
 		<td>Neu: Variable reachable anstelle Status 215</td>
 		<td>Neu: Z2D_isReachable</td>
 	  </tr>
+      <tr>
+		<td>V3.16</td>
+		<td>Neu: Unterstützung von IKEA Starkvind</td>
+	  </tr>
 	</table>
   </body>
 </html>

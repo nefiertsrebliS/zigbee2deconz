@@ -330,6 +330,26 @@ trait DeconzBaseModule
 					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
 					$this->SetValue('Z2D_Battery', $Payload->battery);
 				}
+				if (property_exists($Payload, 'airqualityppb')) {
+					if (!IPS_VariableProfileExists('Airqualityppb.Z2D')) {
+						IPS_CreateVariableProfile('Airqualityppb.Z2D', 1);
+						IPS_SetVariableProfileIcon('Airqualityppb.Z2D', 'Factory');
+						IPS_SetVariableProfileText('Airqualityppb.Z2D', '', ' ppb');
+					}
+
+					$this->RegisterVariableInteger('Z2D_airqualityppb', $this->Translate('Airquality'), 'Airqualityppb.Z2D');
+					$this->SetValue('Z2D_airqualityppb', $Payload->airqualityppb);
+				}
+				if (property_exists($Payload, 'speed')) {
+					if (!IPS_VariableProfileExists('Speed.Z2D')) {
+						IPS_CreateVariableProfile('Speed.Z2D', 1);
+						IPS_SetVariableProfileIcon('Speed.Z2D', 'Speedo');
+						IPS_SetVariableProfileText('Speed.Z2D', '', '');
+					}
+
+					$this->RegisterVariableInteger('Z2D_speed', $this->Translate('Speed'), 'Speed.Z2D');
+					$this->SetValue('Z2D_speed', $Payload->speed);
+				}
 			}
 	
 			if (property_exists($data, 'config')) {
@@ -393,6 +413,23 @@ trait DeconzBaseModule
 					$CommandList->sensitivity = $Command;
 					$this->EnableAction('Z2D_sensitivity');
 					$this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
+				}
+				if (property_exists($Payload, 'fanmode')) {
+					if (!IPS_VariableProfileExists('Fanmode.Z2D')) {
+						IPS_CreateVariableProfile('Fanmode.Z2D', 1);
+						IPS_SetVariableProfileIcon('Fanmode.Z2D', 'Intensity');
+						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 0, $this->Translate('Off'), '',-1);
+						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 1, $this->Translate('Auto'), '',-1);
+						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 2, $this->Translate('Low'), '',-1);
+						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 3, $this->Translate('Medium'), '',-1);
+						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 4, $this->Translate('High'), '',-1);
+					}
+
+					$this->RegisterVariableInteger('Z2D_Fanmode', $this->Translate('Fanmode'), 'Fanmode.Z2D');
+					$this->EnableAction('Z2D_Fanmode');
+					$CommandList->fanmode = $Command;
+					$fanmode = array_search($Payload->fanmode, array('off', 'auto', 'low', 'medium', 'high'));
+					if($fanmode !== false) $this->SetValue('Z2D_Fanmode', $fanmode);
 				}
 			}
 		}

@@ -50,6 +50,9 @@ trait DeconzHelper
             case 'Alert':
                 $this->SwitchAlert($Value);
                 break;
+            case 'fanmode':
+                $this->setFanmode($Value);
+                break;
             default:
                 $this->SendDebug('Request Action', 'No Action defined: ' . $Ident, 0);
                 break;
@@ -357,6 +360,17 @@ trait DeconzHelper
 		    if($value > $max) $value = $max;
 		}
 		$data['sensitivity'] = $value;
+        $this->SetDeconz(json_encode($data));
+    }
+
+#=====================================================================================
+    public function setFanmode(int $value)
+#=====================================================================================
+    {
+        if($value < 0) $value = 0;
+        if($value >  4) $value =  4;
+		$this->SetValue('Z2D_Fanmode',$value);
+		$data['fanmode'] = array('off', 'auto', 'low', 'medium', 'high')[$value];
         $this->SetDeconz(json_encode($data));
     }
 
