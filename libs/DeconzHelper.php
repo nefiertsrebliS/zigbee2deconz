@@ -50,7 +50,7 @@ trait DeconzHelper
             case 'Alert':
                 $this->SwitchAlert($Value);
                 break;
-            case 'fanmode':
+            case 'Fanmode':
                 $this->setFanmode($Value);
                 break;
             default:
