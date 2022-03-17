@@ -147,7 +147,11 @@ trait DeconzBaseModule
 						}
 					} 
 				}
-		}
+				if (property_exists($Payload, 'battery')) {
+					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
+					$this->SetValue('Z2D_Battery', $Payload->battery);
+				}
+			}
 		}elseif($data->r == "sensors"){
 			if (property_exists($data, 'state')) {
 				$Command = "/".$data->r."/".$data->uniqueid."/state";

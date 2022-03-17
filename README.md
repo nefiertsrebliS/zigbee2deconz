@@ -234,6 +234,7 @@
       <tr>
 		<td>V3.16</td>
 		<td>Neu: Unterstützung von IKEA Starkvind</td>
+		<td>Neu: Battery für Lights/Switches</td>
 	  </tr>
 	</table>
   </body>
