@@ -228,13 +228,17 @@
 	  </tr>
       <tr>
 		<td>V3.15</td>
-		<td>Neu: Variable reachable anstelle Status 215</td>
-		<td>Neu: Z2D_isReachable</td>
+		<td>Neu: Variable reachable anstelle Status 215<br>
+			Neu: Z2D_isReachable</td>
 	  </tr>
       <tr>
 		<td>V3.16</td>
-		<td>Neu: Unterstützung von IKEA Starkvind</td>
-		<td>Neu: Battery für Lights/Switches</td>
+		<td>Neu: Unterstützung von IKEA Starkvind<br>
+			Neu: Battery für Lights/Switches</td>
+	  </tr>
+      <tr>
+		<td>V3.17</td>
+		<td>Fix: SetReachable-Error</td>
 	  </tr>
 	</table>
   </body>

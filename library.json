@@ -3,7 +3,7 @@
 	"author": "Silberstreifen",
 	"name": "Zigbee2DeCONZ",
 	"url": "",
-	"version": "3.16",
+	"version": "3.17",
     "compatibility": {
         "version": "5.5"
     },

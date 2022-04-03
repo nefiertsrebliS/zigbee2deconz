@@ -565,7 +565,7 @@ trait DeconzHelper
 	    $response = $this->SendDataToParent($DataJSON);
         $this->SendDebug("Response", $response,0);
 
-        if(strpos($response, 'groups') === false){
+        if(IPS_GetInstance($this->InstanceID)['ModuleInfo'] ['ModuleID'] != '{D5D510EA-0158-B850-A700-AA824AF59DC3}'){
             if(strpos($response, 'success') !== false){
                 $this->SetReachable(true);
             }elseif(strpos($response, 'not reachable') !== false){
