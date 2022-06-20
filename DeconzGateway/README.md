@@ -12,7 +12,7 @@
 	<h2>Konfiguration</h2>
 	Die Konfiguration des Gateways ist selbsterklärend.
 	<ol>
-		<li>Bitte zunächst die Adresse und den Port von DeCONZ eintragen und die Änderungen speichern.</li>
+		<li>Bitte zunächst die Adresse und den Port von DeCONZ in der Form <i><b>http://</b>deconz-server:80</i> eintragen und die Änderungen speichern.</li>
 		<li>Danach kann ein API-Key durch Betätigung der Taste "Get API-Key" erzeugt werden.</li>
 		<li>Nach erfolgreicher Generierung eines gültigen API-Keys wird der Nachrichten-Port im Client-Socket eingetragen.</li>
 		<li>Im Client-Socket die Kommunikation öffnen und Änderungen bestätigen.</li>
