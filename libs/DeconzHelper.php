@@ -50,8 +50,8 @@ trait DeconzHelper
             case 'Alert':
                 $this->SwitchAlert($Value);
                 break;
-            case 'Fanmode':
-                $this->setFanmode($Value);
+            case 'Mode':
+                $this->setMode($Value);
                 break;
             default:
                 $this->SendDebug('Request Action', 'No Action defined: ' . $Ident, 0);
@@ -364,13 +364,13 @@ trait DeconzHelper
     }
 
 #=====================================================================================
-    public function setFanmode(int $value)
+    public function setMode(int $value)
 #=====================================================================================
     {
         if($value < 0) $value = 0;
-        if($value >  4) $value =  4;
-		$this->SetValue('Z2D_Fanmode',$value);
-		$data['fanmode'] = array('off', 'auto', 'low', 'medium', 'high')[$value];
+        if($value >  6) $value =  6;
+		$this->SetValue('Z2D_Mode',$value);
+		$data['mode'] = array('off', 'auto', 'speed_1', 'speed_2', 'speed_3', 'speed_4', 'speed_5')[$value];
         $this->SetDeconz(json_encode($data));
     }
 

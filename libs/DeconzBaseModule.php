@@ -334,25 +334,61 @@ trait DeconzBaseModule
 					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
 					$this->SetValue('Z2D_Battery', $Payload->battery);
 				}
-				if (property_exists($Payload, 'airqualityppb')) {
-					if (!IPS_VariableProfileExists('Airqualityppb.Z2D')) {
-						IPS_CreateVariableProfile('Airqualityppb.Z2D', 1);
-						IPS_SetVariableProfileIcon('Airqualityppb.Z2D', 'Factory');
-						IPS_SetVariableProfileText('Airqualityppb.Z2D', '', ' ppb');
+				if (property_exists($Payload, 'pm2_5')) {
+					if (!IPS_VariableProfileExists('Airquality.Z2D')) {
+						IPS_CreateVariableProfile('Airquality.Z2D', 1);
+						IPS_SetVariableProfileIcon('Airquality.Z2D', 'Factory');
+						IPS_SetVariableProfileAssociation('Airquality.Z2D',  0, $this->Translate('excellent'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 11, $this->Translate('good'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 21, $this->Translate('moderate'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 26, $this->Translate('poor'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 51, $this->Translate('unhealthy'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 76, $this->Translate('out of scale'), '',-1);
+						IPS_SetVariableProfileAssociation('Airquality.Z2D', 65535, $this->Translate('unknown'), '',-1);
 					}
-
-					$this->RegisterVariableInteger('Z2D_airqualityppb', $this->Translate('Airquality'), 'Airqualityppb.Z2D');
-					$this->SetValue('Z2D_airqualityppb', $Payload->airqualityppb);
+					$this->RegisterVariableInteger('Z2D_airquality', $this->Translate('Airquality'), 'Airquality.Z2D');
+					$this->SetValue('Z2D_airquality', $Payload->pm2_5);
 				}
 				if (property_exists($Payload, 'speed')) {
 					if (!IPS_VariableProfileExists('Speed.Z2D')) {
 						IPS_CreateVariableProfile('Speed.Z2D', 1);
 						IPS_SetVariableProfileIcon('Speed.Z2D', 'Speedo');
-						IPS_SetVariableProfileText('Speed.Z2D', '', '');
+						IPS_SetVariableProfileText('Speed.Z2D', '', ' %');
 					}
 
 					$this->RegisterVariableInteger('Z2D_speed', $this->Translate('Speed'), 'Speed.Z2D');
 					$this->SetValue('Z2D_speed', $Payload->speed);
+				}
+				if (property_exists($Payload, 'deviceruntime')) {
+					if (!IPS_VariableProfileExists('RunTime.Z2D')) {
+						IPS_CreateVariableProfile('RunTime.Z2D', 1);
+						IPS_SetVariableProfileIcon('RunTime.Z2D', 'Clock');
+						IPS_SetVariableProfileText('RunTime.Z2D', '', ' min');
+					}
+
+					$this->RegisterVariableInteger('Z2D_deviceruntime', $this->Translate('Runtime').' '.$this->Translate('Device'), 'RunTime.Z2D');
+					$this->SetValue('Z2D_deviceruntime', $Payload->deviceruntime);
+				}
+				if (property_exists($Payload, 'filterruntime')) {
+					if (!IPS_VariableProfileExists('RunTime.Z2D')) {
+						IPS_CreateVariableProfile('RunTime.Z2D', 1);
+						IPS_SetVariableProfileIcon('RunTime.Z2D', 'Clock');
+						IPS_SetVariableProfileText('RunTime.Z2D', '', ' min');
+					}
+
+					$this->RegisterVariableInteger('Z2D_filterruntime', $this->Translate('Runtime').' '.$this->Translate('Filter'), 'RunTime.Z2D');
+					$this->SetValue('Z2D_filterruntime', $Payload->filterruntime);
+				}
+				if (property_exists($Payload, 'replacefilter')) {
+					if (!IPS_VariableProfileExists('Replace.Z2D')) {
+						IPS_CreateVariableProfile('Replace.Z2D', 0);
+						IPS_SetVariableProfileIcon('Replace.Z2D', 'Repeat');
+						IPS_SetVariableProfileAssociation('Replace.Z2D', 0, 'ok', '',-1);
+						IPS_SetVariableProfileAssociation('Replace.Z2D', 0, $this->Translate('replace'), '',-1);
+					}
+
+					$this->RegisterVariableBoolean('Z2D_replacefilter', $this->Translate('Filter'), 'Replace.Z2D');
+					$this->SetValue('Z2D_replacefilter', $Payload->replacefilter);
 				}
 			}
 	
@@ -418,22 +454,24 @@ trait DeconzBaseModule
 					$this->EnableAction('Z2D_sensitivity');
 					$this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
 				}
-				if (property_exists($Payload, 'fanmode')) {
-					if (!IPS_VariableProfileExists('Fanmode.Z2D')) {
-						IPS_CreateVariableProfile('Fanmode.Z2D', 1);
-						IPS_SetVariableProfileIcon('Fanmode.Z2D', 'Intensity');
-						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 0, $this->Translate('Off'), '',-1);
-						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 1, $this->Translate('Auto'), '',-1);
-						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 2, $this->Translate('Low'), '',-1);
-						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 3, $this->Translate('Medium'), '',-1);
-						IPS_SetVariableProfileAssociation('Fanmode.Z2D', 4, $this->Translate('High'), '',-1);
+				if (property_exists($Payload, 'mode')) {
+					if (!IPS_VariableProfileExists('Mode.Z2D')) {
+						IPS_CreateVariableProfile('Mode.Z2D', 1);
+						IPS_SetVariableProfileIcon('Mode.Z2D', 'Intensity');
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 0, $this->Translate('Off'), '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 1, $this->Translate('Auto'), '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 2, $this->Translate('Level').' 1', '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 3, $this->Translate('Level').' 2', '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 4, $this->Translate('Level').' 3', '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 5, $this->Translate('Level').' 4', '',-1);
+						IPS_SetVariableProfileAssociation('Mode.Z2D', 6, $this->Translate('Level').' 5', '',-1);
 					}
 
-					$this->RegisterVariableInteger('Z2D_Fanmode', $this->Translate('Fanmode'), 'Fanmode.Z2D');
-					$this->EnableAction('Z2D_Fanmode');
-					$CommandList->fanmode = $Command;
-					$fanmode = array_search($Payload->fanmode, array('off', 'auto', 'low', 'medium', 'high'));
-					if($fanmode !== false) $this->SetValue('Z2D_Fanmode', $fanmode);
+					$this->RegisterVariableInteger('Z2D_Mode', $this->Translate('Fanmode'), 'Mode.Z2D');
+					$this->EnableAction('Z2D_Mode');
+					$CommandList->mode = $Command;
+					$mode = array_search($Payload->mode, array('off', 'auto', 'speed_1', 'speed_2', 'speed_3', 'speed_4', 'speed_5'));
+					if($mode !== false) $this->SetValue('Z2D_Mode', $mode);
 				}
 			}
 		}

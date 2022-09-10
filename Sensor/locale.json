@@ -1,4 +1,4 @@
-{
+ {
     "translations": {
         "de": {
             "DeviceID": "GeräteID",
@@ -61,11 +61,20 @@
             "Fanmode": "Lüftermodus",
             "Off": "Aus",
             "Auto": "Auto",
-            "Low": "Niedrig",
-            "Medium": "Mittel",
-            "High": "Hoch",
+            "Level": "Stufe",
             "Airquality": "Luftqualität",
+            "unknown": "unbekannt",
+            "excellent": "hervorragend",
+            "good": "gut",
+            "moderate": "ausreichend",
+            "poor": "schlecht",
+            "unhealthy": "ungesund",
+            "out of scale": "ausserhalb Messbereich",
             "Speed": "Geschwindigkeit",
+            "Device":"Gerät",
+            "Runtime":"Laufzeit",
+            "Filter":"Filter",
+            "replace":"wechseln",
             "Device unreachable": "Gerät nicht erreichbar",
             "Instance": "Instanz",
             "Received Data unreadable": "Empfange Daten nicht lesbar"

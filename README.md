@@ -240,6 +240,10 @@
 		<td>V3.17</td>
 		<td>Fix: SetReachable-Error</td>
 	  </tr>
+      <tr>
+		<td>V3.18</td>
+		<td>Fix: neues Profil für IKEA Starkvind</td>
+	  </tr>
 	</table>
   </body>
 </html>

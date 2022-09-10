@@ -57,8 +57,8 @@
 	  </tr>
 	  <tr>
 		<td>8.</td>
-		<td><b><i>Z2D_setFanmode($ID, $value)</i></b></td>
-		<td>Setzt die Lüfterstufe von IKEA Starkvind (0...4)</td>
+		<td><b><i>Z2D_setMode($ID, $value)</i></b></td>
+		<td>Setzt die Lüfterstufe von IKEA Starkvind (0...6)</td>
 	  </tr>
 	</table>
   </body>
