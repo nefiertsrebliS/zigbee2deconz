@@ -398,18 +398,26 @@ trait DeconzHelper
     public function SetConfig(string $parameter, string $value)
 #=====================================================================================
     {
-        $config = $this->GetConfig();
-        if($config === false)return false;
-        if(property_exists(json_decode($config), $parameter)){
-            if(is_numeric(str_replace(",",".", $value))){
-                $value = (float)str_replace(",",".", $value);
+        $configs = $this->GetConfig();
+        if($configs === false)return false;
+
+        $exist = false;
+        foreach(json_decode($configs) as $id => $config){
+            if(property_exists($config, $parameter)){
+                $exist = true;
+                if(is_numeric(str_replace(",",".", $value))){
+                    $value = (float)str_replace(",",".", $value);
+                }
+                $data[$parameter] = $value;
+                $this->SendParent('sensors/'.$id.'/config', 'PUT', json_encode($data));
             }
-            $id = $this->ReadPropertyString("DeviceID");
-            $data[$parameter] = $value;
-            $this->SendParent('sensors/'.$id.'/config', 'PUT', json_encode($data));
-        }else{
+        }
+    
+        if(!$exist){
             $this->SendDebug("SetConfig", "Parameter is not valid for this Instance", 0);
             return false;
+        }else{
+            return true;
         }
     }
 
@@ -417,18 +425,47 @@ trait DeconzHelper
     public function GetConfig()
 #=====================================================================================
     {
-	    $id = $this->ReadPropertyString("DeviceID");
-        $response = $this->SendParent('sensors/'.$id, 'GET', '');
+        $id = $this->ReadPropertyString("DeviceID");
+        $response = $this->SendParent('sensors', 'GET', '');
 		if(!$response)return(false);
-        $data = json_decode($response);
+        $sensors = json_decode($response);
         if(json_last_error() !== 0 )return(false);
-        if(is_array($data)) return false;
-        if (property_exists($data, 'config')) {
-            $config = $data->config;
-            return(json_encode($config));
-        }else{
-            return(false);
+
+        $response = array();
+        foreach($sensors as $sensor){
+            if(strstr($sensor->uniqueid, $id) !== false){
+                if(property_exists($sensor, 'config')){
+                    $response[$sensor->uniqueid] = $sensor->config;
+                }
+            }
         }
+        if(count($response) == 0) return false;
+        return json_encode($response);
+    }
+
+#=====================================================================================
+public function GetDeviceInfo()
+#=====================================================================================
+    {
+	    $id = $this->ReadPropertyString("DeviceID");
+        $response = $this->SendParent('', 'GET', '');
+		if(!$response)return(false);
+
+        $infos = json_decode($response);
+        if(json_last_error() !== 0 )return(false);
+
+        $response = array();
+        foreach($infos as $info){
+            if(is_object($info)){
+                foreach($info as $detail){
+                    if(!is_object($detail) || !property_exists($detail, 'uniqueid'))continue;
+                    if(strstr($detail->uniqueid, $id) !== false)$response[$detail->uniqueid] = $detail;
+                }
+            }
+        }
+
+        if(count($response) == 0) return false;
+        return json_encode($response);
     }
 
 #=====================================================================================

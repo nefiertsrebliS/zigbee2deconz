@@ -98,6 +98,13 @@
 		<td><b><i>Z2D_isReachable($ID)</i></b></td>
 		<td>Fragt ab, ob das Gerät erreichbar ist</td>
 	  </tr>
+	  <tr>
+		<td>17.</td>
+		<td><b><i>Z2D_GetDeviceInfo($ID)</i></b></td>
+		<td>Holt die Informationen zum Gerät inklusive Untergeräten<br>
+			Diese werden als JSON-String ausgegeben<br>
+			Ist keine Information vorhanden wird false zurückgegeben</td>
+	  </tr>
 	</table>
   </body>
 </html>

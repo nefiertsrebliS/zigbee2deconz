@@ -244,6 +244,11 @@
 		<td>V3.18</td>
 		<td>Fix: neues Profil für IKEA Starkvind</td>
 	  </tr>
+      <tr>
+		<td>V3.19</td>
+		<td>Fix: GetConfig, SetConfig<br>
+			Neu: GetDeviceInfo</td>
+	  </tr>
 	</table>
   </body>
 </html>
