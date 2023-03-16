@@ -49,21 +49,19 @@ trait DeconzBaseModule
 			return;
 		}
 
-		$CommandList = json_decode($this->ReadAttributeString('CommandList'));
-		if(!$CommandList)$CommandList = new \stdClass;
 		if($data->r == "lights"){
 			if (property_exists($data, 'state')) {
 				$Command = "/".$data->r."/".$data->uniqueid."/state";
 				$Payload = $data->state;
 				if (property_exists($Payload, 'on')) {
 					$this->RegisterVariableBoolean('Z2D_State', $this->Translate('State'), '~Switch', 0);
-					$CommandList->on = $Command;
+					$this->SetCommandListEx('on', $Command, false);
 					$this->EnableAction('Z2D_State');
 					$this->SetValue('Z2D_State', $Payload->on);
 				}
 				if (property_exists($Payload, 'bri')) {
 					$this->RegisterVariableInteger('Z2D_Brightness', $this->Translate('Brightness'), '~Intensity.100', 30);
-					$CommandList->bri = $Command;
+					$this->SetCommandListEx('bri', $Command, false);
 					$this->EnableAction('Z2D_Brightness');
 					$bri = ($Payload->bri>1)?round($Payload->bri/2.55):$Payload->bri;
 					if (property_exists($Payload, 'on')) {
@@ -80,7 +78,7 @@ trait DeconzBaseModule
 					}
 
 					$this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 20);
-					$CommandList->ct = $Command;
+					$this->SetCommandListEx('ct', $Command, false);
 					$this->EnableAction('Z2D_ColorTemperature');
 					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
 					$value = round($value, -2);
@@ -88,7 +86,7 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'xy')) {
 					$this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);
-					$CommandList->xy = $Command;
+					$this->SetCommandListEx('xy', $Command, false);
 					$this->EnableAction('Z2D_Color');
 					$cie['x'] = $Payload->xy[0];
 					$cie['y'] = $Payload->xy[1];
@@ -106,7 +104,7 @@ trait DeconzBaseModule
 						}
 
 						$this->RegisterVariableInteger('Z2D_colormode', $this->Translate('Colormode'), 'Colormode.Z2D', 10);
-						$CommandList->colormode = $Command;
+						$this->SetCommandListEx('colormode', $Command, false);
 						$this->EnableAction('Z2D_colormode');
 						switch ($Payload->colormode) {
 							case "ct":
@@ -143,7 +141,7 @@ trait DeconzBaseModule
 							$this->EnableAction('Z2D_Alert');
 							$value = array_search($Payload->alert, array('none', 'select', 'lselect'));
 							if($value !== false)$this->SetValue('Z2D_Alert', $value);
-							$CommandList->alert = $Command;	
+							$this->SetCommandListEx('alert', $Command, false);
 						}
 					} 
 				}
@@ -246,7 +244,7 @@ trait DeconzBaseModule
 				if (property_exists($Payload, 'alarm')) {
 					$this->RegisterVariableBoolean('Z2D_alarm', $this->Translate('Alarm'), '~Switch');
 					$this->SetValue('Z2D_alarm', $Payload->alarm);
-					$CommandList->alarm = $Command;
+					$this->SetCommandListEx('alarm', $Command, false);
 				}
 				if (property_exists($Payload, 'tampered')) {
 					$this->RegisterVariableBoolean('Z2D_tampered', $this->Translate('tampered'), '~Alert');
@@ -408,13 +406,13 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'heatsetpoint')) {
 					$this->RegisterVariableFloat('Z2D_heatsetpoint', $this->Translate('Heat Setpoint'), '~Temperature.Room');
-					$CommandList->heatsetpoint = $Command;
+					$this->SetCommandListEx('heatsetpoint', $Command, false);
 					$this->EnableAction('Z2D_heatsetpoint');
 					$this->SetValue('Z2D_heatsetpoint', $Payload->heatsetpoint / 100.0);
 				}
 				if (property_exists($Payload, 'offset')) {
 					$this->RegisterVariableFloat('Z2D_offset', $this->Translate('Offset'), '~Temperature.Room');
-					$CommandList->offset = $Command;
+					$this->SetCommandListEx('offset', $Command, false);
 					$this->EnableAction('Z2D_offset');
 					$this->SetValue('Z2D_offset', $Payload->offset / 100.0);
 				}
@@ -426,7 +424,7 @@ trait DeconzBaseModule
 						IPS_SetVariableProfileValues('Delay.Z2D', 0, 65535, 1);
 					}
 					$this->RegisterVariableInteger('Z2D_delay', $this->Translate('Switch off Hesitation'), 'Delay.Z2D');
-					$CommandList->delay = $Command;
+					$this->SetCommandListEx('delay', $Command, false);
 					$this->EnableAction('Z2D_delay');
 					$this->SetValue('Z2D_delay', $Payload->delay);
 				}
@@ -450,7 +448,7 @@ trait DeconzBaseModule
 					}else{
 						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
 					}
-					$CommandList->sensitivity = $Command;
+					$this->SetCommandListEx('sensitivity', $Command, false);
 					$this->EnableAction('Z2D_sensitivity');
 					$this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
 				}
@@ -469,13 +467,12 @@ trait DeconzBaseModule
 
 					$this->RegisterVariableInteger('Z2D_Mode', $this->Translate('Fanmode'), 'Mode.Z2D');
 					$this->EnableAction('Z2D_Mode');
-					$CommandList->mode = $Command;
+					$this->SetCommandListEx('mode', $Command, false);
 					$mode = array_search($Payload->mode, array('off', 'auto', 'speed_1', 'speed_2', 'speed_3', 'speed_4', 'speed_5'));
 					if($mode !== false) $this->SetValue('Z2D_Mode', $mode);
 				}
 			}
 		}
-		$this->WriteAttributeString('CommandList', json_encode($CommandList));
 	}
 
 	#=====================================================================================

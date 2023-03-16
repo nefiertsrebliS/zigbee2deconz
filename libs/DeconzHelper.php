@@ -469,6 +469,37 @@ public function GetDeviceInfo()
     }
 
 #=====================================================================================
+public function GetCommandList()
+#=====================================================================================
+    {
+	    return $this->ReadAttributeString('CommandList');
+    }
+
+#=====================================================================================
+public function SetCommandList(string $attribute, string $command)
+#=====================================================================================
+    {
+	    return $this->SetCommandListEx($attribute, $command, true);
+    }
+
+#=====================================================================================
+private function SetCommandListEx($attribute, $command, $override)
+#=====================================================================================
+    {
+		$CommandList = json_decode($this->ReadAttributeString('CommandList'));
+		if(!$CommandList)$CommandList = new \stdClass;
+
+        if(property_exists($CommandList, $attribute) && !$override) return false;
+        if($command == ''){
+            unset($CommandList->$attribute);
+        }else{
+            $CommandList->$attribute = $command;
+        }
+        $this->WriteAttributeString('CommandList', json_encode($CommandList));
+        return true;
+    }
+
+#=====================================================================================
     public function setAlert(string $value)
 #=====================================================================================
     {

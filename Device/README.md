@@ -105,6 +105,21 @@
 			Diese werden als JSON-String ausgegeben<br>
 			Ist keine Information vorhanden wird false zurückgegeben</td>
 	  </tr>
+	  <tr>
+		<td>18.</td>
+		<td><b><i>Z2D_GetCommandList($ID)</i></b></td>
+		<td>Holt die Liste der zur Verfügung stehenden DeCONZ-Befehle<br>
+			Diese werden als JSON-String ausgegeben</td>
+	  </tr>
+	  <tr>
+		<td>19.</td>
+		<td><b><i>Z2D_SetCommandList($ID, $Attribut, $Befehl)</i></b></td>
+		<td>DeCONZ-Befehle editieren <b>Achtung: nur für Experten!</b><br>
+			Sollte es bei der Ausführung von Befehlen zu Problemen kommen,<br>
+			so können diese mit diesem Befehl ggf. behoben werden.<br>
+			Attribut und Befehl kann man sich mit <i>Z2D_GetCommandList</i> angucken.<br>
+			Bleibt der Befehl leer, so wird das Attribut aus der Commandlist gelöscht</td>
+	  </tr>
 	</table>
   </body>
 </html>

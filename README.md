@@ -11,6 +11,11 @@
 	Die Bibliothek regelt die Kommunikation zwischen der DeCONZ-Rest-API von Dresden Elektronik und IP-Symcon. Zur Nutzung ist die Hardware von Dresden Elektronik und eine funktionsfähige Installation der Software DeCONZ erforderlich. Die Handhabung von Hard- und Software, das Einlernen kompatibler Geräte so wie eine Liste kompatibler Geräte ist <a href="https://www.dresden-elektronik.de/funk/software/deconz.html">hier</a> sehr gut beschrieben. Hierauf wird in der Anleitung nicht weiter eingegangen.<br><br>
 	<b>Bitte umbedingt die aktuelle Soft- und Firmware benutzen. Ältere Versionen der DeCONZ-Rest-API bieten noch keinen Websocket-Server, der für die Umsetzung benötigt wird.</b><br><br>
 	Die Installation der Bibliothek wird <a href="https://www.symcon.de/service/dokumentation/komponenten/verwaltungskonsole/module-store/">hier</a> beschrieben.
+	<h2>Dokumentation</h2>
+	<a href="https://github.com/nefiertsrebliS/zigbee2deconz/tree/master/DeconzGateway#readme">für das Gateway</a><br>
+	<a href="https://github.com/nefiertsrebliS/zigbee2deconz/tree/master/Device#readme">für Geräte</a><br>
+	<a href="https://github.com/nefiertsrebliS/zigbee2deconz/tree/master/Group#readme">für die Gruppen</a><br>
+	<a href="https://github.com/nefiertsrebliS/zigbee2deconz/tree/master/Sensor#readme">für die Sensoren</a>
 	<h2>Lizenz</h2>
 	<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>
 	<h2>Changelog</h2>
@@ -248,6 +253,12 @@
 		<td>V3.19</td>
 		<td>Fix: GetConfig, SetConfig<br>
 			Neu: GetDeviceInfo</td>
+	  </tr>
+      <tr>
+		<td>V3.20</td>
+		<td>Neu: GetCommandList<br>
+			Neu: SetCommandList<br>
+			Fix: Timeout bei curl-Aufruf</td>
 	  </tr>
 	</table>
   </body>
