@@ -260,6 +260,10 @@
 			Neu: SetCommandList<br>
 			Fix: Timeout bei curl-Aufruf</td>
 	  </tr>
+      <tr>
+		<td>V3.21</td>
+		<td>Fix: floatvalue bei dechex()</td>
+	  </tr>
 	</table>
   </body>
 </html>

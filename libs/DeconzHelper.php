@@ -689,9 +689,9 @@ private function SetCommandListEx($attribute, $command, $override)
 
         $korr     = pow($cie['bri'],2.4)/max($red, $green, $blue);
 
-        $red      = ($red   > 0) ? round(pow($red  *$korr, 1/2.4)) : 0;
-        $green    = ($green > 0) ? round(pow($green*$korr, 1/2.4)) : 0;
-        $blue     = ($blue  > 0) ? round(pow($blue *$korr, 1/2.4)) : 0;
+        $red      = ($red   > 0) ? (int)round(pow($red  *$korr, 1/2.4)) : 0;
+        $green    = ($green > 0) ? (int)round(pow($green*$korr, 1/2.4)) : 0;
+        $blue     = ($blue  > 0) ? (int)round(pow($blue *$korr, 1/2.4)) : 0;
         $this->SendDebug('CieToDec(RGB)', 'R: ' . $red . ' G: ' . $green . ' B: ' . $blue, 0);
 
 		$hexred	  = (strlen(dechex($red))<2) ? "0".dechex($red) : dechex($red);
