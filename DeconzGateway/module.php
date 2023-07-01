@@ -245,7 +245,7 @@ protected function GetDeconzWsPort()
 		    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		    CURLOPT_CUSTOMREQUEST => $method,
 		    CURLOPT_POSTFIELDS => $data,
-			CURLOPT_TIMEOUT => 30,
+			CURLOPT_TIMEOUT => 10,
 		));
 
 		$response = curl_exec($curl);
