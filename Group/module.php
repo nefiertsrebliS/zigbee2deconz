@@ -34,7 +34,7 @@ class Z2DGroup extends IPSModule
 			
 #		Filter setzen
 
-		if(strstr($this->ReadPropertyString("DeviceID"),":") === false){
+		if(strpos($this->ReadPropertyString("DeviceID"),":") === false){
 			$Filter = '.*('.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"');
 		}else{
 			$Filter = '.*('.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").'.*'.preg_quote('\"');

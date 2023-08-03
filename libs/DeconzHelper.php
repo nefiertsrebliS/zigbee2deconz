@@ -433,7 +433,7 @@ trait DeconzHelper
 
         $response = array();
         foreach($sensors as $sensor){
-            if(strstr($sensor->uniqueid, $id) !== false){
+            if($sensor->uniqueid !='' && strpos($sensor->uniqueid, $id) !== false){
                 if(property_exists($sensor, 'config')){
                     $response[$sensor->uniqueid] = $sensor->config;
                 }
@@ -458,8 +458,8 @@ public function GetDeviceInfo()
         foreach($infos as $info){
             if(is_object($info)){
                 foreach($info as $detail){
-                    if(!is_object($detail) || !property_exists($detail, 'uniqueid'))continue;
-                    if(strstr($detail->uniqueid, $id) !== false)$response[$detail->uniqueid] = $detail;
+                    if(!is_object($detail) || !property_exists($detail, 'uniqueid') || $detail->uniqueid =='')continue;
+                    if(strpos($detail->uniqueid, $id) !== false)$response[$detail->uniqueid] = $detail;
                 }
             }
         }
@@ -577,7 +577,7 @@ private function SetCommandListEx($attribute, $command, $override)
 	{
         $DeviceID = $this->ReadPropertyString('DeviceID');
         if($DeviceID == '')return(false);
-        $IDtype = (strstr($DeviceID, ":") !== false)?"uniqueid":"id";
+        $IDtype = (strpos($DeviceID, ":") !== false)?"uniqueid":"id";
         $response = $this->SendParent('', 'GET', '');
 		if(!$response)return(false);
         $data = json_decode($response);
@@ -587,7 +587,7 @@ private function SetCommandListEx($attribute, $command, $override)
                 $ModuleID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
                 switch($ModuleID){
                     case "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}":
-                        if(strstr($item->$IDtype, $DeviceID) !== false){
+                        if($item->$IDtype !='' && strpos($item->$IDtype, $DeviceID) !== false){
                             $item->r = $type;
                             $result['Buffer'] = json_encode($item);
                             $this->ReceiveData(json_encode($result, JSON_UNESCAPED_SLASHES));

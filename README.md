@@ -267,7 +267,7 @@
       <tr>
 		<td>V3.22</td>
 		<td>Fix: Kompatibilität zu IPS V7<br>
-			Fix: strstr-Problem im Konfigurator</td>
+			Fix: strstr-Problem bei fehlender uniqueID</td>
 	  </tr>
 	</table>
   </body>
