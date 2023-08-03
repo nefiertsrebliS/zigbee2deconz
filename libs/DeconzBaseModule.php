@@ -19,6 +19,8 @@ trait DeconzBaseModule
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
 		$this->RegisterAttributeBoolean('reachable', true);
+		$this->RegisterAttributeBoolean('ColorTemp', false);
+		$this->RegisterAttributeBoolean('Color', false);
 	}
 
 #=====================================================================================
@@ -78,6 +80,7 @@ trait DeconzBaseModule
 					}
 
 					$this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 20);
+					$this->WriteAttributeBoolean('ColorTemp', true);
 					$this->SetCommandListEx('ct', $Command, false);
 					$this->EnableAction('Z2D_ColorTemperature');
 					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
@@ -86,6 +89,7 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'xy')) {
 					$this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 25);
+					$this->WriteAttributeBoolean('Color', true);
 					$this->SetCommandListEx('xy', $Command, false);
 					$this->EnableAction('Z2D_Color');
 					$cie['x'] = $Payload->xy[0];
@@ -106,17 +110,19 @@ trait DeconzBaseModule
 						$this->RegisterVariableInteger('Z2D_colormode', $this->Translate('Colormode'), 'Colormode.Z2D', 10);
 						$this->SetCommandListEx('colormode', $Command, false);
 						$this->EnableAction('Z2D_colormode');
+						$hasColorTemp = $this->ReadAttributeBoolean('ColorTemp');
+						$hasColor = $this->ReadAttributeBoolean('Color');
 						switch ($Payload->colormode) {
 							case "ct":
 								$colormode = 1;
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), false);
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), true);
+								if($hasColorTemp)IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), false);
+								if($hasColor)IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), true);
 								break;
 							case "xy":
 							case "hs":
 								$colormode = 2;
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), true);
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), false);
+								if($hasColorTemp)IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), true);
+								if($hasColor)IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), false);
 								break;
 							default:
 								$colormode = 0;
@@ -156,7 +162,7 @@ trait DeconzBaseModule
 				$Payload = $data->state;
 
 				if (property_exists($Payload, 'buttonevent')) {
-					if (@$Payload->gesture == 7 || @$Payload->gesture == 8) {
+					if (property_exists($Payload, 'gesture') && ($Payload->gesture == 7 || $Payload->gesture == 8)) {
 						if (!IPS_VariableProfileExists('Angle.Z2D')) {
 							IPS_CreateVariableProfile('Angle.Z2D', 2);
 							IPS_SetVariableProfileIcon('Angle.Z2D', 'Repeat');

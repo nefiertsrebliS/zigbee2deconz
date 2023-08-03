@@ -583,7 +583,7 @@ private function SetCommandListEx($attribute, $command, $override)
         $data = json_decode($response);
         foreach($data as $type => $items){
             foreach($items as $item){
-                if(!@property_exists($item, $IDtype))continue;
+                if(!is_object($item) || !property_exists($item, $IDtype))continue;
                 $ModuleID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
                 switch($ModuleID){
                     case "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}":

@@ -20,6 +20,8 @@ class Z2DGroup extends IPSModule
 		$this->RegisterAttributeString('CommandList', "");
 		$this->RegisterAttributeString('GroupLights', "");
 		$this->RegisterAttributeInteger("LastUpdated", 0);
+		$this->RegisterAttributeBoolean('ColorTemp', false);
+		$this->RegisterAttributeBoolean('Color', false);
     }
 
 
@@ -109,6 +111,7 @@ class Z2DGroup extends IPSModule
 				}
 				if (property_exists($Payload, 'ct')) {
 					$this->RegisterVariableInteger('Z2D_ColorTemperature', $this->Translate('Color-Temperature'), 'ColorTemperature.Z2D', 120);
+					$this->WriteAttributeBoolean('ColorTemp', true);
 					$CommandList->ct = $Command;
 					$this->EnableAction('Z2D_ColorTemperature');
 					$value = $Payload->ct * (2000-6500)/(500-153) + 8485;
@@ -124,6 +127,7 @@ class Z2DGroup extends IPSModule
 				}
 				if (property_exists($Payload, 'xy')) {
 					$this->RegisterVariableInteger('Z2D_Color', $this->Translate('Color'), '~HexColor', 125);
+					$this->WriteAttributeBoolean('Color', true);
 					$CommandList->xy = $Command;
 					$this->EnableAction('Z2D_Color');
 					$cie['x'] = $Payload->xy[0];
@@ -136,17 +140,19 @@ class Z2DGroup extends IPSModule
 						$this->RegisterVariableInteger('Z2D_colormode', $this->Translate('Colormode'), 'Colormode.Z2D', 110);
 						$CommandList->colormode = $Command;
 						$this->EnableAction('Z2D_colormode');
+						$hasColorTemp = $this->ReadAttributeBoolean('ColorTemp');
+						$hasColor = $this->ReadAttributeBoolean('Color');
 						switch ($Payload->colormode) {
 							case "ct":
 								$colormode = 1;
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), false);
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), true);
+								if($hasColorTemp)IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), false);
+								if($hasColor)IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), true);
 								break;
 							case "xy":
 							case "hs":
 								$colormode = 2;
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), true);
-								@IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), false);
+								if($hasColorTemp)IPS_SetHidden($this->GetIDForIdent('Z2D_ColorTemperature'), true);
+								if($hasColor)IPS_SetHidden($this->GetIDForIdent('Z2D_Color'), false);
 								break;
 							default:
 								$colormode = 0;

@@ -264,6 +264,11 @@
 		<td>V3.21</td>
 		<td>Fix: floatvalue bei dechex()</td>
 	  </tr>
+      <tr>
+		<td>V3.22</td>
+		<td>Fix: Kompatibilität zu IPS V7<br>
+			Fix: strstr-Problem im Konfigurator</td>
+	  </tr>
 	</table>
   </body>
 </html>

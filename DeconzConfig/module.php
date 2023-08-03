@@ -135,9 +135,10 @@
 					$baseUniqueid = explode("-",$item->uniqueid)[0];
                     if($ID == 0 && $combine && $combinable[$baseUniqueid]){
 						foreach($Values as $Value){
-                            if(strstr($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
+                            if($Value["DeviceID"] != '' && strpos($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
 						$item->uniqueid = $baseUniqueid;
+						$item->type = 'MultiDevice';
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 						$DevType = 'devices';
 						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";
@@ -172,9 +173,10 @@
 					$baseUniqueid = explode("-",$item->uniqueid)[0];
                     if($ID == 0 && $item->type != "Daylight" && $combine && $combinable[$baseUniqueid]){
 						foreach($Values as $Value){
-                            if(strstr($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
+                            if($Value["DeviceID"] != '' && strpos($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
 						$item->uniqueid = $baseUniqueid;
+						$item->type = 'MultiDevice';
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 						$DevType = 'devices';
 						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";
