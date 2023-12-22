@@ -269,6 +269,10 @@
 		<td>Fix: Kompatibilität zu IPS V7<br>
 			Fix: strstr-Problem bei fehlender uniqueID</td>
 	  </tr>
+      <tr>
+		<td>V3.23</td>
+		<td>Neu: displayflipped, externalwindowopen</td>
+	  </tr>
 	</table>
   </body>
 </html>

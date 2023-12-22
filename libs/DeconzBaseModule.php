@@ -422,6 +422,24 @@ trait DeconzBaseModule
 					$this->EnableAction('Z2D_offset');
 					$this->SetValue('Z2D_offset', $Payload->offset / 100.0);
 				}
+				if (property_exists($Payload, 'displayflipped')) {
+					if (!IPS_VariableProfileExists('Display.Z2D')) {
+						IPS_CreateVariableProfile('Display.Z2D', 0);
+						IPS_SetVariableProfileIcon('Display.Z2D','Repeat');
+						IPS_SetVariableProfileAssociation('Display.Z2D', false, $this->Translate('normal'), '',-1);
+						IPS_SetVariableProfileAssociation('Display.Z2D', true, $this->Translate('flipped'), '',-1);
+					}
+					$this->RegisterVariableBoolean('Z2D_displayflipped', $this->Translate('Display'), 'Display.Z2D');
+					$this->SetCommandListEx('displayflipped', $Command, false);
+					$this->EnableAction('Z2D_displayflipped');
+					$this->SetValue('Z2D_displayflipped', $Payload->displayflipped);
+				}
+				if (property_exists($Payload, 'externalwindowopen')) {
+					$this->RegisterVariableBoolean('Z2D_externalwindowopen', $this->Translate('Window'), '~Window');
+					$this->SetCommandListEx('externalwindowopen', $Command, false);
+					$this->EnableAction('Z2D_externalwindowopen');
+					$this->SetValue('Z2D_externalwindowopen', $Payload->externalwindowopen);
+				}
 				if (property_exists($Payload, 'delay')) {
 					if (!IPS_VariableProfileExists('Delay.Z2D')) {
 						IPS_CreateVariableProfile('Delay.Z2D', 1);
