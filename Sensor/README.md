@@ -82,6 +82,16 @@
 			Attribut und Befehl kann man sich mit <i>Z2D_GetCommandList</i> angucken.<br>
 			Bleibt der Befehl leer, so wird das Attribut aus der Commandlist gelöscht</td>
 	  </tr>
+	  <tr>
+		<td>12.</td>
+		<td><b><i>Z2D_SetDisplayFlipped($ID, $value)</i></b></td>
+		<td>Für Thermostate: Anzeige drehen [true, false]</td>
+	  </tr>
+	  <tr>
+		<td>13.</td>
+		<td><b><i>Z2D_SetExternalWindowOpen($ID, $value)</i></b></td>
+		<td>Für Thermostate: Fenster offen [true, false]</td>
+	  </tr>
 	</table>
   </body>
 </html>
