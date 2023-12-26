@@ -38,6 +38,12 @@ trait DeconzHelper
             case 'delay':
                 $this->setDelay($Value);
                 break;
+            case 'displayflipped':
+                $this->SetDisplayFlipped($Value);
+                break;
+            case 'externalwindowopen':
+                $this->SetExternalWindowOpen($Value);
+                break;
             case 'sensitivity':
                 $this->setSensitivity($Value);
                 break;
@@ -304,7 +310,21 @@ trait DeconzHelper
     }
 
 #=====================================================================================
-    public function SwitchAlert(int $value)
+public function SetDisplayFlipped(bool $value)
+#=====================================================================================
+    {
+		$this->SetConfig('displayflipped', ($value?'true':'false'));
+    }
+
+#=====================================================================================
+public function SetExternalWindowOpen(bool $value)
+#=====================================================================================
+    {
+		$this->SetConfig('externalwindowopen', ($value?'true':'false'));
+    }
+
+#=====================================================================================
+public function SwitchAlert(int $value)
 #=====================================================================================
     {
         $data['alert'] = array('none', 'select', 'lselect')[$value];
@@ -408,6 +428,8 @@ trait DeconzHelper
                 if(is_numeric(str_replace(",",".", $value))){
                     $value = (float)str_replace(",",".", $value);
                 }
+                if(strtolower($value) === "true")$value = true;
+                if(strtolower($value) === "false")$value = false;
                 $data[$parameter] = $value;
                 $this->SendParent('sensors/'.$id.'/config', 'PUT', json_encode($data));
             }
