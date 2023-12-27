@@ -427,9 +427,12 @@ public function SwitchAlert(int $value)
                 $exist = true;
                 if(is_numeric(str_replace(",",".", $value))){
                     $value = (float)str_replace(",",".", $value);
+                }elseif(strtolower($value) === "true"){
+                    $value = true;
+                }elseif(strtolower($value) === "false"){
+                    $value = false;
                 }
-                if(strtolower($value) === "true")$value = true;
-                if(strtolower($value) === "false")$value = false;
+                
                 $data[$parameter] = $value;
                 $this->SendParent('sensors/'.$id.'/config', 'PUT', json_encode($data));
             }
