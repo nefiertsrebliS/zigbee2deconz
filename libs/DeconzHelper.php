@@ -568,15 +568,21 @@ private function SetCommandListEx($attribute, $command, $override)
     protected function SetDeconz($Payload)
 #=====================================================================================
     {
-        $command = array_key_first(json_decode($Payload, true));
         $CommandList = json_decode($this->ReadAttributeString('CommandList'));
         if(json_last_error() !== 0 ){
             $this->SendDebug("SetDeconz", "unknown Command", 0); 
             $this->GetStateDeconz();
             return;
         }
-        if(!property_exists($CommandList, $command)){
-            $this->SendDebug("SetDeconz", "unknown Command", 0); 
+
+        $command = "";
+        foreach(json_decode($Payload) as $key=>$value){
+            if(property_exists($CommandList, $key))$command = $key;
+        }
+
+        if($command == ""){
+            $this->SendDebug("SetDeconz", "unknown Command: ".$key, 0); 
+            echo "unknown Command: ".$key; 
             $this->GetStateDeconz();
             return;
         }
