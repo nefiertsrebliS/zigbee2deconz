@@ -44,6 +44,9 @@ trait DeconzHelper
             case 'externalwindowopen':
                 $this->SetExternalWindowOpen($Value);
                 break;
+            case 'externalsensortemp':
+                $this->SetExternalSensorTemp($Value);
+                break;
             case 'sensitivity':
                 $this->setSensitivity($Value);
                 break;
@@ -324,6 +327,14 @@ public function SetExternalWindowOpen(bool $value)
     }
 
 #=====================================================================================
+public function SetExternalSensorTemp(float $value)
+#=====================================================================================
+    {
+		$this->SetValue('Z2D_externalsensortemp',$value);
+		$this->SetConfig('externalsensortemp', (string) (round($value * 100)));
+    }
+
+#=====================================================================================
 public function SwitchAlert(int $value)
 #=====================================================================================
     {
@@ -364,7 +375,7 @@ public function SwitchAlert(int $value)
         if($value <  6)$value =  6;
         if($value > 30)$value = 30;
 		$this->SetValue('Z2D_heatsetpoint',$value);
-		$this->SetConfig('heatsetpoint', (string) ($value * 100));
+		$this->SetConfig('heatsetpoint', (string) (round($value * 100)));
     }    
 
 #=====================================================================================

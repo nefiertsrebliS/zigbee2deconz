@@ -440,6 +440,18 @@ trait DeconzBaseModule
 					$this->EnableAction('Z2D_externalwindowopen');
 					$this->SetValue('Z2D_externalwindowopen', $Payload->externalwindowopen);
 				}
+				if (property_exists($Payload, 'externalsensortemp')) {
+					if(!IPS_VariableProfileExists("Temperature.Z2D")){
+						IPS_CreateVariableProfile("Temperature.Z2D", 2);
+						IPS_SetVariableProfileIcon("Temperature.Z2D", "Temperature");
+						IPS_SetVariableProfileText("Temperature.Z2D", "", "°C");
+						IPS_SetVariableProfileDigits("Temperature.Z2D", 1);
+					}
+					$this->RegisterVariableBoolean('Z2D_externalsensortemp', $this->Translate('external Roomtemperature'), 'Temperature.Z2D');
+					$this->SetCommandListEx('externalsensortemp', $Command, false);
+					$this->EnableAction('Z2D_externalsensortemp');
+					$this->SetValue('Z2D_externalsensortemp', $Payload->externalsensortemp);
+				}
 				if (property_exists($Payload, 'delay')) {
 					if (!IPS_VariableProfileExists('Delay.Z2D')) {
 						IPS_CreateVariableProfile('Delay.Z2D', 1);

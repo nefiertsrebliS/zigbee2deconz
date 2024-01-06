@@ -92,6 +92,11 @@
 		<td><b><i>Z2D_SetExternalWindowOpen($ID, $value)</i></b></td>
 		<td>Für Thermostate: Fenster offen [true, false]</td>
 	  </tr>
+	  <tr>
+		<td>14.</td>
+		<td><b><i>Z2D_SetExternalSensorTemp($ID, $value)</i></b></td>
+		<td>Für Thermostate: Meldet die Raumtemperatur eines externen Sensors an das Thermostat</td>
+	  </tr>
 	</table>
   </body>
 </html>

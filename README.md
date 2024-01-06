@@ -271,7 +271,7 @@
 	  </tr>
       <tr>
 		<td>V3.23</td>
-		<td>Neu: displayflipped, externalwindowopen</td>
+		<td>Neu: displayflipped, externalwindowopen, externalsensortemp</td>
 	  </tr>
 	</table>
   </body>

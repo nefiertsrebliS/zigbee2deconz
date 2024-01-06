@@ -45,6 +45,7 @@
             "Power": "Leistung",
             "Current": "Stromstärke",
             "Heat Setpoint": "Temperatur Sollwert",
+            "external Roomtemperature": "externe Raumtemperatur",
             "Display": "Anzeige",
             "normal": "normal",
             "flipped": "gedreht",
