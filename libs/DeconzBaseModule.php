@@ -450,7 +450,7 @@ trait DeconzBaseModule
 					$this->RegisterVariableFloat('Z2D_externalsensortemp', $this->Translate('external Roomtemperature'), 'Temperature.Z2D');
 					$this->SetCommandListEx('externalsensortemp', $Command, false);
 					$this->EnableAction('Z2D_externalsensortemp');
-					$this->SetValue('Z2D_externalsensortemp', $Payload->externalsensortemp);
+					$this->SetValue('Z2D_externalsensortemp', $Payload->externalsensortemp / 100.0);
 				}
 				if (property_exists($Payload, 'delay')) {
 					if (!IPS_VariableProfileExists('Delay.Z2D')) {
