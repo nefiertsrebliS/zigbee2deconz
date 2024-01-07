@@ -447,7 +447,7 @@ trait DeconzBaseModule
 						IPS_SetVariableProfileText("Temperature.Z2D", "", "°C");
 						IPS_SetVariableProfileDigits("Temperature.Z2D", 1);
 					}
-					$this->RegisterVariableBoolean('Z2D_externalsensortemp', $this->Translate('external Roomtemperature'), 'Temperature.Z2D');
+					$this->RegisterVariableFloat('Z2D_externalsensortemp', $this->Translate('external Roomtemperature'), 'Temperature.Z2D');
 					$this->SetCommandListEx('externalsensortemp', $Command, false);
 					$this->EnableAction('Z2D_externalsensortemp');
 					$this->SetValue('Z2D_externalsensortemp', $Payload->externalsensortemp);
