@@ -37,7 +37,8 @@
 		{
 		    $data = json_decode($JSONString);
 			$this->SendDebug("ReceiveData", $data->Buffer, 0);
-		    $this->WriteAttributeString("elements", $data->Buffer);
+			$data->Buffer = str_replace(":null,", ':"",',$data->Buffer);
+			$this->WriteAttributeString("elements", $data->Buffer);
 			return true;
 		}
 		
@@ -133,12 +134,12 @@
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 					$baseUniqueid = explode("-",$item->uniqueid)[0];
-                    if($ID == 0 && $combine && $combinable[$baseUniqueid]){
+					if($ID == 0 && $combine){
 						foreach($Values as $Value){
                             if($Value["DeviceID"] != '' && strpos($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
 						$item->uniqueid = $baseUniqueid;
-						$item->type = 'MultiDevice';
+						if($combinable[$baseUniqueid])$item->type = 'MultiDevice';
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 						$DevType = 'devices';
 						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";
@@ -171,12 +172,12 @@
 					$ID	= 0;
 					if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 					$baseUniqueid = explode("-",$item->uniqueid)[0];
-                    if($ID == 0 && $item->type != "Daylight" && $combine && $combinable[$baseUniqueid]){
+					if($ID == 0 && $item->type != "Daylight" && $combine){
 						foreach($Values as $Value){
                             if($Value["DeviceID"] != '' && strpos($item->uniqueid,  $Value["DeviceID"])!== false) continue(2);
                         }
 						$item->uniqueid = $baseUniqueid;
-						$item->type = 'MultiDevice';
+						if($combinable[$baseUniqueid])$item->type = 'MultiDevice';
 						if(isset($Created[$item->uniqueid])) $ID = $Created[$item->uniqueid];
 						$DevType = 'devices';
 						$moduleID = "{6BC9ED7D-742A-4909-BDEB-6AD27B1F1A3E}";

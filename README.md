@@ -271,7 +271,9 @@
 	  </tr>
       <tr>
 		<td>V3.23</td>
-		<td>Neu: displayflipped, externalwindowopen, externalsensortemp</td>
+		<td>Neu: displayflipped, externalwindowopen, externalsensortemp<br>
+			Neu: triggerdistance, fadingtime<br>
+			Fix: setSensitivity</td>
 	  </tr>
 	</table>
   </body>

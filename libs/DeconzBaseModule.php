@@ -363,6 +363,15 @@ trait DeconzBaseModule
 					$this->RegisterVariableInteger('Z2D_speed', $this->Translate('Speed'), 'Speed.Z2D');
 					$this->SetValue('Z2D_speed', $Payload->speed);
 				}
+				if (property_exists($Payload, 'targetdistance')) {
+					if (!IPS_VariableProfileExists('Distance.Z2D')) {
+						IPS_CreateVariableProfile('Distance.Z2D', 2);
+						IPS_SetVariableProfileIcon('Distance.Z2D', 'Gauge');
+						IPS_SetVariableProfileText('Distance.Z2D', '', ' m');
+					}
+					$this->RegisterVariableFloat('Z2D_targetdistance', $this->Translate('Distance to target'), 'Distance.Z2D');
+					$this->SetValue('Z2D_targetdistance', $Payload->targetdistance / 100);
+				}
 				if (property_exists($Payload, 'deviceruntime')) {
 					if (!IPS_VariableProfileExists('RunTime.Z2D')) {
 						IPS_CreateVariableProfile('RunTime.Z2D', 1);
@@ -475,18 +484,26 @@ trait DeconzBaseModule
 						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 1, $this->Translate('Medium'), '',-1);
 						IPS_SetVariableProfileAssociation('Sensitivity.Z2D', 2, $this->Translate('High'), '',-1);
 					}
-					if (property_exists($Payload, 'sensitivitymax')) {
-						if ($Payload->sensitivitymax == 2) {
-							$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
-						}else{
-							$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
-						}
-					}else{
+					if (property_exists($Payload, 'sensitivitymax') && $Payload->sensitivitymax == 2) {
 						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), 'Sensitivity.Z2D');
+					}else{
+						$this->RegisterVariableInteger('Z2D_sensitivity', $this->Translate('Sensitivity'), '');
 					}
 					$this->SetCommandListEx('sensitivity', $Command, false);
 					$this->EnableAction('Z2D_sensitivity');
 					$this->SetValue('Z2D_sensitivity', $Payload->sensitivity);
+				}
+				if (property_exists($Payload, 'triggerdistance')) {
+					$this->RegisterVariableInteger('Z2D_triggerdistance', $this->Translate('Triggerdistance'), '');
+					$this->SetCommandListEx('triggerdistance', $Command, false);
+					$this->EnableAction('Z2D_triggerdistance');
+					$this->SetValue('Z2D_triggerdistance', $Payload->triggerdistance);
+				}
+				if (property_exists($Payload, 'fadingtime')) {
+					$this->RegisterVariableInteger('Z2D_fadingtime', $this->Translate('Target disapperance delay time'), '');
+					$this->SetCommandListEx('fadingtime', $Command, false);
+					$this->EnableAction('Z2D_fadingtime');
+					$this->SetValue('Z2D_fadingtime', $Payload->fadingtime);
 				}
 				if (property_exists($Payload, 'mode')) {
 					if (!IPS_VariableProfileExists('Mode.Z2D')) {
