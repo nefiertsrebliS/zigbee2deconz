@@ -51,10 +51,10 @@ trait DeconzHelper
                 $this->setSensitivity($Value);
                 break;
             case 'triggerdistance':
-                $this->setTriggerDistance($Value);
+                $this->setTriggerDistance(intval($Value));
                 break;
             case 'fadingtime':
-                $this->setFadingTime($Value);
+                $this->setFadingTime(intval($Value));
                 break;
             case 'Update':
                 eval ('$this->'.$Value.";");
