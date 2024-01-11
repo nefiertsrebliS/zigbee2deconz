@@ -237,6 +237,7 @@ protected function GetDeconzWsPort()
 			$key	= $this->ReadAttributeString("ApiKey");
 			$url	= "http://".$host.":".$port."/api/".$key."/".$command;
 		}
+		$this->SendDebug('SendToDeconz', $url.' -> '.$data, 0);
 
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
@@ -252,6 +253,7 @@ protected function GetDeconzWsPort()
 		$err = curl_error($curl);
 		curl_close($curl);
 
+		$this->SendDebug('Response', $response, 0);
 		$messages = json_decode($response);
 
 		if($err) {
