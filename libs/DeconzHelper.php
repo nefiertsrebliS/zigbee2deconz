@@ -401,7 +401,7 @@ trait DeconzHelper
     public function setTriggerDistance(int $value)
     #=====================================================================================
     {
-		$data['triggerdistance'] = $value;
+		$data['triggerdistance'] = (string)$value;
         $this->SetDeconz(json_encode($data));
     }
 
@@ -409,7 +409,7 @@ trait DeconzHelper
     public function setFadingTime(int $value)
     #=====================================================================================
     {
-		$data['fadingtime'] = $value;
+		$data['duration'] = $value;
         $this->SetDeconz(json_encode($data));
     }
 

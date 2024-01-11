@@ -501,7 +501,7 @@ trait DeconzBaseModule
 				}
 				if (property_exists($Payload, 'fadingtime')) {
 					$this->RegisterVariableInteger('Z2D_fadingtime', $this->Translate('Target disapperance delay time'), '');
-					$this->SetCommandListEx('fadingtime', $Command, false);
+					$this->SetCommandListEx('duration', $Command, false);
 					$this->EnableAction('Z2D_fadingtime');
 					$this->SetValue('Z2D_fadingtime', $Payload->fadingtime);
 				}
