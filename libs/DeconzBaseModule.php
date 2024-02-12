@@ -338,7 +338,21 @@ trait DeconzBaseModule
 					$this->RegisterVariableInteger('Z2D_Battery', $this->Translate('Battery'), '~Battery.100');
 					$this->SetValue('Z2D_Battery', $Payload->battery);
 				}
+				if (property_exists($Payload, 'airqualityppb')) {
+					if (!IPS_VariableProfileExists('airqualityppb.Z2D')) {
+						IPS_CreateVariableProfile('airqualityppb.Z2D', 1);
+						IPS_SetVariableProfileIcon('airqualityppb.Z2D', 'Factory');
+						IPS_SetVariableProfileText('airqualityppb.Z2D', '', ' ppb');
+					}
+					$this->RegisterVariableInteger('Z2D_airqualityppb', $this->Translate('Airquality'), '~Battery.100');
+					$this->SetValue('Z2D_airqualityppb', $Payload->airqualityppb);
+				}
 				if (property_exists($Payload, 'pm2_5')) {
+					if (!IPS_VariableProfileExists('pm2_5.Z2D')) {
+						IPS_CreateVariableProfile('pm2_5.Z2D', 1);
+						IPS_SetVariableProfileIcon('pm2_5.Z2D', 'Factory');
+						IPS_SetVariableProfileText('pm2_5.Z2D', '', ' µg/m³');
+					}
 					if (!IPS_VariableProfileExists('Airquality.Z2D')) {
 						IPS_CreateVariableProfile('Airquality.Z2D', 1);
 						IPS_SetVariableProfileIcon('Airquality.Z2D', 'Factory');
@@ -350,7 +364,7 @@ trait DeconzBaseModule
 						IPS_SetVariableProfileAssociation('Airquality.Z2D', 76, $this->Translate('out of scale'), '',-1);
 						IPS_SetVariableProfileAssociation('Airquality.Z2D', 65535, $this->Translate('unknown'), '',-1);
 					}
-					$this->RegisterVariableInteger('Z2D_airquality', $this->Translate('Airquality'), 'Airquality.Z2D');
+					$this->RegisterVariableInteger('Z2D_airquality', $this->Translate('Airquality'), 'pm2_5.Z2D');
 					$this->SetValue('Z2D_airquality', $Payload->pm2_5);
 				}
 				if (property_exists($Payload, 'speed')) {
