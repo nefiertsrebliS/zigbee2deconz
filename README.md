@@ -275,6 +275,10 @@
 			Neu: triggerdistance, fadingtime<br>
 			Fix: setSensitivity</td>
 	  </tr>
+      <tr>
+		<td>V3.24</td>
+		<td>Fix: Kompatibilität des Konfigurators zu IPS V7.1</td>
+	  </tr>
 	</table>
   </body>
 </html>
