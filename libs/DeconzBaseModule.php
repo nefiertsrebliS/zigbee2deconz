@@ -288,11 +288,11 @@ trait DeconzBaseModule
 					$this->SetValue('Z2D_humidity', $Payload->humidity / 100.0);
 				}
 				if (property_exists($Payload, 'lux')) {
-					$this->RegisterVariableFloat('Z2D_lux', $this->Translate('Illumination'), '~Illumination.F');
+					if(!@IPS_GetObjectIDByIdent('Z2D_lux', $this->InstanceID)) $this->RegisterVariableInteger('Z2D_lux', $this->Translate('Illumination'), '~Illumination');
 					$this->SetValue('Z2D_lux', $Payload->lux);
 				}
 				if (property_exists($Payload, 'lightlevel')) {
-					$this->RegisterVariableFloat('Z2D_lightlevel', $this->Translate('Illumination'), '~Illumination.F');
+					if(!@IPS_GetObjectIDByIdent('Z2D_lightlevel', $this->InstanceID)) $this->RegisterVariableInteger('Z2D_lightlevel', $this->Translate('Illumination'), '~Illumination');
 					$this->SetValue('Z2D_lightlevel', $Payload->lightlevel);
 				}
 				if (property_exists($Payload, 'pressure')) {
