@@ -344,7 +344,7 @@ trait DeconzBaseModule
 						IPS_SetVariableProfileIcon('airqualityppb.Z2D', 'Factory');
 						IPS_SetVariableProfileText('airqualityppb.Z2D', '', ' ppb');
 					}
-					$this->RegisterVariableInteger('Z2D_airqualityppb', $this->Translate('Airquality'), '~Battery.100');
+					$this->RegisterVariableInteger('Z2D_airqualityppb', $this->Translate('Airquality'), 'airqualityppb.Z2D');
 					$this->SetValue('Z2D_airqualityppb', $Payload->airqualityppb);
 				}
 				if (property_exists($Payload, 'pm2_5')) {
