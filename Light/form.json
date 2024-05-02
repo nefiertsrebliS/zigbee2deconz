@@ -2,7 +2,9 @@
     "elements":
     [
 		{ "name": "DeviceID", "type": "ValidationTextBox", "caption": "DeviceID" },
-		{ "name": "ShowReachable", "type": "CheckBox", "caption": "Show Reachable Status" }
+		{ "name": "ShowReachable", "type": "CheckBox", "caption": "Show Reachable Status" },
+		{ "name": "ShowLastSeen", "type": "CheckBox", "caption": "Show lastseen" },
+		{ "name": "ShowLastAnnounced", "type": "CheckBox", "caption": "Show lastannounced" }
 	],
     "status":
     [

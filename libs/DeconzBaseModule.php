@@ -16,6 +16,8 @@ trait DeconzBaseModule
 
         $this->RegisterPropertyString('DeviceID', "");
 		$this->RegisterPropertyBoolean('ShowReachable', false);
+		$this->RegisterPropertyBoolean('ShowLastAnnounced', false);
+		$this->RegisterPropertyBoolean('ShowLastSeen', false);
 #	-----------------------------------------------------------------------------------
 		$this->RegisterAttributeString('CommandList', "");
 		$this->RegisterAttributeBoolean('reachable', true);
@@ -49,6 +51,19 @@ trait DeconzBaseModule
 		if(json_last_error() !== 0 || !property_exists($data, 'r')){
 			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$this->Translate("Received Data unreadable"),KL_ERROR);
 			return;
+		}
+
+		if(property_exists($data, 'attr')){
+			if((property_exists($data->attr, 'lastannounced')) && $this->ReadPropertyBoolean("ShowLastAnnounced")){
+				$value = strtotime($data->attr->lastannounced);
+				$this->RegisterVariableInteger('Z2D_LastAnnounced', $this->Translate('last announced'), '~UnixTimestamp', 0);
+				$this->SetValue('Z2D_LastAnnounced', $value);
+			}	
+			if((property_exists($data->attr, 'lastseen')) && $this->ReadPropertyBoolean("ShowLastSeen")){
+				$value = strtotime($data->attr->lastseen);
+				$this->RegisterVariableInteger('Z2D_LastSeen', $this->Translate('last seen'), '~UnixTimestamp', 0);
+				$this->SetValue('Z2D_LastSeen', $value);
+			}	
 		}
 
 		if($data->r == "lights"){

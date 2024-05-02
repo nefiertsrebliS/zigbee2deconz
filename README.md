@@ -280,6 +280,10 @@
 		<td>Neu: airqualityppb<br>
 			Fix: Kompatibilität des Konfigurators zu IPS V7.1</td>
 	  </tr>
+      <tr>
+		<td>V3.25</td>
+		<td>Neu: lastseen/lastannounced</td>
+	  </tr>
 	</table>
   </body>
 </html>
