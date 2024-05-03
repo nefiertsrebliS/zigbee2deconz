@@ -54,12 +54,12 @@ trait DeconzBaseModule
 		}
 
 		if(property_exists($data, 'attr')){
-			if((property_exists($data->attr, 'lastannounced')) && $this->ReadPropertyBoolean("ShowLastAnnounced")){
+			if((property_exists($data->attr, 'lastannounced')) && $this->ReadPropertyBoolean("ShowLastAnnounced") &&($data->attr->lastannounced != null)){
 				$value = strtotime($data->attr->lastannounced);
 				$this->RegisterVariableInteger('Z2D_LastAnnounced', $this->Translate('last announced'), '~UnixTimestamp', 0);
 				$this->SetValue('Z2D_LastAnnounced', $value);
 			}	
-			if((property_exists($data->attr, 'lastseen')) && $this->ReadPropertyBoolean("ShowLastSeen")){
+			if((property_exists($data->attr, 'lastseen')) && $this->ReadPropertyBoolean("ShowLastSeen") &&($data->attr->lastseen != null)){
 				$value = strtotime($data->attr->lastseen);
 				$this->RegisterVariableInteger('Z2D_LastSeen', $this->Translate('last seen'), '~UnixTimestamp', 0);
 				$this->SetValue('Z2D_LastSeen', $value);
