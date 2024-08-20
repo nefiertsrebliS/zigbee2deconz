@@ -284,6 +284,10 @@
 		<td>V3.25</td>
 		<td>Neu: lastseen/lastannounced</td>
 	  </tr>
+      <tr>
+		<td>V3.26</td>
+		<td>Neu: Window covering device</td>
+	  </tr>
 	</table>
   </body>
 </html>

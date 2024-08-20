@@ -135,6 +135,26 @@
 		<td><b><i>Z2D_SetExternalSensorTemp($ID, $value)</i></b></td>
 		<td>Für Thermostate: Meldet die Raumtemperatur eines externen Sensors an das Thermostat</td>
 	  </tr>
+	  <tr>
+		<td>23.</td>
+		<td><b><i>Z2D_Open($ID, $value)</i></b></td>
+		<td>true => 0%, false => 100%</td>
+	  </tr>
+	  <tr>
+		<td>24.</td>
+		<td><b><i>Z2D_StopMotion($ID)</i></b></td>
+		<td>Stoppt die aktuelle Aktion</td>
+	  </tr>
+	  <tr>
+		<td>25.</td>
+		<td><b><i>Z2D_Lift($ID, $value)</i></b></td>
+		<td>Setzt die Position der Jallousie</td>
+	  </tr>
+	  <tr>
+		<td>26.</td>
+		<td><b><i>Z2D_Tilt($ID, $value)</i></b></td>
+		<td>Setzt den Lamellenwinkel der Jallousie</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -29,6 +29,18 @@ trait DeconzHelper
             case 'ColorTemperature':
                 $this->setColorTemperature($Value);
                 break;
+            case 'Open':
+                $this->Open($Value);
+                break;
+            case 'StopMotion':
+                $this->StopMotion();
+                break;
+            case 'Lift':
+                $this->Lift($Value);
+                break;
+            case 'Tilt':
+                $this->Tilt($Value);
+                break;
             case 'heatsetpoint':
                 $this->setTemperature($Value);
                 break;
@@ -442,6 +454,42 @@ trait DeconzHelper
         if($value > 65535)$value = 65535;
 		$this->SetValue('Z2D_delay',$value);
 		$this->SetConfig('delay', (string) ($value));
+    }
+
+    #=====================================================================================
+    public function Open(bool $value)
+    #=====================================================================================
+    {
+        $data['open'] = $value;
+        $this->SetDeconz(json_encode($data));
+    }
+
+    #=====================================================================================
+    public function StopMotion()
+    #=====================================================================================
+    {
+        $data['stop'] = true;
+        $this->SetDeconz(json_encode($data));
+    }
+
+    #=====================================================================================
+    public function Lift(int $value)
+    #=====================================================================================
+    {
+        if($value <   0)$value =  0;
+        if($value > 100)$value = 100;
+		$data['lift'] = $value;
+        $this->SetDeconz(json_encode($data));
+    }
+
+    #=====================================================================================
+    public function Tilt(int $value)
+    #=====================================================================================
+    {
+        if($value <   0)$value =  0;
+        if($value > 100)$value = 100;
+		$data['tilt'] = $value;
+        $this->SetDeconz(json_encode($data));
     }
 
     #=====================================================================================

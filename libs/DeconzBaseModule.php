@@ -145,6 +145,30 @@ trait DeconzBaseModule
 						$this->SetValue('Z2D_colormode', $colormode);
 					}
 				}
+				if (property_exists($Payload, 'open')) {
+					$this->RegisterVariableBoolean('Z2D_Open', $this->Translate('open'), '~Switch', 0);
+					$this->SetCommandListEx('open', $Command, false);
+					$this->EnableAction('Z2D_Open');
+					$this->SetValue('Z2D_Open', $Payload->open);
+				}
+				if (property_exists($Payload, 'stop')) {
+					$this->RegisterVariableBoolean('Z2D_StopMotion', $this->Translate('stop'), '~Switch', 0);
+					$this->SetCommandListEx('stop', $Command, false);
+					$this->EnableAction('Z2D_StopMotion');
+					$this->SetValue('Z2D_StopMotion', $Payload->stop);
+				}
+				if (property_exists($Payload, 'lift')) {
+					$this->RegisterVariableInteger('Z2D_Lift', $this->Translate('Position'), '~Shutter', 0);
+					$this->SetCommandListEx('lift', $Command, false);
+					$this->EnableAction('Z2D_Lift');
+					if($Payload->lift != "stop")$this->SetValue('Z2D_Lift', intval($Payload->lift));
+				}
+				if (property_exists($Payload, 'tilt')) {
+					$this->RegisterVariableInteger('Z2D_Tilt', $this->Translate('Slat Angle'), '~Shutter', 0);
+					$this->SetCommandListEx('tilt', $Command, false);
+					$this->EnableAction('Z2D_Tilt');
+					$this->SetValue('Z2D_Tilt', $Payload->tilt);
+				}
 				if (property_exists($Payload, 'reachable')) {
 					$this->SetReachable($Payload->reachable);
 				}
