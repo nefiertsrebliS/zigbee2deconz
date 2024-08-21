@@ -468,7 +468,7 @@ trait DeconzHelper
     public function StopMotion()
     #=====================================================================================
     {
-        $data['stop'] = true;
+        $data['lift'] = "stop";
         $this->SetDeconz(json_encode($data));
     }
 
