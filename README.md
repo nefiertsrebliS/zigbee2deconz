@@ -288,6 +288,10 @@
 		<td>V3.26</td>
 		<td>Neu: Window covering device</td>
 	  </tr>
+	  <tr>
+		<td>V3.27</td>
+		<td>Neu: Moisture</td>
+	  </tr>
 	</table>
   </body>
 </html>

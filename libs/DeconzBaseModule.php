@@ -326,6 +326,10 @@ trait DeconzBaseModule
 					$this->RegisterVariableFloat('Z2D_humidity', $this->Translate('Humidity'), '~Humidity.F');
 					$this->SetValue('Z2D_humidity', $Payload->humidity / 100.0);
 				}
+				if (property_exists($Payload, 'moisture')) {
+					$this->RegisterVariableFloat('Z2D_moisture', $this->Translate('Humidity'), '~Humidity.F');
+					$this->SetValue('Z2D_moisture', $Payload->moisture / 100.0);
+				}
 				if (property_exists($Payload, 'lux')) {
 					if(!@IPS_GetObjectIDByIdent('Z2D_lux', $this->InstanceID)) $this->RegisterVariableInteger('Z2D_lux', $this->Translate('Illumination'), '~Illumination');
 					$this->SetValue('Z2D_lux', $Payload->lux);
