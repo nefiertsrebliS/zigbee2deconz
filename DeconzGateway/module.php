@@ -1,11 +1,11 @@
 <?php
 
-class DeconzGateway extends IPSModule
+class DeconzGateway extends IPSModuleStrict
 {
 
-#=====================================================================================
-    public function Create()
-#=====================================================================================
+	#=====================================================================================
+    public function Create(): void
+	#=====================================================================================
     {
         parent::Create();
         $this->RegisterPropertyString("URL", "http://my-DeCONZ-Server");
@@ -16,30 +16,42 @@ class DeconzGateway extends IPSModule
 		$this->SetBuffer("Children", "0");
     }
 
-#=====================================================================================
-    public function ApplyChanges()
-#=====================================================================================
+	#=====================================================================================
+    public function ApplyChanges(): void
+	#=====================================================================================
     {
         parent::ApplyChanges();
 		if($this->CheckURL()===false)return;
 		$this->GetDeconzWsPort();
-		$this->ForceParent("{D68FD31F-0E90-7019-F16C-1949BD3079EF}");
+    }
+
+    #================================================================================================
+    public function GetCompatibleParents(): string
+    #================================================================================================
+    {
+        return json_encode([
+            'type' => 'require',
+            'moduleIDs' => [
+                // WebSocket Client
+                '{D68FD31F-0E90-7019-F16C-1949BD3079EF}'
+            ]
+        ]);
     }
 		
-#=====================================================================================
-    public function GetConfigurationForParent()
-#=====================================================================================
+	#=====================================================================================
+    public function GetConfigurationForParent(): string
+	#=====================================================================================
     {
-		if($this->CheckURL()===false)return;
+		if($this->CheckURL()===false)return '';
         $Config['URL'] = "ws://".(string)parse_url($this->ReadPropertyString('URL'), PHP_URL_HOST);
 		if($this->ReadAttributeInteger('wsPort') <> 0)$Config['URL'] .=":".$this->ReadAttributeInteger('wsPort');
         $Config['VerifyCertificate'] = false;
         return json_encode($Config);
     }
 
-#=====================================================================================
-    public function ReceiveData($JSONString)
-#=====================================================================================
+	#=====================================================================================
+    public function ReceiveData(string $JSONString): string
+	#=====================================================================================
     {
         $data = json_decode($JSONString);
 		$this->SendDebug("Received", $data->Buffer, 0);
@@ -56,7 +68,7 @@ class DeconzGateway extends IPSModule
 					$JSON['DataID'] = '{24BE3EC7-6166-9E37-906E-A8286E97582E}';
 					break;
 				default:
-					return;
+					return '';
 			}
 			$JSON['Buffer'] = $data->Buffer;
 			$Data = json_encode($JSON);
@@ -65,13 +77,13 @@ class DeconzGateway extends IPSModule
 				if($this->CheckURL())$this->SetStatus(102);
 			}
 		}
+		return '';
     }
 
-#=====================================================================================
-    public function ForwardData($JSONString)
-
-#	Leitet Aufträge der Clients an den DeCONZ-Server weiter.
-#=====================================================================================
+	#=====================================================================================
+    public function ForwardData(string $JSONString): string
+	#	Leitet Aufträge der Clients an den DeCONZ-Server weiter.
+	#=====================================================================================
     {
         $Data = json_decode($JSONString);
 
@@ -87,13 +99,13 @@ class DeconzGateway extends IPSModule
 			$Data = json_encode($JSON);
 			return $this->SendDataToChildren($Data)[0];
         }
+		return '';
     }
 
-#=====================================================================================
-    public function GetDeconzApiKey()
-
-#	Erzeugt ein gültiges Key-Paar auf dem Server und in IPS.
-#=====================================================================================
+	#=====================================================================================
+    public function GetDeconzApiKey(): void
+	#	Erzeugt ein gültiges Key-Paar auf dem Server und in IPS.
+	#=====================================================================================
     {
 		$Buffer['command'] = 'GetApiKey';
 		$Buffer['method'] = 'POST';
@@ -129,18 +141,16 @@ class DeconzGateway extends IPSModule
 							}
 						}
 					}
-
 					$this->ApplyChanges();
 				}
 			}
 		}
     }
 	
-#=====================================================================================
-	protected function GetDeconzConfiguration()
-
-#	Holt die Gateway-Konfiguration
-#=====================================================================================
+	#=====================================================================================
+	protected function GetDeconzConfiguration(): mixed
+	#	Holt die Gateway-Konfiguration
+	#=====================================================================================
     {
 		$Buffer['command'] = '';
 		$Buffer['method'] = 'GET';
@@ -154,24 +164,23 @@ class DeconzGateway extends IPSModule
         if (property_exists($config, 'config')) {
 			return $config->config;
 		}
+		return false;
     }
 	
-#=====================================================================================
-	public function GetConfig()
-
-#	public function von GetDeconzConfiguration()
-#=====================================================================================
+	#=====================================================================================
+	public function GetConfig(): string
+	#	public function von GetDeconzConfiguration()
+	#=====================================================================================
     {
 		$response = $this->GetDeconzConfiguration();
 		if(!$response)return(false);
 		return(json_encode($response));
     }
 
-#=====================================================================================
-    public function SetConfig(string $parameter, string $value)
-
-#	Setzt Konfigurationsparameter des Gateways
-#=====================================================================================
+	#=====================================================================================
+    public function SetConfig(string $parameter, string $value): string
+	#	Setzt Konfigurationsparameter des Gateways
+	#=====================================================================================
     {
 		$data[$parameter] = $value;
 
@@ -184,11 +193,10 @@ class DeconzGateway extends IPSModule
 		return $response;
     }
 	
-#=====================================================================================
-protected function GetDeconzWsPort()
-
-#	Ermittelt den gültigen WebSocket-Port
-#=====================================================================================
+	#=====================================================================================
+	protected function GetDeconzWsPort(): void
+	#	Ermittelt den gültigen WebSocket-Port
+	#=====================================================================================
     {
 		$config = $this->GetDeconzConfiguration();
 
@@ -202,22 +210,20 @@ protected function GetDeconzWsPort()
 		
     }
 
-#=====================================================================================
-    private function CheckURL()
-
-#	Sendet eine Prüfanfrage an den Server.
-#	Die Auswertung der Antwort erfolgt in SendToDeConz.
-#=====================================================================================
+	#=====================================================================================
+    private function CheckURL(): bool
+	#	Sendet eine Prüfanfrage an den Server.
+	#	Die Auswertung der Antwort erfolgt in SendToDeConz.
+	#=====================================================================================
     {
-		return !$this->GetDeconzConfiguration()?false:true;
+		return ($this->GetDeconzConfiguration() === false)?false:true;
     }
 
-#=====================================================================================
-    private function SendToDeconz($json)
-
-#	Sendet alle Aufträge und Anfrage an den Server.
-#	und setzt den Status des Gateways.
-#=====================================================================================
+	#=====================================================================================
+    private function SendToDeconz(string $json): mixed
+	#	Sendet alle Aufträge und Anfrage an den Server.
+	#	und setzt den Status des Gateways.
+	#=====================================================================================
     {
 		$payload= json_decode($json);
 		$command= $payload->command;
@@ -251,7 +257,6 @@ protected function GetDeconzWsPort()
 
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
-		curl_close($curl);
 
 		$this->SendDebug('Response', $response, 0);
 		$messages = json_decode($response);
@@ -286,5 +291,6 @@ protected function GetDeconzWsPort()
 			}
 
 		}
+		return false;
     }
 }

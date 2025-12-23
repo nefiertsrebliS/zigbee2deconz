@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/DeconzBaseModule.php';
 require_once __DIR__ . '/../libs/DeconzHelper.php';
 
-class Z2DLightSwitch extends IPSModule
+class Z2DLightSwitch extends IPSModuleStrict
 {
     use DeconzBaseModule;
     use DeconzHelper;

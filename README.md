@@ -292,6 +292,10 @@
 		<td>V3.27</td>
 		<td>Neu: Moisture</td>
 	  </tr>
+	  <tr>
+		<td>V4.00</td>
+		<td>Umstellung auf IPSModuleStrict</td>
+	  </tr>
 	</table>
   </body>
 </html>

@@ -5,14 +5,12 @@ declare(strict_types=1);
 trait DeconzBaseModule
 {
 
-#=====================================================================================
-    public function Create()
-#=====================================================================================
+	#=====================================================================================
+    public function Create(): void
+	#=====================================================================================
     {
 #		Never delete this line!
         parent::Create();
-
-		$this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
 		$this->RegisterPropertyBoolean('ShowReachable', false);
@@ -25,32 +23,45 @@ trait DeconzBaseModule
 		$this->RegisterAttributeBoolean('Color', false);
 	}
 
-#=====================================================================================
-    public function ApplyChanges()
-#=====================================================================================
+	#=====================================================================================
+    public function ApplyChanges(): void
+	#=====================================================================================
     {
-#		Filter setzen
+		#		Filter setzen
 		$Filter = " ";
 		if($this->ReadPropertyString("DeviceID") != "")$Filter = '.*'.preg_quote('\"uniqueid\":\"').$this->ReadPropertyString("DeviceID").'.*'.preg_quote('\"').'.*';
 		$this->SendDebug("Filter", $Filter, 0);
 		$this->SetReceiveDataFilter($Filter);
 
-#		Never delete this line!
+		#		Never delete this line!
 		parent::ApplyChanges();
 
 		if($this->HasActiveParent())$this->GetStateDeconz();
     }
 
-#=====================================================================================
-    public function ReceiveData($JSONString)
-#=====================================================================================
+    #================================================================================================
+    public function GetCompatibleParents(): string
+    #================================================================================================
+    {
+        return json_encode([
+            'type' => 'connect',
+            'moduleIDs' => [
+                // Deconz Gateway
+                '{9013F138-F270-C396-09D6-43368E390C5F}'
+            ]
+        ]);
+    }
+
+	#=====================================================================================
+    public function ReceiveData(string $JSONString): string
+	#=====================================================================================
     {
         $this->SendDebug('Received', $JSONString, 0);
 		$Buffer = json_decode($JSONString)->Buffer;
         $data = json_decode($Buffer);
 		if(json_last_error() !== 0 || !property_exists($data, 'r')){
 			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$this->Translate("Received Data unreadable"),KL_ERROR);
-			return;
+			return '';
 		}
 
 		if(property_exists($data, 'attr')){
@@ -583,10 +594,11 @@ trait DeconzBaseModule
 				}
 			}
 		}
+		return '';
 	}
 
 	#=====================================================================================
-	private function SetReachable($reachable)
+	private function SetReachable(bool $reachable): void
 	#=====================================================================================
     {
 		$this->WriteAttributeBoolean('reachable', $reachable);
@@ -601,7 +613,7 @@ trait DeconzBaseModule
 	}
 
 	#=====================================================================================
-	public function isReachable()
+	public function isReachable(): bool
 	#=====================================================================================
     {
 		return $this->ReadAttributeBoolean('reachable');

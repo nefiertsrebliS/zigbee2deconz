@@ -1,50 +1,61 @@
 <?php
-	class DeconzConfig extends IPSModule
+	class DeconzConfig extends IPSModuleStrict
 	{
 
-#=====================================================================================
-		public function Create() 
-#=====================================================================================
+		#=====================================================================================
+		public function Create(): void
+		#=====================================================================================
 		{
 			//Never delete this line!
 			parent::Create();
 	        $this->RegisterAttributeString("elements", "");
 			$this->RegisterPropertyBoolean("combine", true);
-
-			//Connect to available deconz gateway
-			$this->ConnectParent("{9013F138-F270-C396-09D6-43368E390C5F}");
 		}
 
-#=====================================================================================
-		public function Destroy(){
-#=====================================================================================
-		    //Never delete this line!
+		#=====================================================================================
+		public function Destroy(): void
+		#=====================================================================================
+		{
+			//Never delete this line!
 		    parent::Destroy();
 
 		}
     
-#=====================================================================================
-		public function ApplyChanges()
-#=====================================================================================
+		#=====================================================================================
+		public function ApplyChanges(): void
+		#=====================================================================================
 		{
 			//Never delete this line!
 			parent::ApplyChanges();
 		}
 
-#=====================================================================================
-	    public function ReceiveData($JSONString)
-#=====================================================================================
+		#================================================================================================
+		public function GetCompatibleParents(): string
+		#================================================================================================
+		{
+			return json_encode([
+				'type' => 'connect',
+				'moduleIDs' => [
+					// deconz gateway
+					'{9013F138-F270-C396-09D6-43368E390C5F}'
+				]
+			]);
+		}
+
+		#=====================================================================================
+	    public function ReceiveData(string $JSONString): string
+		#=====================================================================================
 		{
 		    $data = json_decode($JSONString);
 			$this->SendDebug("ReceiveData", $data->Buffer, 0);
 			$data->Buffer = str_replace(":null,", ':"",',$data->Buffer);
 			$this->WriteAttributeString("elements", $data->Buffer);
-			return true;
+			return '';
 		}
 		
-#=====================================================================================
-		private function GetElements()
-#=====================================================================================
+		#=====================================================================================
+		private function GetElements(): string
+		#=====================================================================================
 		{
 			$Buffer['command'] 	= '';
 			$Buffer['method'] 	= 'GET';
@@ -53,24 +64,24 @@
 			$Data['DataID'] 	= '{F51DECC3-17B8-C099-0EAF-A911EB2CDFB8}';
 			$Data['Buffer'] 	= json_encode($Buffer, JSON_UNESCAPED_SLASHES);
 
-			if(!$this->HasActiveParent())return;
+			if(!$this->HasActiveParent())return '';
 			$result	= $this->SendDataToParent(json_encode($Data, JSON_UNESCAPED_SLASHES));
-		    if (!$result)return;
+		    if (!$result)return '';
 			$data = json_decode($this->ReadAttributeString("elements"));
 			if(json_last_error() !== 0 || !property_exists($data, 'config')){
 				$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$this->Translate("Received Data unreadable"),KL_ERROR);
-				return;
+				return '';
 			}
 
-#----------------------------------------------------------------
-#	Group Devices?
-#----------------------------------------------------------------
+			#----------------------------------------------------------------
+			#	Group Devices?
+			#----------------------------------------------------------------
 
 			$combine = $this->ReadPropertyBoolean("combine");
 
-#----------------------------------------------------------------
-#	Search for created Devices
-#----------------------------------------------------------------
+			#----------------------------------------------------------------
+			#	Search for created Devices
+			#----------------------------------------------------------------
 
 			$GatewayID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
 			$Devices = IPS_GetInstanceListByModuleType(3); 			// all Devices
@@ -86,9 +97,9 @@
                 }
 			}
 
-#----------------------------------------------------------------
-#	Search combinable Devices
-#----------------------------------------------------------------
+			#----------------------------------------------------------------
+			#	Search combinable Devices
+			#----------------------------------------------------------------
 
 			$combinable = array();		
 		    $type = 'lights';
@@ -119,9 +130,9 @@
 				}
 			}
 
-#----------------------------------------------------------------
-#	Built Array for Configurator
-#----------------------------------------------------------------
+			#----------------------------------------------------------------
+			#	Built Array for Configurator
+			#----------------------------------------------------------------
 
 			$Values = array();		
 		    $type = 'lights';
@@ -230,9 +241,10 @@
 			return json_encode($Values);
 		}
 	 
-#=====================================================================================
-		public function GetConfigurationForm() {
-#=====================================================================================
+		#=====================================================================================
+		public function GetConfigurationForm(): string
+		#=====================================================================================
+		{
 			$Values = json_decode($this->GetElements());	
 			$this->SendDebug("Elements", json_encode($Values), 0);
 	        $form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);

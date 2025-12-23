@@ -3,17 +3,16 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../libs/DeconzHelper.php';
 
-class Z2DGroup extends IPSModule
+class Z2DGroup extends IPSModuleStrict
 {
     use DeconzHelper;
 
-#================================================================================================
-    public function Create()
-#================================================================================================
+	#================================================================================================
+    public function Create(): void
+	#================================================================================================
     {
         //Never delete this line!
         parent::Create();
-        $this->ConnectParent('{9013F138-F270-C396-09D6-43368E390C5F}');
 
         $this->RegisterPropertyString('DeviceID', "");
 #	-----------------------------------------------------------------------------------
@@ -25,14 +24,14 @@ class Z2DGroup extends IPSModule
     }
 
 
-#================================================================================================
-    public function ApplyChanges()
-#================================================================================================
+	#================================================================================================
+    public function ApplyChanges(): void
+	#================================================================================================
     {
         //Never delete this line!
 		parent::ApplyChanges();
 			
-#		Filter setzen
+		#		Filter setzen
 
 		if(strpos($this->ReadPropertyString("DeviceID"),":") === false){
 			$Filter = '.*('.preg_quote('\"id\":\"').$this->ReadPropertyString("DeviceID").preg_quote('\"');
@@ -49,18 +48,31 @@ class Z2DGroup extends IPSModule
 		$this->SetReceiveDataFilter($Filter);
 
 		if($this->HasActiveParent()) $this->GetStateDeconz();
-}
+	}
 
-#================================================================================================
-    public function ReceiveData($JSONString)
-#================================================================================================
+    #================================================================================================
+    public function GetCompatibleParents(): string
+    #================================================================================================
+    {
+        return json_encode([
+            'type' => 'connect',
+            'moduleIDs' => [
+                // deconz gateway
+                '{9013F138-F270-C396-09D6-43368E390C5F}'
+            ]
+        ]);
+    }
+
+	#================================================================================================
+    public function ReceiveData(string $JSONString): string
+	#================================================================================================
     {
         $Buffer = json_decode($JSONString)->Buffer;
         $this->SendDebug('Received', $Buffer, 0);
         $data = json_decode($Buffer);
 		if(json_last_error() !== 0){
 			$this->LogMessage($this->Translate("Instance")." #".$this->InstanceID.": ".$this->Translate("Received Data unreadable"),KL_ERROR);
-			return;
+			return '';
 		}
 
 		$CommandList = json_decode($this->ReadAttributeString('CommandList'));
@@ -171,5 +183,6 @@ class Z2DGroup extends IPSModule
 			}
 		}
 		$this->WriteAttributeString('CommandList', json_encode($CommandList));
+		return '';
 	}
 }

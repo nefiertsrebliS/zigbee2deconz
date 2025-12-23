@@ -5,7 +5,7 @@ declare(strict_types=1);
 trait DeconzHelper
 {
     #=====================================================================================
-    public function RequestAction($Ident, $Value)
+	public function RequestAction(string $Ident, mixed $Value): void
     #=====================================================================================
     {
         $IdentArray = explode("_",$Ident);
@@ -87,7 +87,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimSet(int $Intensity)
+    public function DimSet(int $Intensity): void
     #=====================================================================================
     {
 		if($Intensity < 0)$Intensity = 0;
@@ -102,7 +102,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimUp()
+    public function DimUp(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":254, "transitiontime":60}';
@@ -110,7 +110,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimDown()
+    public function DimDown(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":-254, "transitiontime":60}';
@@ -118,7 +118,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimStop()
+    public function DimStop(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":0}';
@@ -126,7 +126,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimSetEx(int $Intensity, int $Transitiontime)
+    public function DimSetEx(int $Intensity, int $Transitiontime): void
     #=====================================================================================
     {
 		if($Intensity < 0)$Intensity = 0;
@@ -141,7 +141,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimUpEx(int $Transitiontime)
+    public function DimUpEx(int $Transitiontime): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":254, "transitiontime":'.$Transitiontime.'}';
@@ -149,7 +149,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function DimDownEx(int $Transitiontime)
+    public function DimDownEx(int $Transitiontime): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"bri_inc":-254, "transitiontime":'.$Transitiontime.'}';
@@ -157,7 +157,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetColorTemperature(int $value)
+    public function SetColorTemperature(int $value): void
     #=====================================================================================
     {
 		if($value < 2000)$value = 2000;
@@ -168,7 +168,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function ColorTemperatureUp()
+    public function ColorTemperatureUp(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":400, "transitiontime":60}';
@@ -176,7 +176,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function ColorTemperatureDown()
+    public function ColorTemperatureDown(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":-400, "transitiontime":60}';
@@ -184,7 +184,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function ColorTemperatureStop()
+    public function ColorTemperatureStop(): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":0}';
@@ -192,7 +192,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetColorTemperatureEx(int $value, int $Transitiontime)
+    public function SetColorTemperatureEx(int $value, int $Transitiontime): void
     #=====================================================================================
     {
 		if($value < 2000)$value = 2000;
@@ -203,7 +203,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function ColorTemperatureUpEx(int $Transitiontime)
+    public function ColorTemperatureUpEx(int $Transitiontime): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":400, "transitiontime":'.$Transitiontime.'}';
@@ -211,7 +211,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function ColorTemperatureDownEx(int $Transitiontime)
+    public function ColorTemperatureDownEx(int $Transitiontime): void
     #=====================================================================================
     {
 		$Payload = '{"on":true,"ct_inc":-400, "transitiontime":'.$Transitiontime.'}';
@@ -219,7 +219,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SwitchColorMode(int $value)
+    public function SwitchColorMode(int $value): void
     #=====================================================================================
     {
         switch ($value) {
@@ -237,7 +237,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SwitchMode(bool $value)
+    public function SwitchMode(bool $value): void
     #=====================================================================================
     {
         switch ($value) {
@@ -252,7 +252,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SwitchScene(int $value)
+    public function SwitchScene(int $value): void
     #=====================================================================================
     {
         $CommandList = json_decode($this->ReadAttributeString('CommandList'));
@@ -270,7 +270,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SwitchSceneByName(string $name)
+    public function SwitchSceneByName(string $name): void
     #=====================================================================================
     {
         $Assotiations = IPS_GetVariableProfile('Scenes.'.$this->ReadPropertyString('DeviceID').'.Z2D')["Associations"];
@@ -283,7 +283,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    private function GetScenes(string $command)
+    private function GetScenes(string $command): bool
     #=====================================================================================
     {
         $Scenes = json_decode($this->SendParent($command, 'GET', ''));
@@ -331,21 +331,21 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetDisplayFlipped(bool $value)
+    public function SetDisplayFlipped(bool $value): void
     #=====================================================================================
     {
 		$this->SetConfig('displayflipped', ($value?'true':'false'));
     }
 
     #=====================================================================================
-    public function SetExternalWindowOpen(bool $value)
+    public function SetExternalWindowOpen(bool $value): void
     #=====================================================================================
     {
 		$this->SetConfig('externalwindowopen', ($value?'true':'false'));
     }
 
     #=====================================================================================
-    public function SetExternalSensorTemp(float $value)
+    public function SetExternalSensorTemp(float $value): void
     #=====================================================================================
     {
 		$this->SetValue('Z2D_externalsensortemp',$value);
@@ -353,7 +353,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SwitchAlert(int $value)
+    public function SwitchAlert(int $value): void
     #=====================================================================================
     {
         $data['alert'] = array('none', 'select', 'lselect')[$value];
@@ -362,7 +362,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetColor(int $color)
+    public function SetColor(int $color): void
     #=====================================================================================
     {
         $RGB = $this->HexToRGB($color);
@@ -374,7 +374,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetColorEx(int $color, int $Transitiontime)
+    public function SetColorEx(int $color, int $Transitiontime): void
     #=====================================================================================
     {
         $RGB = $this->HexToRGB($color);
@@ -387,7 +387,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setTemperature(float $value)
+    public function setTemperature(float $value): void
     #=====================================================================================
     {
         if($value <  6)$value =  6;
@@ -397,7 +397,7 @@ trait DeconzHelper
     }    
 
     #=====================================================================================
-    public function setSensitivity(int $value)
+    public function setSensitivity(int $value): void
     #=====================================================================================
     {
 		if(@$this->GetIDForIdent("Z2D_sensitivitymax")){
@@ -410,7 +410,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setTriggerDistance(int $value)
+    public function setTriggerDistance(int $value): void
     #=====================================================================================
     {
 		$data['triggerdistance'] = (string)$value;
@@ -418,7 +418,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setFadingTime(int $value)
+    public function setFadingTime(int $value): void
     #=====================================================================================
     {
 		$data['duration'] = $value;
@@ -426,7 +426,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setMode(int $value)
+    public function setMode(int $value): void
     #=====================================================================================
     {
         if($value < 0) $value = 0;
@@ -437,7 +437,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setOffset(float $value)
+    public function setOffset(float $value): void
     #=====================================================================================
     {
         if($value < -5) $value = -5;
@@ -447,7 +447,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setDelay(int $value)
+    public function setDelay(int $value): void
     #=====================================================================================
     {
         if($value <   0)$value =  0;
@@ -457,7 +457,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function Open(bool $value)
+    public function Open(bool $value): void
     #=====================================================================================
     {
         $data['open'] = $value;
@@ -465,7 +465,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function StopMotion()
+    public function StopMotion(): void
     #=====================================================================================
     {
         $data['lift'] = "stop";
@@ -473,7 +473,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function Lift(int $value)
+    public function Lift(int $value): void
     #=====================================================================================
     {
         if($value <   0)$value =  0;
@@ -483,7 +483,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function Tilt(int $value)
+    public function Tilt(int $value): void
     #=====================================================================================
     {
         if($value <   0)$value =  0;
@@ -493,7 +493,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function SetConfig(string $parameter, string $value)
+    public function SetConfig(string $parameter, string $value): bool
     #=====================================================================================
     {
         $configs = $this->GetConfig();
@@ -519,20 +519,19 @@ trait DeconzHelper
         if(!$exist){
             $this->SendDebug("SetConfig", "Parameter is not valid for this Instance", 0);
             return false;
-        }else{
-            return true;
         }
+        return true;
     }
 
     #=====================================================================================
-    public function GetConfig()
+    public function GetConfig(): mixed
     #=====================================================================================
     {
         $id = $this->ReadPropertyString("DeviceID");
         $response = $this->SendParent('sensors', 'GET', '');
-		if(!$response)return(false);
+		if(!$response)return false;
         $sensors = json_decode($response);
-        if(json_last_error() !== 0 )return(false);
+        if(json_last_error() !== 0 )return false;
 
         $response = array();
         foreach($sensors as $sensor){
@@ -547,15 +546,15 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function GetDeviceInfo()
+    public function GetDeviceInfo(): mixed
     #=====================================================================================
     {
 	    $id = $this->ReadPropertyString("DeviceID");
         $response = $this->SendParent('', 'GET', '');
-		if(!$response)return(false);
+		if(!$response)return false;
 
         $infos = json_decode($response);
-        if(json_last_error() !== 0 )return(false);
+        if(json_last_error() !== 0 )return false;
 
         $response = array();
         foreach($infos as $info){
@@ -572,21 +571,21 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function GetCommandList()
+    public function GetCommandList(): string
     #=====================================================================================
     {
 	    return $this->ReadAttributeString('CommandList');
     }
 
     #=====================================================================================
-    public function SetCommandList(string $attribute, string $command)
+    public function SetCommandList(string $attribute, string $command): bool
     #=====================================================================================
     {
 	    return $this->SetCommandListEx($attribute, $command, true);
     }
 
     #=====================================================================================
-    private function SetCommandListEx($attribute, $command, $override)
+    private function SetCommandListEx(string $attribute, string $command, bool $override): bool
     #=====================================================================================
     {
 		$CommandList = json_decode($this->ReadAttributeString('CommandList'));
@@ -603,7 +602,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setAlert(string $value)
+    public function setAlert(string $value): void
     #=====================================================================================
     {
         if($value == "none" || $value == "select" || $value == "lselect"){
@@ -615,7 +614,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setColorloop(int $value)
+    public function setColorloop(int $value): void
     #=====================================================================================
     {
         if($value <   0)$value =  0;
@@ -631,7 +630,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    public function setJson(string $value)
+    public function setJson(string $value): void
     #=====================================================================================
     {
         json_decode($value);
@@ -643,7 +642,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    protected function SetDeconz($Payload)
+    protected function SetDeconz(string $Payload): void
     #=====================================================================================
     {
         $CommandList = json_decode($this->ReadAttributeString('CommandList'));
@@ -680,14 +679,14 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    protected function GetStateDeconz()
+    protected function GetStateDeconz(): bool
     #=====================================================================================
 	{
         $DeviceID = $this->ReadPropertyString('DeviceID');
-        if($DeviceID == '')return(false);
+        if($DeviceID == '')return false;
         $IDtype = (strpos($DeviceID, ":") !== false)?"uniqueid":"id";
         $response = $this->SendParent('', 'GET', '');
-		if(!$response)return(false);
+		if(!$response)return false;
         $data = json_decode($response);
         foreach($data as $type => $items){
             foreach($items as $item){
@@ -722,11 +721,12 @@ trait DeconzHelper
                 }
             }
         }
+        return true;
     }
 
 
     #=====================================================================================
-    protected function SendParent(string $command, string $method, string $data)
+    protected function SendParent(string $command, string $method, string $data): string
     #=====================================================================================
 	{
         $Buffer['command'] = $command;
@@ -753,7 +753,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    protected function HexToRGB($value)
+    protected function HexToRGB(int $value): mixed
     #=====================================================================================
     {
         $RGB = array();
@@ -765,7 +765,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    protected function RGBToCIE($red, $green, $blue)
+    protected function RGBToCIE(int $red, int $green, int $blue): mixed
     #=====================================================================================
     {
         $cie = array();
@@ -786,7 +786,7 @@ trait DeconzHelper
     }
 
     #=====================================================================================
-    protected function CieToDec($cie)
+    protected function CieToDec(mixed $cie): int
     #=====================================================================================
     {
         $cie['z'] = 1 - $cie['x'] - $cie['y'];
